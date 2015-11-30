@@ -11,20 +11,21 @@
 <div class="am-g">
     <div class="am-sm-12">
         <div class="content">
-            <form class="am-form">
+            <div class="am-form">
                 <fieldset class="am-form-set">
-                    <input class="input" type="text" placeholder="收件人">
-                    <input class="input" type="text" placeholder="手机号码">
-                    <input class="input" type="text" placeholder="邮政编码">
-                    <input class="input" type="text" placeholder="所在区域">
-                    <input class="input" type="text" placeholder="详细地址">
+                    <input id="receiver" class="input" name="receiver" type="text" placeholder="收件人">
+                    <input id="tel" class="input" name="tel" type="text" placeholder="手机号码">
+                    <input id="code" class="input" name="code" type="text" placeholder="邮政编码">
+                    <input id="area" class="input" name="area" type="text" placeholder="所在区域">
+                    <input id="addr" class="input" name="addr" type="text" placeholder="详细地址">
                 </fieldset>
                 <div class="am-u-sm-12 yes">
-                    <button type="submit" class="am-btn am-btn-warning am-btn-block btn-yes">确 定</button>
+                    <button id="yes" type="submit" class="am-btn am-btn-warning am-btn-block btn-yes">确 定</button>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>
+<script src="js/limit.js"></script>
 </body>
 </html>
