@@ -1,0 +1,29 @@
+$body_color:#efefef;
+
+body{
+  background-color:$body_color;
+}
+
+.content{
+  margin-top:120px;
+}
+
+.input{
+  height:60px;
+}
+
+.am-form-set{
+  padding-right:20px;
+  padding-left: 20px;
+}
+
+.yes{
+  padding-right:20px;
+  padding-left: 20px;
+}
+
+.btn-yes{
+  font-size:20px;
+  height:60px;
+  border-radius: 4px;
+}
