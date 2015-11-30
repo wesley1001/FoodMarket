@@ -1,0 +1,47 @@
+{
+  "name": "oureda-foundation",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "mocha": "DEBUG=koa* mocha",
+    "run": " DEBUG=koa* node index.js"
+  },
+  "author": "lext",
+  "license": "ISC",
+  "dependencies": {
+    "bunyan": "^1.5.1",
+    "co-redis": "^2.0.0",
+    "co-views": "^2.1.0",
+    "ect": "^0.5.9",
+    "koa": "^1.1.1",
+    "koa-body": "^1.3.0",
+    "koa-bunyan": "0.0.2",
+    "koa-favicon": "^1.2.0",
+    "koa-generic-session": "^1.9.2",
+    "koa-helmet": "^0.4.0",
+    "koa-mount": "^1.3.0",
+    "koa-redis": "^1.0.1",
+    "koa-router": "^5.2.3",
+    "koa-static": "^1.5.1",
+    "koa-validate": "^0.2.11",
+    "node-uuid": "^1.4.7",
+    "redis": "^2.3.0",
+    "sequelize": "^3.14.2",
+    "tedious": "^1.13.1"
+  },
+  "devDependencies": {
+    "co-mocha": "^1.1.2",
+    "co-supertest": "0.0.10",
+    "gulp": "^3.9.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-minify-css": "^1.2.1",
+    "gulp-util": "^3.0.7",
+    "gulp-watch": "^4.3.5",
+    "mocha": "^2.3.4",
+    "should": "^7.1.1",
+    "supertest": "^1.1.0",
+    "webpack": "^1.12.9"
+  }
+}
