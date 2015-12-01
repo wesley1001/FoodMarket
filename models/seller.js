@@ -25,6 +25,7 @@ module.exports = function (sequelize, DataTypes) {
             defaultValue: -1
         }
     }, {
+        timestamps: false,
         associate: function (models) {
         },
         instanceMethods: {

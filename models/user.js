@@ -1,50 +1,22 @@
+var shortDataTypes = require('../lib/sequelizeShortDataTypes');
 
 module.exports = function (sequelize, DataTypes) {
 
 	var User = sequelize.define('User', {
-		// 
-		email: {
-			type: DataTypes.STRING,
-			allowNull: false,
-			unique: true,
-			validate: {
-				isEmail: true
-			}
-		},
-		sex: {
-			type: DataTypes.ENUM('male', 'female'),
-			allowNull: false,
-			defaultValue: 'male'
-		},
-		role: {
-			type: DataTypes.ENUM('user', 'dev', 'admin', 'root'),
-			defaultValue: 'user'
-		},
-		headimage: {
-			type: DataTypes.STRING,
-			allowNull: false,
-			vialidate: {
-				isUrl: true
-			}
-		},
-		password: {
-			type: DataTypes.STRING,
-			allowNull: false
-		},
-		phone: {
-			type: DataTypes.STRING(11),
-			allowNull: false,
-			validate: {
-				is: '/(^$)|(^\d{11}$)/'
-			}
-		},
-		status: {
-			type: DataTypes.ENUM('unauthorized', 'normal'),
-			allowNull: false,
-			defaultValue: 'unauthorized'
-		}
+		name: shortDataTypes.String,
+        nickname: shortDataTypes.String,
+        headimage: shortDataTypes.Url,
+		sex: shortDataTypes.Int,
+		password: shortDataTypes.String,
+		phone: shortDataTypes.Phone,
+        unionid: shortDataTypes.String,
+        openid: shortDataTypes.String,
+        joinTime: shortDataTypes.Date,
+		status: shortDataTypes.Int
 	}, {
+        timestamps: false,
 		associate: function (models) {
+
 		},
 		instanceMethods: {
 		},
