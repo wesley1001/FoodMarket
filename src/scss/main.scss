@@ -61,11 +61,13 @@ section {
 }
 
 .market-content-img {
+  text-align: center;
   width: 20%;
 }
 
 .market-content-sale {
-  width: 80%;
+  float: right;
+  padding: 0 10%;
 }
 
 
