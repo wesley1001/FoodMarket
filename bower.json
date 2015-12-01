@@ -26,6 +26,7 @@
     "jquery-slimscroll": "~1.3.7",
     "blockUI": "https://github.com/malsup/blockui.git",
     "jquery.cookie": "https://github.com/carhartl/jquery-cookie.git#~1.4.1",
-    "amazeui": "~2.4.2"
+    "amazeui": "~2.4.2",
+    "jquery": "~2.1.4"
   }
 }
