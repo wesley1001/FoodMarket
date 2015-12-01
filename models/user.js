@@ -43,7 +43,6 @@ module.exports = function (sequelize, DataTypes) {
 			defaultValue: 'unauthorized'
 		}
 	}, {
-		paranoid: true,
 		associate: function (models) {
 		},
 		instanceMethods: {

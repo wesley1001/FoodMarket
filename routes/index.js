@@ -5,7 +5,8 @@ var Router = require('koa-router');
 var fs = require('fs');
 var path = require('path');
 
-var db = require('./../models/index.js');
+var render = require('./../instances/render.js');
+var debug = require('./../instances/debug.js');
 
 var router = new Router();
 
@@ -18,5 +19,12 @@ fs
     .forEach( (file) => {
         require(path.join(__dirname, file))(router);
     });
+
+// todo: for test
+router.get('/view', function *() {
+    debug('start render views');
+    this.body = yield render('admin/index.html');
+    console.log(this.body);
+});
 
 module.exports = router.middleware();

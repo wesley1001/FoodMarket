@@ -12,7 +12,7 @@ var sequelize = new Sequelize(configs.db.toString(), {
 fs
     .readdirSync( __dirname)
     .filter(function (file) {
-        return (file.indexOf('.') !== 0) && (file !== 'index.js' &&  file !== 'createdb.js');
+        return (file.indexOf('.') !== 0) && (file !== 'index.js' &&  file !== 'migrate.js');
     })
     .forEach(function (file) {
         sequelize.import( path.join(__dirname, file));
