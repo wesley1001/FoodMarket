@@ -79,15 +79,22 @@ router.use(function *(next) {
 
 /****************************/
 
-fs
-    .readdirSync(__dirname)
-    .filter( (file) => {
-        return file.indexOf('.') !== 0 &&
-            file !== 'index.js';
-    })
-    .forEach( (file) => {
-        require(path.join(__dirname, file))(router);
-    });
+var loadDir = (dir) => {
+    fs
+        .readdirSync(dir)
+        .forEach( (file) => {
+            var nextPath = path.join(dir, file);
+            var stat = fs.statSync(nextPath);
+            if (stat.isDirectory()) {
+                loadDir(nextPath);
+            } else if (stat.isFile() && file.indexOf('.') !== 0 && file !== 'index.js') {
+                require(nextPath)(router);
+            }
+        });
+};
+
+loadDir(__dirname);
+
 
 // todo: for test
 router.get('/view', function *() {
