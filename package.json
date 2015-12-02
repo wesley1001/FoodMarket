@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "bunyan": "^1.5.1",
+    "co-alidayu": "git+https://github.com/nick-ma/co-alidayu.git",
     "co-redis": "^2.0.0",
     "co-views": "^2.1.0",
     "ect": "^0.5.9",
@@ -30,6 +31,7 @@
     "node-uuid": "^1.4.7",
     "redis": "^2.3.0",
     "sequelize": "^3.14.2",
+    "superagent": "^1.4.0",
     "tedious": "^1.13.1",
     "wechat": "^2.0.3",
     "wechat-oauth": "git+https://github.com/node-webot/wechat-oauth.git"

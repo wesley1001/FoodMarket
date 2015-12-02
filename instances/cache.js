@@ -14,37 +14,34 @@ var client = redis.createClient(
     }
 );
 
-var redisCo = redisCoWrapper(client);
-
 client.on('error', function (err) {
     // todo: error handle
     log.error('Error', err, new Date());
 });
 
 // add key prefix
-var commands = ['get', 'set'];
+var commands = ['set', 'setex', 'get'];
 
-commands.forEach( (cmd) => {
+commands.forEach( function (cmd)  {
     var oldCmd = `_${cmd}`;
     client[oldCmd] = client[cmd];
-    client[cmd] = (key, arg, callback) => {
-        key = `oureda/foundation${key}`;
-        client[coldCmd](key, arg, callback);
+    client[cmd] = function (key, arg, cb) {
+        arguments[0] = `foodmarket/${arguments[0]}`;
+        return client[oldCmd].apply(this, arguments);
     };
 });
 
-// json get
-client.jget = (key, arg) => {
-    var val;
-    co(function * ( ) {
-        val = yield client.get(key, arg);
-    });
-    return util.isNullOrUndefined(val) ? val : JSON.parse(val);
-};
-
-// json setex
 client.jsetex = (key, expire, val, callback) => {
     return client.set(key, expire, JSON.stringify(val), callback);
+};
+
+
+
+var redisCo = redisCoWrapper(client);
+// json get
+redisCo.jget = function *(key, arg) {
+    var val = yield redisCo.get(key, arg);
+    return util.isNullOrUndefined(val) ? val : JSON.parse(val);
 };
 
 redisCo._client = client;
