@@ -29,9 +29,7 @@ app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(koaBody());
 // redis session
 app.use(session({
-	store: redistore({
-		client: cache
-	})
+	store: redistore()
 }));
 
 app.use(koaValidate());

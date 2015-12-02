@@ -8,11 +8,11 @@ module.exports = function (sequelize, DataTypes) {
         headimage: shortDataTypes.Url,
 		sex: shortDataTypes.Int,
 		password: shortDataTypes.String,
-		phone: shortDataTypes.Phone,
+        phone: shortDataTypes.Phone,
         unionid: shortDataTypes.String,
         openid: shortDataTypes.String,
         joinTime: shortDataTypes.Date,
-		status: shortDataTypes.Int,
+        status: shortDataTypes.Int,
         flag: {
             type: DataTypes.INTEGER,
             defaultValue: 1
