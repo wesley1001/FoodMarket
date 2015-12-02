@@ -23,6 +23,10 @@ module.exports = function (sequelize, DataTypes) {
         status: {
             type: DataTypes.INTEGER,
             defaultValue: -1
+        },
+        flag: {
+            type: DataTypes.INTEGER,
+            defaultValue: 2
         }
     }, {
         timestamps: false,

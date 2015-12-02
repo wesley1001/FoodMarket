@@ -12,7 +12,11 @@ module.exports = function (sequelize, DataTypes) {
         unionid: shortDataTypes.String,
         openid: shortDataTypes.String,
         joinTime: shortDataTypes.Date,
-		status: shortDataTypes.Int
+		status: shortDataTypes.Int,
+        flag: {
+            type: DataTypes.INTEGER,
+            defaultValue: 1
+        }
 	}, {
         timestamps: false,
 		associate: function (models) {
