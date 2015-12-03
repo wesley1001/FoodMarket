@@ -102,4 +102,10 @@ router.get('/view', function *() {
     this.body = yield render('admin/index.html');
 });
 
+//todo: for validate and test and redirect
+router.get('/seller/view',function *(){
+   debug('start render seller login');
+    this.body = yield render('seller/login.html');
+});
+
 module.exports = router.routes();
