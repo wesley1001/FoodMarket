@@ -8,26 +8,18 @@ module.exports = (router) => {
 
     var GoodsType = db.models.GoodsType;
 
-    router.get('/adminer/save-goodstype',  saveView);
-    router.get('/adminer/save-goodstype/:id', saveView);
+    router.get('/adminer/save-goodstype', '/adminer/save-goodstype/:id', function *() {
 
-    function * saveView() {
-
-        this.body = yield render('goodstype/newgoods.html', {
+        this.body = yield render('admin/goodstype/create.html', {
 
         });
-    }
+    });
 
     router.post('/adminer/save-goodstype', function *() {
         var ret = true;
         this.checkBody('title').notEmpty();
         this.checkBody('type').toInt().gt(0).lt(3);
-        if (this.errors)  {
-            this.body = this.errors;
-            return;
-        }
-        var req = this.request;
-        console.log(req.body);
+        var req = this.req;
         if (req.body.type == 2 && !req.body.id) {
             this.checkBody('topid').notEmpty();
         }
@@ -51,7 +43,7 @@ module.exports = (router) => {
                     });
                 }
             } else {
-                yield GoodsType.create({
+                yield goodsType.create({
                     title: req.body.title,
                     type: 1
                 });

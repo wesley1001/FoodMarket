@@ -1,12 +1,19 @@
 /* css */
 require('../../../src/css/admin-base/common.js');
+require('fex-webuploader/dist/webuploader.css');
+require('../../../src/css/lib/webuploader.scss');
+require('../../../src/css/img-upload-thumbnail.scss');
+require('simditor/styles/simditor.css');
 
 /* js */
 require('../admin/index');
 /* webuplader */
-require('fex-webuploader/dist/webuploader.css');
-var WebUploader = require('fex-webuploader');
 
+var WebUploader = require('fex-webuploader');
+require('imports?$=jquery!simple-module');
+require('imports?$=jquery!simple-hotkeys');
+require('imports?$=jquery!simple-uploader');
+var Simditor = require('imports?$=jquery!simditor/lib/simditor.js');
 require('exports?window.angular!angular');
 
 var $ = jQuery;
@@ -29,12 +36,42 @@ $(function () {
         server: '/upload'
     });
 
+    var editor = new Simditor({
+        textarea: $('#editor'),
+        upload: {
+            url: '/upload',
+            fileKey: 'file'
+        }
+        //optional options
+    });
+
     app.controller('UploadCtl', ['$scope', function (scope) {
-        var imgs = [];
+        scope.imgs = [];
+        scope.imgs.toString = function () {
+            return JSON.stringify(this);
+        };
+        scope.mainImg = 0;
+
+        scope.setMain = function (index) {
+            scope.mainImg = index;
+        };
+
+        uploader.on('fileQueued', function (file) {
+            uploader.makeThumb( file, function( error, ret ) {
+                if ( error ) {
+                    alert('预览失败，请刷新重试');
+                } else {
+                    scope.imgs.push(ret);
+                    scope.$apply();
+                }
+            }, 640, 260);
+        });
+        window.s = scope;
     }]);
 
-    angular.bootstrap(document.documentElement, ['app']);
 
+
+    angular.bootstrap(document.documentElement, ['app']);
 });
 
 
