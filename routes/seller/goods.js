@@ -6,10 +6,12 @@ module.exports = (router) => {
 
     var Goods = db.models.Goods;
 
-    router.get('/seller/create-goods', function *() {
-        this.body = yield render('seller/goods/create.html', {
+    router.get('/seller/goods/save',  get);
+    router.get('/seller/goods/save/:id',  get);
 
+    function *get() {
+        this.body = yield render('goods/save.html', {
         });
-    });
+    }
 
 };

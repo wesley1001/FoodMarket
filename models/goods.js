@@ -22,7 +22,9 @@ module.exports = function (sequelize, DataTypes) {
         capacity: shortDataTypes.Int,
         content: {
             type: DataTypes.TEXT
-        }
+        },
+        discount: shortDataTypes.Bool,
+        status: shortDataTypes.Int
     }, {
         timestamps: false,
         paranoid: true,

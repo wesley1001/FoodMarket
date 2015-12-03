@@ -3,12 +3,13 @@ var webpack = require('webpack');
 
 module.exports = {
     entry: {
-        'admin-index': ['./src/js/admin/index.js']
+        'admin-index': ['./src/js/admin/index.js'],
+        'goods-save': ['./src/js/goods/save.js']
     },
     output: {
-        path: path.resolve(__dirname, 'public/js'),
+        path: path.resolve(__dirname, 'public/dist'),
         filename: '[name].js',
-        publicPath: '/js/',
+        publicPath: '/dist/',
         sourceMapFileName: '[file].map'
     },
     resolve: {
