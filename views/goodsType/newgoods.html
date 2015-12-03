@@ -1,0 +1,68 @@
+<% extend './shared/admin-base' %>
+<div class="row col-md-12 center-block">
+    <div class="col-md-12">
+        <!-- BEGIN VALIDATION STATES-->
+        <div class="portlet box purple">
+            <div class="portlet-title">
+                <div class="caption"><i class="fa fa-reorder"></i>货物种类</div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse"></a>
+                    <a href="#portlet-config" data-toggle="modal" class="config"></a>
+                    <a href="javascript:;" class="reload"></a>
+                    <a href="javascript:;" class="remove"></a>
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <!-- BEGIN FORM-->
+                <form action="#" id="form_sample_1" class="form-horizontal">
+                    <div class="form-body">
+                        <div class="alert alert-danger display-hide">
+                            <button class="close" data-close="alert"></button>
+                            You have some form errors. Please check below.
+                        </div>
+                        <div class="alert alert-success display-hide">
+                            <button class="close" data-close="alert"></button>
+                            Your form validation is successful!
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">货物名称<span class="required">*</span></label>
+                            <div class="col-md-4">
+                                <input type="text" name="name" data-required="1" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">类别<span class="required">*</span></label>
+                            <div class="col-md-4">
+                                <select class="form-control" name="category" class="select2me"
+                                        onchange="show(this.value)">
+                                    <option value="0">请选择⋯</option>
+                                    <option value="Category 1">一级</option>
+                                    <option value="Category 2">二级</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group" id="firsthidden" style="display: none;">
+                            <label class="control-label col-md-3">一级类别<span class="required">*</span></label>
+                            <div class="col-md-4">
+                                <input type="text" name="name" data-required="1" class="form-control"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions fluid">
+                        <div class="col-md-offset-3 col-md-9">
+                            <button type="submit" class="btn green">提交</button>
+                            <button type="button" class="btn default">取消</button>
+                        </div>
+                    </div>
+                </form>
+                <!-- END FORM-->
+            </div>
+        </div>
+        <!-- END VALIDATION STATES-->
+    </div>
+</div>
+
+<% block 'scripts': %>
+
+<script src="/dist/goodsType.js"></script>
+<% end %>

@@ -13,54 +13,57 @@
                     <div class="form-body">
                         <div class="form-group">
                             <label class="control-label col-md-3">商品标题<span class="required">*</span></label>
+
                             <div class="col-md-4">
                                 <input type="text" name="title" data-required="1" class="form-control"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-3">价格<span class="required">*</span></label>
+
                             <div class="col-md-4">
                                 <div class="input-group">
                                     <input type="number" class="form-control" name="price" min="0">
+
                                     <div class="input-group-btn">
-                                        <a class="btn default" ><i class="fa fa-rmb"></i></a>
+                                        <a class="btn default"><i class="fa fa-rmb"></i></a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-3">剩余量<span class="required">*</span></label>
+
                             <div class="col-md-4">
                                 <input name="capacity" type="number" class="form-control" min="0"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-3">类别<span class="required">*</span></label>
+
                             <div class="col-md-4">
                                 <input name="number" type="text" class="form-control"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-3">图片<span class="required">*</span></label>
-                            <div class="col-md-9">
-                                <div class="fileupload fileupload-new" data-provides="fileupload">
-                                    <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
-                                        <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image" alt="" />
+
+                            <div class="col-md-9" ng-controller="UploadCtl">
+                                <div class="fileupload fileupload-new">
+                                    <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;" ng-show="imgs.length == 0">
+                                        <img src="/dist/empty.png" alt=""/>
                                     </div>
-                                    <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;"></div>
+                                    <div class="uploaded-imgs" ng-show="imgs.length != 0">
+                                        <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;" >
+                                            <img src="/dist/empty.png" alt=""/>
+                                        </div>
+                                    </div>
                                     <div>
-													<span class="btn default btn-file">
-													<span class="fileupload-new"><i class="fa fa-paper-clip"></i> Select image</span>
-													<span class="fileupload-exists"><i class="fa fa-undo"></i> Change</span>
-													<input type="file" class="default" />
-													</span>
-                                        <a href="#" class="btn red fileupload-exists" data-dismiss="fileupload"><i class="fa fa-trash-o"></i> Remove</a>
+                                        <a href="#" class="btn blue" id="upload-picker"><i class="fa fa-cloud-upload"></i>添加文件</a>
                                     </div>
                                 </div>
                                 <span class="label label-danger">注意!</span>
-											<span>
-											每张图片大小不可超过3M
-											</span>
+                                <span> 每张图片大小不可超过3M </span>
                             </div>
                         </div>
                     </div>
@@ -79,6 +82,6 @@
 </div>
 
 <% block 'scripts': %>
-<script src="/js/goods-save.js"></script>
+<script src="/dist/goods-save.js"></script>
 <% end %>
 
