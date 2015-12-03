@@ -103,7 +103,7 @@ router.get('/view', function *() {
 });
 
 //todo: for validate and test and redirect
-router.get('/seller/view',function *(){
+router.get('/seller/login',function *(){
    debug('start render seller login');
     this.body = yield render('seller/login.html');
 });
