@@ -5,7 +5,7 @@ module.exports = function (sequelize, DataTypes) {
 
     var Seller = sequelize.define('Seller', {
         name: shortDataTypes.String,
-        password: shortDataTypes.String,
+        pwd: shortDataTypes.String,
         phone: shortDataTypes.Phone,
         address: shortDataTypes.String,
         /**

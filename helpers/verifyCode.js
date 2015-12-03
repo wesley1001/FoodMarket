@@ -23,7 +23,7 @@ module.exports = {
             rec_num: phone,
             sms_template_code: "SMS_2915139"
         };
-        yield alidayu.send_sms(sms);
+        console.log(yield alidayu.send_sms(sms));
         return code;
     },
     verify: function *(phone, code){
