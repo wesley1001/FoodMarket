@@ -1,0 +1,12 @@
+@media all and (min-width: 1000px) {
+  .content {
+    width: 780px !important; } }
+
+@media all and (min-width: 768px) and (max-width: 999px) {
+  .content {
+    width: 440px !important; } }
+
+@media all and (max-width: 765px) {
+  .content {
+    width: 50%;
+    max-width: 480px !important; } }
