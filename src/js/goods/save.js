@@ -1,8 +1,8 @@
 /* css */
-require('../../../src/css/admin/index.js');
+require('../../../src/css/admin-base/common.js');
 
 /* js */
-require('../admin/index');
+require('../admin-base/common');
 var WebUploader = require('fex-webuploader');
 
 var uploader = WebUploader.Uploader({
