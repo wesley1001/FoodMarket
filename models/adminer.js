@@ -4,10 +4,10 @@ var shortDataTypes = sequelizex.DataTypes;
 module.exports = function (sequelize, DataTypes) {
 
     var Adminer = sequelize.define('Adminer', {
-        name: shortDataTypes.String,
-        password: shortDataTypes.String,
-        phone: shortDataTypes.Phone,
-        status: shortDataTypes.Int,
+        name: shortDataTypes.String(),
+        password: shortDataTypes.String(),
+        phone: shortDataTypes.Phone(),
+        status: shortDataTypes.Int(),
         flag: {
             type: DataTypes.INTEGER,
             defaultValue: 0
