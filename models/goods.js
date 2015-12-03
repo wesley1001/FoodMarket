@@ -1,4 +1,5 @@
-var shortDataTypes = require('../lib/sequelizeShortDataTypes');
+var sequelizex = require('../lib/sequelizex');
+var shortDataTypes = sequelizex.DataTypes;
 
 module.exports = function (sequelize, DataTypes) {
 
@@ -21,9 +22,12 @@ module.exports = function (sequelize, DataTypes) {
         capacity: shortDataTypes.Int,
         content: {
             type: DataTypes.TEXT
-        }
+        },
+        discount: shortDataTypes.Bool,
+        status: shortDataTypes.Int
     }, {
         timestamps: false,
+        paranoid: true,
         associate: function (models) {
             models.Seller.hasMany(models.Goods);
             models.Goods.belongsTo(models.Seller);

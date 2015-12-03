@@ -1,19 +1,24 @@
 // parties
 var Router = require('koa-router');
+
 // local
 var fs = require('fs');
 var path = require('path');
 var util = require('util');
+
 var render = require('./../instances/render.js');
 var db = require('./../models/index.js');
 var debug = require('./../instances/debug.js');
 var auth = require('../helpers/auth.js');
+
 var router = new Router();
+
 /****************************
  登录过滤
  ***************************/
+
 router.use(function *(next) {
-// todo: for test
+    // todo: for test
     var req = this.req;
     var data;
     if (/\/user\/*/.test(req.url)) {
@@ -56,6 +61,7 @@ router.use(function *(next) {
     }
     auth.login(this, data);
     var user = auth.user(this);
+
     if (/\/user\/*/.test(req.url) && (util.isNullOrUndefined(user) || user.flag !== 1)) {
         this.redirect('/user-login');
         return;
@@ -70,7 +76,9 @@ router.use(function *(next) {
     }
     yield next;
 });
+
 /****************************/
+
 var loadDir = (dir) => {
     fs
         .readdirSync(dir)
@@ -84,10 +92,14 @@ var loadDir = (dir) => {
             }
         });
 };
+
 loadDir(__dirname);
+
+
 // todo: for test
 router.get('/view', function *() {
     debug('start render views');
     this.body = yield render('admin/index.html');
 });
+
 module.exports = router.routes();
