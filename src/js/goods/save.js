@@ -1,5 +1,5 @@
 /* css */
-require('../../../src/css/admin/index.js');
+require('../../../src/css/admin-base/common.js');
 
 /* js */
 require('../admin/index');

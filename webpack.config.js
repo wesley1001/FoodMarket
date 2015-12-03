@@ -1,6 +1,5 @@
 var path = require('path');
 var webpack = require('webpack');
-
 module.exports = {
     entry: {
         'admin-index': ['./src/js/admin/index.js'],
@@ -20,8 +19,8 @@ module.exports = {
             { test: /\.js$/, loader: "babel" },
             { test: /\.css$/, loader: "style-loader!css-loader" },
             { test: /\.scss$/, loaders: ['style', 'css', 'sass'] },
-            { test   : /\.(ttf|eot|svg|woff(2)?)(\?[a-z=0-9\.]+)?$/, loader : 'url-loader?limit=8192'},
-            { test   : /\.(png|gif|svg|jpg)$/, loader : 'url-loader?limit=8192'}
+            { test : /\.(ttf|eot|svg|woff(2)?)(\?[a-z=0-9\.]+)?$/, loader : 'url-loader?limit=8192'},
+            { test : /\.(png|gif|svg|jpg)$/, loader : 'url-loader?limit=8192'}
         ]
     },
     plugins: [
