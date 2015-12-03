@@ -14,37 +14,32 @@
             </div>
             <div class="portlet-body form">
                 <!-- BEGIN FORM-->
-                <form action="#" id="form_sample_1" class="form-horizontal">
+                <form action="/adminer/save-goodstype" method="post" id="form_sample_1" class="form-horizontal">
                     <div class="form-body">
-                        <div class="alert alert-danger display-hide">
-                            <button class="close" data-close="alert"></button>
-                            You have some form errors. Please check below.
-                        </div>
-                        <div class="alert alert-success display-hide">
-                            <button class="close" data-close="alert"></button>
-                            Your form validation is successful!
-                        </div>
                         <div class="form-group">
                             <label class="control-label col-md-3">货物名称<span class="required">*</span></label>
                             <div class="col-md-4">
-                                <input type="text" name="name" data-required="1" class="form-control"/>
+                                <input type="text" name="title" data-required="1" class="form-control"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-3">类别<span class="required">*</span></label>
                             <div class="col-md-4">
-                                <select class="form-control" name="category" class="select2me"
+                                <select class="form-control" name="type" class="select2me"
                                         onchange="show(this.value)">
-                                    <option value="0">请选择⋯</option>
-                                    <option value="Category 1">一级</option>
-                                    <option value="Category 2">二级</option>
+                                    <option value="">请选择⋯</option>
+                                    <option value="1">一级</option>
+                                    <option value="2">二级</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group" id="firsthidden" style="display: none;">
+                        <div class="form-group hidden" id="firsthidden">
                             <label class="control-label col-md-3">一级类别<span class="required">*</span></label>
                             <div class="col-md-4">
-                                <input type="text" name="name" data-required="1" class="form-control"/>
+                                <select class="form-control" name="topid" class="select2me">
+                                    <option value="1">一级类别1</option>
+                                    <option value="2">一级类别2</option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -65,4 +60,13 @@
 <% block 'scripts': %>
 
 <script src="/dist/goodsType.js"></script>
+<scirpt>
+    $("form_sample_1").validate();
+    jQuery(document).ready(function() {
+    // initiate layout and plugins
+    App.init();
+    FormValidation.init();
+    });
+</scirpt>
+
 <% end %>
