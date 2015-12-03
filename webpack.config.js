@@ -3,7 +3,8 @@ var webpack = require('webpack');
 module.exports = {
     entry: {
         'admin-index': ['./src/js/admin/index.js'],
-        'goods-save': ['./src/js/goods/save.js']
+        'goods-save': ['./src/js/goods/save.js'],
+        'goodsType':{'.src/dist/goodsTyoe.js'}
     },
     output: {
         path: path.resolve(__dirname, 'public/dist'),
