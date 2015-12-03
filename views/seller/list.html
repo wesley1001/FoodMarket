@@ -1,0 +1,46 @@
+
+<% block 'user-list' : %>
+<% seller_helpers = (seller) -> %>
+        <div class="row">
+            <div class="col-md-6">
+                <!-- BEGIN SAMPLE TABLE PORTLET-->
+                <div class="portlet box red">
+                    <div class="portlet-title">
+                        <div class="caption"><i class="fa fa-cogs"></i>Simple Table</div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse"></a>
+                            <a href="#portlet-config" data-toggle="modal" class="config"></a>
+                            <a href="javascript:;" class="reload"></a>
+                            <a href="javascript:;" class="remove"></a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    <% for seller_helper in seller_helpers %>
+                                        <tr>
+                                            <th><% seller_helper %></th>
+                                            <th><% seller_helpers[seller_helper] %></th>
+                                        </tr>
+                                    <% end %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- END SAMPLE TABLE PORTLET-->
+            </div>
+        </div>
+<% end %>
+<% for seller in @sellers : %>
+    <%- seller_helper seller %>
+<% end %>
+
+

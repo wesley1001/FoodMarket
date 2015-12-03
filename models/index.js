@@ -5,7 +5,7 @@ var Sequelize = require('sequelize');
 var configs = require('./../instances/config.js');
 
 var sequelize = new Sequelize(configs.db.toString(), {
-
+    logging: function () {}
 });
 
 //  autoload
@@ -15,7 +15,7 @@ fs
         return (file.indexOf('.') !== 0) && (file !== 'index.js' &&  file !== 'migrate.js');
     })
     .forEach(function (file) {
-        sequelize.import(path.join(__dirname, file));
+        sequelize.import( path.join(__dirname, file));
     });
 
 var models = sequelize.models;

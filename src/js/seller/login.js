@@ -1,9 +1,16 @@
 //css
-require('../admin-base/common');
-
-//page css
+require('../../template_content/assets/plugins/font-awesome/css/font-awesome.min.css');
+require('../../template_content/assets/plugins/bootstrap/css/bootstrap.min.css');
+require('../../template_content/assets/plugins/uniform/css/uniform.default.css');
 require('../../template_content/assets/plugins/select2/select2_metro.css');
-require('../../css/seller/login.css');
+require('../../template_content/assets/css/style-metronic.css');
+require('../../template_content/assets/css/style.css');
+require('../../template_content/assets/css/style-responsive.css');
+require('../../template_content/assets/css/plugins.css');
+require('../../template_content/assets/css/themes/default.css');
+require('../../template_content/assets/css/pages/login.css');
+require('../../template_content/assets/css/custom.css');
+
 
 //core js
 var $ = require('expose?jQuery!jquery');
@@ -19,6 +26,7 @@ require('imports?$=jquery!../../template_content/assets/plugins/uniform/jquery.u
 //page js
 require('imports?$=jquery!../../template_content/assets/plugins/jquery-validation/dist/jquery.validate.min.js');
 require('imports?$=jquery!../../template_content/assets/plugins/select2/select2.min.js');
+
 
 var App = require('expose?App=App!imports?$=jquery!../../template_content/assets/scripts/app.js');
 var Login = require('expose?Login=Login!imports?$=jquery!../../template_content/assets/scripts/login.js');

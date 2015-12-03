@@ -7,17 +7,17 @@ module.exports = function (sequelize, DataTypes) {
         /**
          * address 对象json
          */
-        address: shortDataTypes.String(),
-        price: shortDataTypes.Double(),
-        num: shortDataTypes.Int(),
-        status: shortDataTypes.Int(),
+        address: shortDataTypes.String,
+        price: shortDataTypes.Double,
+        num: shortDataTypes.Int,
+        status: shortDataTypes.Int,
         /**
          * 留言
          */
-        message: shortDataTypes.String(),
-        payTime: shortDataTypes.Date(),
-        sendTime: shortDataTypes.Date(),
-        recieveTime: shortDataTypes.Date()
+        message: shortDataTypes.String,
+        payTime: shortDataTypes.Date,
+        sendTime: shortDataTypes.Date,
+        recieveTime: shortDataTypes.Date
     }, {
         associate: function (models) {
             models.User.hasMany(models.Order);
