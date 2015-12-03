@@ -16,6 +16,7 @@ require('imports?$=jquery!simple-uploader');
 var Simditor = require('imports?$=jquery!simditor/lib/simditor.js');
 require('exports?window.angular!angular');
 
+
 var $ = jQuery;
 $(function () {
     var app = angular.module('app', []);
@@ -36,12 +37,16 @@ $(function () {
         server: '/upload'
     });
 
+
     var editor = new Simditor({
         textarea: $('#editor'),
         upload: {
             url: '/upload',
-            fileKey: 'file'
+            fileKey: 'file',
+            params: null,
+            connectionCount: 3,
         }
+
         //optional options
     });
 
@@ -55,6 +60,7 @@ $(function () {
         scope.setMain = function (index) {
             scope.mainImg = index;
         };
+
 
         uploader.on('fileQueued', function (file) {
             uploader.makeThumb( file, function( error, ret ) {

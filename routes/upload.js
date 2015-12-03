@@ -15,25 +15,32 @@ module.exports = (router) => {
     var newFileName = (filename) => {
         var ret;
         do {
-            ret = path.join(uploadDir, `${utilx.randomNum(6)}-${filename}`);
+            var newfilename = `${utilx.randomNum(6)}-${filename}`;
+            ret = path.join(uploadDir, newfilename);
         } while(fs.exists(ret));
-        return ret;
+        return {
+            path: ret,
+            url: `/upload/${newfilename}`
+        };
     };
 
     router.post('/upload', function *() {
 
-        console.log('hello');
+
         var parts = fileParse(this);
         var part;
 
         var ret = [];
         while (part = yield parts) {
+            if (!part.pipe) {
+                continue;
+            }
             var filename = newFileName(part.filename);
-            var stream = fs.createWriteStream(filename);
+            var stream = fs.createWriteStream(filename.path);
             part.pipe(stream);
             ret.push({
                 success: true,
-                filename
+                file_path: filename.url
             });
         }
 

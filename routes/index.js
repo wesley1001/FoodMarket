@@ -59,7 +59,10 @@ router.use(function *(next) {
             });
         }
     }
-    auth.login(this, data);
+    if (data) {
+        auth.login(this, data);
+    }
+
     var user = auth.user(this);
 
     if (/\/user\/*/.test(req.url) && (util.isNullOrUndefined(user) || user.flag !== 1)) {
