@@ -4,11 +4,11 @@ var shortDataTypes = sequelizex.DataTypes;
 module.exports = function (sequelize, DataTypes) {
 
     var GoodsType = sequelize.define('GoodsType', {
-        title: shortDataTypes.String,
+        title: shortDataTypes.String(),
         /**
          * 一级类别，二级类别
          */
-        type: shortDataTypes.Int
+        type: shortDataTypes.Int()
     }, {
         timestamps: false,
         associate: function (models) {

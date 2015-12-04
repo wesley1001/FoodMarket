@@ -10,12 +10,12 @@ module.exports = function (sequelize, DataTypes) {
         /**
          * 收货人姓名
          */
-        recieverName: shortDataTypes.String,
-        phone: shortDataTypes.Phone,
-        province: shortDataTypes.String,
-        city: shortDataTypes.String,
-        area: shortDataTypes.String,
-        address: shortDataTypes.String
+        recieverName: shortDataTypes.String(),
+        phone: shortDataTypes.Phone(),
+        province: shortDataTypes.String(),
+        city: shortDataTypes.String(),
+        area: shortDataTypes.String(),
+        address: shortDataTypes.String()
     }, {
         timestamps: false,
         associate: function (models) {

@@ -5,7 +5,6 @@
 var verifyCode = require('../../helpers/verifyCode');
 var debug = require('../../instances/debug');
 var render = require('../../instances/render');
-var parse = require('../../instances/bodyParse');
 var db = require('../../models/index');
 var Seller = db.models.Seller;
 
@@ -17,12 +16,30 @@ module.exports = (router) => {
 
     // todo: redirect
     router.post('/seller/login',function *(){
-        this.checkParams('phone').notEmpty();
-        this.checkParams('phone').match(/^1[3-8]+\d{9}$/);
-        this.checkParams('password').notEmpty();
+        var ctx = this;
+        var body = this.request.body;
+        console.log(body);
+        this.checkBody('phone').notEmpty();
+        this.checkBody('phone').match(/^1[3-8]+\d{9}$/);
+        this.checkBody('password').notEmpty();
         if(this.errors){
             console.log(this.errors);
             return;
+        }
+        try{
+            var c = yield Seller.count({
+                where:{
+                    phone:body.phone,
+                    password:body.password
+                }
+            });
+            if(c){
+                ctx.body = '1';
+            }else{
+                ctx.body = '0';
+            }
+        }catch (err){
+            ctx.body = '0';
         }
     });
 
@@ -31,6 +48,7 @@ module.exports = (router) => {
         this.checkParams('phone').match(/^1[3-8]+\d{9}$/);
         if(this.errors){
             debug(this.errors);
+            this.body = -1;
             return;
         }
         var code = yield verifyCode.send(this.params.phone);
@@ -44,6 +62,7 @@ module.exports = (router) => {
         this.checkParams('code').notEmpty();
         this.checkParams('code').optional().len(6);
         if(this.errors){
+            this.body = 0;
             return;
         }
         var result = yield verifyCode.verify(this.params.phone, this.params.code);
@@ -52,6 +71,7 @@ module.exports = (router) => {
 
     router.post('/seller/register',function *(){
         var body = this.request.body;
+        console.log(body);
         var ctx = this;
         this.checkBody('name').notEmpty();
         this.checkBody('password').notEmpty();
@@ -60,8 +80,7 @@ module.exports = (router) => {
         this.checkBody('address').notEmpty();
         this.checkBody('shopName').notEmpty();
         if(this.errors){
-            console.log(errors);
-            this.body = errors;
+            console.log(this.errors);
             return;
         }
 

@@ -4,7 +4,8 @@ module.exports = {
     entry: {
         'admin-index': ['./src/js/admin/index.js'],
         'goods-save': ['./src/js/goods/save.js'],
-        'goodsType':{'.src/dist/goodsTyoe.js'}
+        'goodsType': ['./src/js/goodsType/goodsType.js'],
+        'seller-login': ['./src/js/seller/login.js']
     },
     output: {
         path: path.resolve(__dirname, 'public/dist'),

@@ -1,19 +1,14 @@
 <!-- BEGIN REGISTRATION FORM -->
-<form class="register-form" action="index.html" method="post">
+<!--erro don not do this form -->
+<form class="register-form"  id="register" action="/seller/register" method="post">
     <h3 >注册</h3>
-    <p>请在下面输入账户详细信息</p>
+    <p>请在下面输入待注册商户的详细信息</p>
+
     <div class="form-group">
         <label class="control-label visible-ie8 visible-ie9">店名</label>
         <div class="input-icon">
             <i class="fa fa-font"></i>
-            <input class="form-control placeholder-no-fix" type="text" placeholder="店名" name="fullname"/>
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label visible-ie8 visible-ie9">地址</label>
-        <div class="input-icon">
-            <i class="fa fa-check"></i>
-            <input class="form-control placeholder-no-fix" type="text" placeholder="地址" name="address"/>
+            <input class="form-control placeholder-no-fix" type="text" placeholder="店名" name="shopName"/>
         </div>
     </div>
     <div class="form-group">
@@ -23,19 +18,20 @@
                 <option value="1">超市店铺</option>
             </select>
     </div>
-    <p>请在下面输入待注册商户的详细信息</p>
-    <div class="form-group">
-        <label class="control-label visible-ie8 visible-ie9">手机号</label>
-        <div class="input-icon">
-            <i class="fa fa-user"></i>
-            <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="手机号" name="username"/>
-        </div>
-    </div>
+
+    <p>请在下面输入账户详细信息</p>
     <div class="form-group">
         <label class="control-label visible-ie8 visible-ie9">姓名</label>
         <div class="input-icon">
             <i class="fa fa-user"></i>
-            <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="姓名" name="username"/>
+            <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="姓名" name="name"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label visible-ie8 visible-ie9">地址</label>
+        <div class="input-icon">
+            <i class="fa fa-check"></i>
+            <input class="form-control placeholder-no-fix" type="text" placeholder="地址" name="address"/>
         </div>
     </div>
     <div class="form-group">
@@ -54,6 +50,29 @@
             </div>
         </div>
     </div>
+
+    <p>验证手机号</p>
+    <div class="from-group">
+        <div class="padding-btm-10">
+            <label class="control-label visible-ie8 visible-ie9">手机号码</label>
+            <div class="input-icon">
+                <i class="glyphicon glyphicon-phone"></i>
+                <input id="tel" type="text" name="phone" class="form-control placeholder-no-fix" placeholder="手机号码">
+                <button id="validate" class="btn btn-success" type="button">发送验证码</button>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="padding-btn-10">
+            <label class="control-label visible-ie8 visible-ie9">输入手机接收到的验证码</label>
+            <div class="input-icon">
+                <i class="glyphicon glyphicon-send"></i>
+                <input id="code" class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="输入手机接收到的验证码"
+                       name="validatecode"/>
+                <button id="validatecode" class="btn btn-success" type="button">验证</button>
+            </div>
+        </div>
+    </div>
     <div class="form-group">
         <label>
             <input type="checkbox" name="tnc"/> 我同意 <a href="#">服务协议</a> 和 <a href="#">隐私协议</a>
@@ -64,7 +83,7 @@
         <button id="register-back-btn" type="button" class="btn">
             <i class="m-icon-swapleft"></i>  返回
         </button>
-        <button type="submit" id="register-submit-btn" class="btn green pull-right">
+        <button type="button" id="register-submit-btn" class="btn green pull-right">
             注册<i class="m-icon-swapright m-icon-white"></i>
         </button>
     </div>
