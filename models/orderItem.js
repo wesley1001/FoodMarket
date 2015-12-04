@@ -7,9 +7,9 @@ module.exports = function (sequelize, DataTypes) {
         /**
          * goods 对象json
          */
-        goods: shortDataTypes.String,
-        price: shortDataTypes.Double,
-        num: shortDataTypes.Int
+        goods: shortDataTypes.String(),
+        price: shortDataTypes.Double(),
+        num: shortDataTypes.Int()
     }, {
         associate: function (models) {
             models.Order.hasMany(models.OrderItem);
