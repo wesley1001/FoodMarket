@@ -23,10 +23,8 @@
       line-height: $height;
       @include transition();
     }
-    &:hover{
-      &-tools {
-        top: 0;
-      }
+    &:hover &-tools {
+      top: 0;
     }
   }
 }
