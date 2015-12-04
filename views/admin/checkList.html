@@ -1,6 +1,5 @@
 
-<% block 'user-list' : %>
-<% seller_helpers = (seller) -> %>
+    <% for data_value in @data_values : %>
         <div class="row">
             <div class="col-md-6">
                 <!-- BEGIN SAMPLE TABLE PORTLET-->
@@ -24,12 +23,32 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                    <% for seller_helper in seller_helpers %>
-                                        <tr>
-                                            <th><% seller_helper %></th>
-                                            <th><% seller_helpers[seller_helper] %></th>
-                                        </tr>
-                                    <% end %>
+
+                                <tr>
+                                    <th>name</th>
+                                    <th><%= data_value.name %></th>
+                                </tr>
+
+                                <tr>
+                                    <th>password</th>
+                                    <th><%= data_value.password %></th>
+                                </tr>
+
+                                <tr>
+                                    <th>phone</th>
+                                    <th><%= data_value.phone %></th>
+                                </tr>
+
+                                <tr>
+                                    <th>address</th>
+                                    <th><%= data_value.address %></th>
+                                </tr>
+
+                                <tr>
+                                    <th>shopName</th>
+                                    <th><%= data_value.shopName %></th>
+                                </tr>
+
                                 </tbody>
                             </table>
                         </div>
@@ -38,9 +57,9 @@
                 <!-- END SAMPLE TABLE PORTLET-->
             </div>
         </div>
-<% end %>
-<% for seller in @sellers : %>
-    <%- seller_helper seller %>
-<% end %>
+    <% end %>
+
+
+
 
 
