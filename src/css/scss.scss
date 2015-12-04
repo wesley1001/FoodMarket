@@ -1,0 +1,3 @@
+@mixin transition ($attr: all, $time: 0.3s, $ease: ease) {
+  transition: $attr $time $ease;
+}

@@ -3,3 +3,5 @@ src/bower_components
 **/.DS_Store
 .idea
 log
+public/dist
+public/upload
