@@ -1,0 +1,25 @@
+<% extend './shared/admin-base' %>
+
+<div class="portlet box blue tabbable">
+    <div class="portlet-title">
+        <div class="caption"><i class="fa fa-reorder"></i>订单列表</div>
+    </div>
+    <div class="portlet-body">
+        <div class="portlet-tabs">
+            <ul class="nav nav-tabs">
+                <li><a href="#canceled-order">已取消</a></li>
+                <li><a href="#all-order">全部</a></li>
+                <li><a href="#finished-order">已完成</a></li>
+                <li><a href="#sent-order">已发货（未完成）</a></li>
+                <li><a href="#new-order">未发货</a></li>
+            </ul>
+            <div class="">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<% block 'scripts': %>
+<script src="/dist/seller-order-list.js"></script>
+<% end %>
