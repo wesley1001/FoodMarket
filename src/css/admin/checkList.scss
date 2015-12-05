@@ -1,0 +1,19 @@
+#check-list {
+  overflow: hidden;
+  text-align: left;
+}
+
+#non-check, #check {
+  left: 0;
+  top: 0;
+  overflow: hidden;
+}
+
+.tab-pane {
+  display: none;
+}
+
+.active {
+  display: block !important;
+}
+

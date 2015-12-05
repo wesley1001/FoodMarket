@@ -1,65 +1,151 @@
+<% extend './shared/admin-base' %>
+<div id="check-list">
+    <ul id="seller-tab" class="nav nav-tabs">
+        <li class="active"><a href="#non-check" data-toggle="tab">未审核用户</a></li>
+        <li><a href="#check" data-toggle="tab">已审核用户</a></li>
+    </ul>
+    <div id="non-check" class="tab-pane fade in active">
+        <% for non_data_value in @non_data_values : %>
+            <!--<div class="row">-->
+                <div class="col-md-6">
+                    <!-- BEGIN SAMPLE TABLE PORTLET-->
+                    <div class="portlet box red">
+                        <div class="portlet-title">
+                            <div class="caption"><i class="fa fa-cogs"></i>未审核用户</div>
+                            <div class="tools">
+                                <!--<a href="javascript:;" class="collapse"></a>-->
+                                <!--<a href="#portlet-config" data-toggle="modal" class="config"></a>-->
+                                <!--<a href="javascript:;" class="reload"></a>-->
+                                <!--<a href="javascript:;" class="remove"></a>-->
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
 
-    <% for non_data_value in @non_data_values : %>
-        <div class="row">
-            <div class="col-md-6">
-                <!-- BEGIN SAMPLE TABLE PORTLET-->
-                <div class="portlet box red">
-                    <div class="portlet-title">
-                        <div class="caption"><i class="fa fa-cogs"></i>Simple Table</div>
-                        <div class="tools">
-                            <a href="javascript:;" class="collapse"></a>
-                            <a href="#portlet-config" data-toggle="modal" class="config"></a>
-                            <a href="javascript:;" class="reload"></a>
-                            <a href="javascript:;" class="remove"></a>
+                                    <tr>
+                                        <th>name</th>
+                                        <th><%= non_data_value.name %></th>
+                                    </tr>
+
+                                    <tr>
+                                        <th>password</th>
+                                        <th><%= non_data_value.password %></th>
+                                    </tr>
+
+                                    <tr>
+                                        <th>phone</th>
+                                        <th><%= non_data_value.phone %></th>
+                                    </tr>
+
+                                    <tr>
+                                        <th>address</th>
+                                        <th><%= non_data_value.address %></th>
+                                    </tr>
+
+                                    <tr>
+                                        <th>shopName</th>
+                                        <th><%= non_data_value.shopName %></th>
+                                    </tr>
+
+                                    <tr>
+                                        <th>status</th>
+                                        <th><%= non_data_value.status %></th>
+                                    </tr>
+
+                                    <tr>
+                                        <th><button class="btn btn-success" type="button">同意</button></th>
+                                        <th><button class="btn btn-danger" type="button">拒绝</button></th>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                    <div class="portlet-body">
-                        <div class="table-responsive">
-                            <table class="table table-hover">
-                                <thead>
-                                <tr>
-                                    <th></th>
-                                    <th></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-
-                                <tr>
-                                    <th>name</th>
-                                    <th><%= non_data_value.name %></th>
-                                </tr>
-
-                                <tr>
-                                    <th>password</th>
-                                    <th><%= non_data_value.password %></th>
-                                </tr>
-
-                                <tr>
-                                    <th>phone</th>
-                                    <th><%= non_data_value.phone %></th>
-                                </tr>
-
-                                <tr>
-                                    <th>address</th>
-                                    <th><%= non_data_value.address %></th>
-                                </tr>
-
-                                <tr>
-                                    <th>shopName</th>
-                                    <th><%= non_data_value.shopName %></th>
-                                </tr>
-
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                    <!-- END SAMPLE TABLE PORTLET-->
                 </div>
-                <!-- END SAMPLE TABLE PORTLET-->
-            </div>
-        </div>
-    <% end %>
+            <!--</div>-->
+        <% end %>
+    </div>
 
+    <div id="check" class="tab-pane fade">
+        <% for data_value in @data_values : %>
+            <!--<div class="row">-->
+                <div class="col-md-6">
+                    <!-- BEGIN SAMPLE TABLE PORTLET-->
+                    <div class="portlet box red">
+                        <div class="portlet-title">
+                            <div class="caption"><i class="fa fa-cogs"></i>已审核用户</div>
+                            <div class="tools">
+                                <!--<a href="javascript:;" class="collapse"></a>-->
+                                <!--<a href="#portlet-config" data-toggle="modal" class="config"></a>-->
+                                <!--<a href="javascript:;" class="reload"></a>-->
+                                <!--<a href="javascript:;" class="remove"></a>-->
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
 
+                                    <tr>
+                                        <th>name</th>
+                                        <th><%= data_value.name %></th>
+                                    </tr>
+
+                                    <tr>
+                                        <th>password</th>
+                                        <th><%= data_value.password %></th>
+                                    </tr>
+
+                                    <tr>
+                                        <th>phone</th>
+                                        <th><%= data_value.phone %></th>
+                                    </tr>
+
+                                    <tr>
+                                        <th>address</th>
+                                        <th><%= data_value.address %></th>
+                                    </tr>
+
+                                    <tr>
+                                        <th>shopName</th>
+                                        <th><%= data_value.shopName %></th>
+                                    </tr>
+
+                                    <tr>
+                                        <th>status</th>
+                                        <th><%= data_value.status %></th>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END SAMPLE TABLE PORTLET-->
+                </div>
+            <!--</div>-->
+        <% end %>
+    </div>
+</div>
+
+<% block 'scripts': %>
+    <script src="/dist/seller-list.js"></script>
+<% end %>
 
 
 

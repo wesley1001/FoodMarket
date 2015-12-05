@@ -2,10 +2,11 @@ var path = require('path');
 var webpack = require('webpack');
 module.exports = {
     entry: {
-        'admin-index': ['./src/js/admin/index.js'],
-        'goods-save': ['./src/js/goods/save.js'],
-        'goodsType': ['./src/js/goodsType/goodsType.js'],
-        'seller-order-list': ['./src/js/order/seller-order-list.js']
+        //'admin-index': ['./src/js/admin/index.js'],
+        //'goods-save': ['./src/js/goods/save.js'],
+        //'goodsType': ['./src/js/goodsType/goodsType.js'],
+        //'seller-order-list': ['./src/js/order/seller-order-list.js'],
+        'seller-list': ['./src/js/admin/seller.js']
     },
     output: {
         path: path.resolve(__dirname, 'public/dist'),
