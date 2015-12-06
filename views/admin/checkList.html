@@ -4,10 +4,9 @@
         <li class="active"><a href="#non-check" data-toggle="tab">未审核用户</a></li>
         <li><a href="#check" data-toggle="tab">已审核用户</a></li>
     </ul>
-    <div id="non-check" class="tab-pane fade in active">
-        <% for non_data_value in @non_data_values : %>
+    <div id="non-check" class="tab-pane fade in active" ng-controller="nonCheckCtrl">
             <!--<div class="row">-->
-                <div class="col-md-6">
+                <div class="col-md-4" ng-repeat="data in uncheck_data">
                     <!-- BEGIN SAMPLE TABLE PORTLET-->
                     <div class="portlet box red">
                         <div class="portlet-title">
@@ -24,40 +23,40 @@
                                 <table class="table table-hover">
                                     <thead>
                                     <tr>
-                                        <th></th>
-                                        <th></th>
+                                        <th>项目</th>
+                                        <th>内容</th>
                                     </tr>
                                     </thead>
                                     <tbody>
 
                                     <tr>
                                         <th>name</th>
-                                        <th><%= non_data_value.name %></th>
+                                        <th>{{data.name}}</th>
                                     </tr>
 
                                     <tr>
                                         <th>password</th>
-                                        <th><%= non_data_value.password %></th>
+                                        <th>{{data.password}}</th>
                                     </tr>
 
                                     <tr>
                                         <th>phone</th>
-                                        <th><%= non_data_value.phone %></th>
+                                        <th>{{data.phone}}</th>
                                     </tr>
 
                                     <tr>
                                         <th>address</th>
-                                        <th><%= non_data_value.address %></th>
+                                        <th>{{data.address}}</th>
                                     </tr>
 
                                     <tr>
                                         <th>shopName</th>
-                                        <th><%= non_data_value.shopName %></th>
+                                        <th>{{data.shopName}}</th>
                                     </tr>
 
                                     <tr>
                                         <th>status</th>
-                                        <th><%= non_data_value.status %></th>
+                                        <th>{{data.status}}</th>
                                     </tr>
 
                                     <tr>
@@ -72,13 +71,13 @@
                     <!-- END SAMPLE TABLE PORTLET-->
                 </div>
             <!--</div>-->
-        <% end %>
+
     </div>
 
-    <div id="check" class="tab-pane fade">
-        <% for data_value in @data_values : %>
+    <div id="check" class="tab-pane fade" ng-controller="checkedCtrl">
+
             <!--<div class="row">-->
-                <div class="col-md-6">
+                <div class="col-md-4" ng-repeat="data in checked_data">
                     <!-- BEGIN SAMPLE TABLE PORTLET-->
                     <div class="portlet box red">
                         <div class="portlet-title">
@@ -103,32 +102,32 @@
 
                                     <tr>
                                         <th>name</th>
-                                        <th><%= data_value.name %></th>
+                                        <th>{{data.name}}</th>
                                     </tr>
 
                                     <tr>
                                         <th>password</th>
-                                        <th><%= data_value.password %></th>
+                                        <th>{{data.password}}</th>
                                     </tr>
 
                                     <tr>
                                         <th>phone</th>
-                                        <th><%= data_value.phone %></th>
+                                        <th>{{data.phone}}</th>
                                     </tr>
 
                                     <tr>
                                         <th>address</th>
-                                        <th><%= data_value.address %></th>
+                                        <th>{{data.address}}</th>
                                     </tr>
 
                                     <tr>
                                         <th>shopName</th>
-                                        <th><%= data_value.shopName %></th>
+                                        <th>{{data.shopName}}</th>
                                     </tr>
 
                                     <tr>
                                         <th>status</th>
-                                        <th><%= data_value.status %></th>
+                                        <th>{{data.status}}</th>
                                     </tr>
 
                                     </tbody>
@@ -139,7 +138,7 @@
                     <!-- END SAMPLE TABLE PORTLET-->
                 </div>
             <!--</div>-->
-        <% end %>
+
     </div>
 </div>
 
