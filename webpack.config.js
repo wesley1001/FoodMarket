@@ -5,7 +5,10 @@ module.exports = {
         'admin-index': ['./src/js/admin/index.js'],
         'goods-save': ['./src/js/goods/save.js'],
         'goodsType': ['./src/js/goodsType/goodsType.js'],
-        'seller-login': ['./src/js/seller/login.js']
+        'seller-login': ['./src/js/seller/login.js'],
+        'seller-goods-list':['./src/js/seller/goods.js'],
+        'user-address-list':['./src/js/user/user.address.js'],
+        'user-addaddress':['./src/js/user/user.addaddress.js']
     },
     output: {
         path: path.resolve(__dirname, 'public/dist'),
