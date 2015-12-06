@@ -8,7 +8,7 @@ body{
 }
 
 .content{
-    height:120px;
+    height:100px;
     margin-top:2px;
     background-color: rgb(255,255,255);
 }
@@ -49,7 +49,7 @@ body{
 }
 
 .bian-btn{
-    height:60px;
+    height:45px;
     width:100% !important;
 }
 
