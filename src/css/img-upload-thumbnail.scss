@@ -12,6 +12,14 @@
       width: $width;
       height: $height;
     }
+    &-main {
+      width: 128px;
+      height: 128px;
+      img{
+        width: 128px;
+        height: 128px;
+      }
+    }
     overflow: hidden;
     &-tools {
       position: absolute;

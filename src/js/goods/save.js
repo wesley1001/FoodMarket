@@ -16,6 +16,7 @@ require('imports?$=jquery!simple-uploader');
 var Simditor = require('imports?$=jquery!simditor/lib/simditor.js');
 require('exports?window.angular!angular');
 require('imports?$=jquery!jquery-validation');
+require('imports?$=jquery!ajaxform/ajaxform.js');
 
 
 var $ = jQuery;
@@ -56,6 +57,8 @@ $(function () {
 
         scope.data = [];
         scope.mainImg = 0;
+        scope.mainImgUrl = '';
+        scope.imgsUrl = [];
 
         scope.setMain = function (index) {
             scope.mainImg = index;
@@ -87,7 +90,11 @@ $(function () {
             for(var i in scope.data) {
                 var ele = scope.data[i];
                 if (ele.id && ele.id == file.id) {
-                    scope.imgs[i] = ret.file_path;
+                    if (i == scope.mainImg) {
+                        scope.mainImgUrl = ret.file_path;
+                    } else{
+                        scope.imgsUrl.push(ret.file_path);
+                    }
                     break;
                 }
             }
@@ -119,6 +126,9 @@ $(function () {
                 },
                 content: {
                     required: true
+                },
+                GoodsTypeId : {
+                    required: true
                 }
             },
 
@@ -133,6 +143,9 @@ $(function () {
                 capacity: {
                     required: '请填写价格',
                     number: '请填写整数'
+                },
+                GoodsTypeId : {
+                    required: '请选择类型'
                 }
             },
 
@@ -163,8 +176,33 @@ $(function () {
     }]);
 
 
+    app.controller('TypeCtl', ['$scope', function (scope){
 
-    angular.bootstrap(document.documentElement, ['app']);
+        var typeDom = angular.element('#types');
+
+        scope.data = JSON.parse(typeDom.html());
+
+        var typeId = typeDom.data('id');
+
+        (function () {
+            for(var i in scope.data) {
+                var ltype = scope.data[i];
+                for(var j in ltype.GoodsTypes) {
+                    var stype = ltype.GoodsTypes[j]
+                    if (stype.id == typeId) {
+                        scope.ltype = ltype;
+                        scope.stype = stype;
+                        scope.$applyAsync();
+                    }
+                }
+            }
+        }());
+
+
+    }]);
+
+
+        angular.bootstrap(document.documentElement, ['app']);
 });
 
 
