@@ -42,6 +42,24 @@ require('../../../src/js/angular.simple-datatables.js');
             });
         //console.log($route);
 
+        $scope.confirmSeller = function (data_id) {
+            console.log(data_id);
+            for (var i = 0; i < $scope.uncheck_data.length; ++i) {
+                console.log($scope.uncheck_data[i]);
+                if (data_id === $scope.uncheck_data[i].id) {
+                    $http
+                        .post('/adminer/checkList', {event: 'delete', id: data_id})
+                        .success(function () {
+                            console.log('Success');
+                        })
+                        .error(function () {
+                            console.error('Error');
+                        });
+                    $scope.uncheck_data.splice(i, 1);
+                    break;
+                }
+            }
+        };
     });
 
 
@@ -52,6 +70,8 @@ require('../../../src/js/angular.simple-datatables.js');
             $scope.checked_data = data;
         });
     });
+
+
 
     //check_list.run([
     //    '$rootScope',
@@ -68,10 +88,5 @@ require('../../../src/js/angular.simple-datatables.js');
 
 
 
-//$('#seller-tab')
-//    .find('a')
-//    .click(function (event) {
-//    event.preventDefault();
-//    $(this).tab('show')
-//});
+
 
