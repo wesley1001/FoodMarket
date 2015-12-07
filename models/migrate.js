@@ -9,4 +9,3 @@ co(function * () {
     console.log(arguments);
 });
 
-

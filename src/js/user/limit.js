@@ -3,7 +3,7 @@
  */
 
 var result = [];
-function limit(rev,tel,code,province,city,area,addr){
+function limit(rev,tel,code,province,city,addr){
     var reg;
     result['rev'] = (rev.length !== 0);
 
@@ -14,9 +14,8 @@ function limit(rev,tel,code,province,city,area,addr){
     result['code'] = !!reg.test(code);
 
     result['addr'] = (addr.length !== 0
-                        && province.length !== 0
-                        && city.length !== 0
-                        && area.length !== 0);
+                        && province !== "—— 省 ——"
+                        && city !== "—— 市 ——");
 }
 
 function hasClass( elements,cName ){
@@ -38,11 +37,10 @@ function validate() {
     var receiver = document.querySelector('#receiver').value;
     var tel = document.querySelector('#tel').value;
     var code = document.querySelector('#code').value;
-    var province = document.querySelector('#province').value;
-    var city = document.querySelector('#city').value;
-    var area = document.querySelector('#area').value;
+    var province = $("#province  option:selected").text();
+    var city = $('#city option:selected').text();
     var addr = document.querySelector('#addr').value;
-    limit(receiver, tel, code, province,city,area, addr);
+    limit(receiver, tel, code, province,city, addr);
     console.log(result);
     var count = 0;
     if(!result['rev']) {
@@ -99,16 +97,14 @@ yes.click(function(){
         var receiver = $('#receiver').val();
         var tel = $('#tel').val();
         var code = $('#code').val();
-        var province = $('#province').val();
-        var city = $('#city').val();
-        var area = $('#area').val();
+        var province = $("#province  option:selected").text();
+        var city = $('#city option:selected').text();
         var addr = $('#addr').val();
         var data = {
             recieverName: receiver,
             phone: tel,
             province: province,
             city: city,
-            area: area,
             address: addr
         };
 
