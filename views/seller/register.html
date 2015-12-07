@@ -13,9 +13,10 @@
     </div>
     <div class="form-group">
         <label class="control-label visible-ie8 visible-ie9">商铺类型</label>
-            <select name="type" id="select2_sample4" class="select2 form-control">
-                <option value="0">百货店铺</option>
-                <option value="1">超市店铺</option>
+            <select name="type"  class="select2 form-control">
+                <option value="1">百货店铺</option>
+                <option value="2">超市店铺</option>
+                <option value="0" selected="selected">--- 商铺类型 ---</option>
             </select>
     </div>
 
@@ -28,10 +29,17 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="control-label visible-ie8 visible-ie9">地址</label>
+        <div class="text">地址：</div>
+        <div data-toggle="distpicker" class="form-group">
+            <select class="select2 form-control" id="province" data-province="辽宁省"></select>
+            <select class="select2 form-control" id="city" data-city="大连市"></select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label visible-ie8 visible-ie9">详细地址</label>
         <div class="input-icon">
             <i class="fa fa-check"></i>
-            <input class="form-control placeholder-no-fix" type="text" placeholder="地址" name="address"/>
+            <input id="addr" class="form-control placeholder-no-fix" type="text" placeholder="详细地址" name="address"/>
         </div>
     </div>
     <div class="form-group">

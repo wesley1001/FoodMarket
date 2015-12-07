@@ -87,8 +87,25 @@ $('#register-submit-btn').click(function(){
             validatecode.removeAttr('disabled');
         if($('#code').attr('disabled'))
             $('#code').removeAttr('disabled');
-        $('#register').submit();
+
+        if($('#addr').val().length < 10){
+            alert('详细地址长度不小于十个字符');
+        }else{
+            $('#register').submit();
+        }
     }else{
         alert('请验证手机号码');
     }
+});
+
+$('#addr').val('辽宁省大连市');
+
+$('#province').change(function(){
+    var val = $('#province option:selected').val() + $('#city option:selected').val();
+    $('#addr').val(val);
+});
+
+$('#city').change(function(){
+    var val = $('#province option:selected').val() + $('#city option:selected').val();
+    $('#addr').val(val);
 });
