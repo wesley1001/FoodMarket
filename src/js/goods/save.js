@@ -16,6 +16,7 @@ require('imports?$=jquery!simple-uploader');
 var Simditor = require('imports?$=jquery!simditor/lib/simditor.js');
 require('exports?window.angular!angular');
 require('imports?$=jquery!jquery-validation');
+require('imports?$=jquery!ajaxform/ajaxform.js');
 
 
 var $ = jQuery;
@@ -38,6 +39,8 @@ $(function () {
         server: '/upload'
     });
 
+    var uploaded = false;
+
 
     var editor = new Simditor({
         textarea: $('#editor'),
@@ -56,6 +59,8 @@ $(function () {
 
         scope.data = [];
         scope.mainImg = 0;
+        scope.mainImgUrl = '';
+        scope.imgsUrl = [];
 
         scope.setMain = function (index) {
             scope.mainImg = index;
@@ -66,10 +71,24 @@ $(function () {
             scope.imgs.splice(index, 1);
         };
 
-        scope.init = function (jobj) {
-            scope.data = JSON.parse(jobj);
+        scope.init = function () {
+            var imgDom = angular.element('#imgs');
+            try {
+                if (imgDom.data('main')) {
+                    scope.data = [imgDom.data('main')].concat(JSON.parse(imgDom.html()));
+                } else {
+                    scope.data = [];
+                }
+            } catch (e){
+                scope.data = [imgDom.data('main')];
+            }
+
             scope.imgs = scope.data.slice();
+
+            scope.mainImgUrl = scope.data[scope.mainImg];
         };
+
+        scope.init();
 
         uploader.on('fileQueued', function (file) {
             uploader.makeThumb( file, function( error, ret ) {
@@ -86,15 +105,27 @@ $(function () {
         uploader.on('uploadSuccess', function (file, ret) {
             for(var i in scope.data) {
                 var ele = scope.data[i];
+                //debugger
                 if (ele.id && ele.id == file.id) {
-                    scope.imgs[i] = ret.file_path;
+                    scope.data[i] =  ret.file_path;
                     break;
                 }
             }
         });
 
         uploader.on('uploadFinished', function () {
-            scope.$applyAsync();
+            for(var i in scope.data) {
+                var ele = scope.data[i];
+                var filePath = ele;
+                if (i == scope.mainImg) {
+                    scope.mainImgUrl = filePath;
+                } else{
+                    scope.imgsUrl.push(filePath);
+                }
+            }
+            //scope.mainImgUrl = scope.imgsUrl[scope.mainImg];
+            scope.$apply();
+            $form[0].submit();
         });
 
 
@@ -119,6 +150,9 @@ $(function () {
                 },
                 content: {
                     required: true
+                },
+                GoodsTypeId : {
+                    required: true
                 }
             },
 
@@ -133,6 +167,9 @@ $(function () {
                 capacity: {
                     required: '请填写价格',
                     number: '请填写整数'
+                },
+                GoodsTypeId : {
+                    required: '请选择类型'
                 }
             },
 
@@ -155,16 +192,44 @@ $(function () {
             },
 
             submitHandler: function (form) {
+                if (uploaded) {
+                    debugger
+                    form.submit();
+                }
+                uploaded = true;
                 uploader.upload();
-                form.submit();
             }
         });
+    }]);
+
+
+    app.controller('TypeCtl', ['$scope', function (scope){
+
+        var typeDom = angular.element('#types');
+
+        scope.data = JSON.parse(typeDom.html());
+
+        var typeId = typeDom.data('id');
+
+        (function () {
+            for(var i in scope.data) {
+                var ltype = scope.data[i];
+                for(var j in ltype.GoodsTypes) {
+                    var stype = ltype.GoodsTypes[j]
+                    if (stype.id == typeId) {
+                        scope.ltype = ltype;
+                        scope.stype = stype;
+                        scope.$applyAsync();
+                    }
+                }
+            }
+        }());
+
 
     }]);
 
 
-
-    angular.bootstrap(document.documentElement, ['app']);
+        angular.bootstrap(document.documentElement, ['app']);
 });
 
 
