@@ -45,7 +45,11 @@ body{
   height: $ltype-height;
   overflow: hidden;
   .swiper-slide {
-    padding-top: 2px;
+    padding-top: 3px;
+    text-align: center;
+    &.active {
+      border-bottom: 3px solid $main-color;
+    }
   }
 }
 .ltypes-btn{

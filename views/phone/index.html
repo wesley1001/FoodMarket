@@ -22,15 +22,8 @@
 <div class="ltypes" ng-controller="LTypeCtrl">
     <div class="swiper-container">
         <div class="swiper-wrapper" >
-            <div class="swiper-slide" ng-click="active = -1">我的收藏</div>
-            <div class="swiper-slide">水果蔬菜</div>
-            <div class="swiper-slide">水果蔬菜</div>
-            <div class="swiper-slide">水果蔬菜</div>
-            <div class="swiper-slide">水果蔬菜</div>
-            <div class="swiper-slide">水果蔬菜</div>
-            <div class="swiper-slide">水果蔬菜</div>
-            <div class="swiper-slide">水果蔬菜</div>
-            <div class="swiper-slide">水果蔬1</div>
+            <div class="swiper-slide {{activeLTypeIndex == -1 ? 'active' : ''}}" ng-click="setLType(-1)">我的收藏</div>
+            <div class="swiper-slide {{activeLTypeIndex == $index ? 'active' : ''}}" ng-repeat="type in types" data-id="{{type.id}}" ng-click="setLType($index)">{{type.title}}</div>
         </div>
     </div>
     <div class="ltypes-btn am-cf">
@@ -41,14 +34,14 @@
 
 <div class="stypes" ng-controller="STypeCtrl">
     <ul class="am-list">
-        <li class="special active">促销</li>
-        <li class="" ng-repeat="type in data">{{type}}</li>
+        <li class="special {{activeSTypeIndex == -1 ? 'active' : ''}}" ng-click="setSType(-1)">促销</li>
+        <li class="{{activeSTypeIndex == $index ? 'active' : ''}}" ng-repeat="type in types[activeLTypeIndex].GoodsTypes" ng-click="setSType($index)">{{type.title}}</li>
     </ul>
 </div>
 
 <div class="goods-area" ng-controller="GoodsCtrl">
-    <div ng-repeat="item in data">
-        <div ng-controller="GoodsItemCtrl" class="goods-item am-cf am-padding-sm" ng-init="goods = item">
+    <div ng-repeat="goods in goodsData">
+        <div ng-controller="GoodsItemCtrl" class="goods-item am-cf am-padding-sm" ng-init="index = $index">
             <div class="goods-item-left">
                 <h3 class="">{{goods.title}}</h3>
                 <p>
@@ -62,11 +55,11 @@
             <div class="goods-item-right">
                 <img ng-src="{{goods.mainImg}}">
                 <div class="counter am-cf">
-                    <div class="btn minus am-fl am-text-warning">
+                    <div class="btn minus am-fl am-text-warning" ng-click="add(-1)">
                         <i class="am-icon am-icon-minus-square-o"></i>
                     </div>
-                    <input type="text" pattern="" class="am-fl" value="0">
-                    <div class="btn plus am-fl am-text-success">
+                    <input type="text" pattern="" class="am-fl" ng-model="goods.num">
+                    <div class="btn plus am-fl am-text-success" ng-click="add(1)">
                         <i class="am-icon am-icon-plus-square-o"></i>
                     </div>
                 </div>
@@ -139,7 +132,9 @@
         </div>
     </div>
 </div>
-
+<script type="text/plain" id="types">
+    <%- @types %>
+</script>
 <script src="/jquery.min.js"></script>
 <script src="/amazeui.min.js"></script>
 <script src="/dist/phone-index.js"></script>
