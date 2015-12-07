@@ -28,9 +28,9 @@ app.use(favicon(__dirname + '/public/favicon.ico'));
 // http parse
 app.use(koaBody());
 // redis session
-app.use(session({
-	store: redistore()
-}));
+//app.use(session({
+//	store: redistore()
+//}));
 
 app.use(koaValidate());
 // route

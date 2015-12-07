@@ -7,8 +7,10 @@ module.exports = {
         'goodsType': ['./src/js/goodsType/goodsType.js'],
         'seller-login': ['./src/js/seller/login.js'],
         'seller-goods-list':['./src/js/seller/goods.js'],
+        'seller-order-list': ['./src/js/order/seller-order-list.js'],
         'user-address-list':['./src/js/user/user.address.js'],
-        'user-addaddress':['./src/js/user/user.addaddress.js']
+        'user-addaddress':['./src/js/user/user.addaddress.js'],
+        'phone-index': ['./src/js/phone/index.js']
     },
     output: {
         path: path.resolve(__dirname, 'public/dist'),

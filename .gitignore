@@ -2,5 +2,6 @@ node_modules/
 src/bower_components
 **/.DS_Store
 .idea
-log
-public
+log/*
+public/dist
+public/upload

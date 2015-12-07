@@ -1,0 +1,65 @@
+
+    <% for non_data_value in @non_data_values : %>
+        <div class="row">
+            <div class="col-md-6">
+                <!-- BEGIN SAMPLE TABLE PORTLET-->
+                <div class="portlet box red">
+                    <div class="portlet-title">
+                        <div class="caption"><i class="fa fa-cogs"></i>Simple Table</div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse"></a>
+                            <a href="#portlet-config" data-toggle="modal" class="config"></a>
+                            <a href="javascript:;" class="reload"></a>
+                            <a href="javascript:;" class="remove"></a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                <tr>
+                                    <th>name</th>
+                                    <th><%= non_data_value.name %></th>
+                                </tr>
+
+                                <tr>
+                                    <th>password</th>
+                                    <th><%= non_data_value.password %></th>
+                                </tr>
+
+                                <tr>
+                                    <th>phone</th>
+                                    <th><%= non_data_value.phone %></th>
+                                </tr>
+
+                                <tr>
+                                    <th>address</th>
+                                    <th><%= non_data_value.address %></th>
+                                </tr>
+
+                                <tr>
+                                    <th>shopName</th>
+                                    <th><%= non_data_value.shopName %></th>
+                                </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- END SAMPLE TABLE PORTLET-->
+            </div>
+        </div>
+    <% end %>
+
+
+
+
+
