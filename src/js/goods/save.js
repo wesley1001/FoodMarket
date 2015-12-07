@@ -117,7 +117,6 @@ $(function () {
             for(var i in scope.data) {
                 var ele = scope.data[i];
                 var filePath = ele;
-                //debugger
                 if (i == scope.mainImg) {
                     scope.mainImgUrl = filePath;
                 } else{
@@ -125,7 +124,7 @@ $(function () {
                 }
             }
             //scope.mainImgUrl = scope.imgsUrl[scope.mainImg];
-            scope.$applyAsync();
+            scope.$apply();
             $form[0].submit();
         });
 
@@ -194,13 +193,13 @@ $(function () {
 
             submitHandler: function (form) {
                 if (uploaded) {
+                    debugger
                     form.submit();
                 }
                 uploaded = true;
                 uploader.upload();
             }
         });
-        window.s = scope;
     }]);
 
 
