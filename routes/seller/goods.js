@@ -56,19 +56,38 @@ module.exports = (router) => {
             return;
         }
 
-        yield Goods.create({
-            title: body.title,
-            mainImg: body.mainImg,
-            imgs: body.imgs,
-            price: body.price,
-            capacity: body.capacity,
-            discount: typeof body.discount === 'undefined',
-            SellerId: auth.user(this).id,
-            GoodsTypeId: body.GoodsTypeId,
-            status: -1,
-            soldNum: 0,
-            content: body.content
-        });
+        var isCreate = true;
+        if (body.id) {
+            var goods = yield Goods.findById(body.id);
+            if (goods != null) {
+                goods.title = body.title;
+                goods.mainImg = body.mainImg;
+                goods.imgs = body.imgs;
+                goods.price = body.price;
+                goods.capacity = body.capacity;
+                goods.discount = Boolean(body.discount);
+                goods.GoodsTypeId = body.GoodsTypeId;
+                goods.content = body.content;
+                yield goods.save();
+                isCreate = false;
+            }
+        }
+
+        if (isCreate) {
+            yield Goods.create({
+                title: body.title,
+                mainImg: body.mainImg,
+                imgs: body.imgs,
+                price: body.price,
+                capacity: body.capacity,
+                discount: typeof body.discount === 'undefined',
+                SellerId: auth.user(this).id,
+                GoodsTypeId: body.GoodsTypeId,
+                status: -1,
+                soldNum: 0,
+                content: body.content
+            });
+        }
 
         this.body = 'ok';
     }

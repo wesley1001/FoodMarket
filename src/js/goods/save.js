@@ -39,6 +39,8 @@ $(function () {
         server: '/upload'
     });
 
+    var uploaded = false;
+
 
     var editor = new Simditor({
         textarea: $('#editor'),
@@ -71,12 +73,22 @@ $(function () {
 
         scope.init = function () {
             var imgDom = angular.element('#imgs');
-
-            scope.data = [imgDom.data('main')].concat(JSON.parse(imgDom.html()));
+            try {
+                if (imgDom.data('main')) {
+                    scope.data = [imgDom.data('main')].concat(JSON.parse(imgDom.html()));
+                } else {
+                    scope.data = [];
+                }
+            } catch (e){
+                scope.data = [imgDom.data('main')];
+            }
 
             scope.imgs = scope.data.slice();
-            scope.imgsUrl = scope.data.slice();
+
+            scope.mainImgUrl = scope.data[scope.mainImg];
         };
+
+        scope.init();
 
         uploader.on('fileQueued', function (file) {
             uploader.makeThumb( file, function( error, ret ) {
@@ -93,19 +105,28 @@ $(function () {
         uploader.on('uploadSuccess', function (file, ret) {
             for(var i in scope.data) {
                 var ele = scope.data[i];
+                //debugger
                 if (ele.id && ele.id == file.id) {
-                    if (i == scope.mainImg) {
-                        scope.mainImgUrl = ret.file_path;
-                    } else{
-                        scope.imgsUrl.push(ret.file_path);
-                    }
+                    scope.data[i] =  ret.file_path;
                     break;
                 }
             }
         });
 
         uploader.on('uploadFinished', function () {
+            for(var i in scope.data) {
+                var ele = scope.data[i];
+                var filePath = ele;
+                //debugger
+                if (i == scope.mainImg) {
+                    scope.mainImgUrl = filePath;
+                } else{
+                    scope.imgsUrl.push(filePath);
+                }
+            }
+            //scope.mainImgUrl = scope.imgsUrl[scope.mainImg];
             scope.$applyAsync();
+            $form[0].submit();
         });
 
 
@@ -172,11 +193,14 @@ $(function () {
             },
 
             submitHandler: function (form) {
+                if (uploaded) {
+                    form.submit();
+                }
+                uploaded = true;
                 uploader.upload();
-                form.submit();
             }
         });
-
+        window.s = scope;
     }]);
 
 

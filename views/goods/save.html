@@ -75,7 +75,7 @@
                                     </div>
                                     <div class="uploaded-imgs" ng-show="imgs.length != 0">
                                         <div class="clearfix">
-                                            <div class="uploaded-imgs-item text-center pull-left {{mainImg == $index ? 'uploaded-imgs-item-main': ''}}" ng-repeat="img in imgs">
+                                            <div class="uploaded-imgs-item text-center pull-left {{mainImg == $index ? 'uploaded-imgs-item-main': ''}}" ng-repeat="img in imgs track by $index">
                                                 <img ng-src="{{img}}" class="img-responsive">
                                                 <div class="uploaded-imgs-item-tools  text-center">
                                                     <span class="btn blue " ng-click="setMain($index)" ng-show="mainImg != $index">设为缩略图</span>
