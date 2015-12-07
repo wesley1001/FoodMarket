@@ -69,9 +69,13 @@ $(function () {
             scope.imgs.splice(index, 1);
         };
 
-        scope.init = function (jobj) {
-            scope.data = JSON.parse(jobj);
+        scope.init = function () {
+            var imgDom = angular.element('#imgs');
+
+            scope.data = [imgDom.data('main')].concat(JSON.parse(imgDom.html()));
+
             scope.imgs = scope.data.slice();
+            scope.imgsUrl = scope.data.slice();
         };
 
         uploader.on('fileQueued', function (file) {

@@ -113,10 +113,13 @@
         <!-- END VALIDATION STATES-->
     </div>
 </div>
-<script id="types" type="text/plain" dataid="<%- @data?GoodsTypeId %>">
+<script id="types" type="text/plain" data-id="<%- @data?.GoodsTypeId %>">
     <%- @types %>
 </script>
 
+<script id="imgs" type="text/plain" data-main="<%- @data?.mainImg %>">
+    <%- @data?.imgs %>
+</script>
 <% block 'scripts': %>
 
 <script src="/dist/goods-save.js"></script>
