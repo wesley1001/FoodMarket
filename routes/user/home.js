@@ -35,19 +35,36 @@ module.exports = (router) => {
         this.body = types;
     });
 
-    router.get('/:stype/goods', function *() {
-        this.checkParams('stype').notEmpty().isInt().toInt();
+    var goodsPerPage = 20;
+    router.get('/:stype/goods/:page', getGoodsData);
+    router.get('/goods-search/:txt/:page', getGoodsData);
+
+    function *getGoodsData() {
+        //this.checkParams('stype').notEmpty().isInt().toInt();
+        this.checkParams('page').notEmpty().isInt().toInt();
         if (this.errors) {
             this.body = this.errors;
             return;
         }
+        var where;
+        if (this.params.txt) {
+            where = {
+                title: {
+                    $like: '%' + this.params.txt + '%'
+                }
+            };
+        } else if (this.params.stype && /^\d*$/.test(this.params.stype)){
+           where =  {
+               GoodsTypeId: this.params.stype
+           };
+        }
         this.body = sequelizex.Func.val(yield Goods.findAll({
-            where: {
-                GoodsTypeId: this.params.stype
-            }
+            where: where,
+            offset: (this.params.page - 1) * goodsPerPage,
+            limit: goodsPerPage,
+            order: 'soldNum DESC'
         }));
-
-    });
+    }
 
     router.get('/user/shoppingcart/:id/:num', function *() {
         this.checkParams('id').notEmpty().isInt().toInt();

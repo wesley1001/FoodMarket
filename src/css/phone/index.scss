@@ -3,7 +3,6 @@
 
 $header-height: 44px;
 $ltype-height: 36px;
-$navbar-height: 48px;
 $stype-width: 100px;
 .fixed-header {
   background-color: $main-color;
@@ -134,20 +133,5 @@ body{
         }
       }
     }
-  }
-}
-
-#navbar {
-  height: $navbar-height;
-  left: 0;
-  width: 100%;
-  bottom: 0;
-  background: #fff;
-  border-top: 1px solid #eee;
-  * {
-    color: #444 !important;
-  }
-  .active * {
-    color: $main-color !important;
   }
 }

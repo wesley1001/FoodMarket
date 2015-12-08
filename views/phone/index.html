@@ -14,7 +14,7 @@
     </button>
     <form class="am-fl am-margin-left-xs" role="search">
         <div class="am-form-group">
-            <input type="text" class="am-form-field am-input-sm am-radius" placeholder="搜索">
+            <input type="text" class="am-form-field am-input-sm am-radius" placeholder="搜索" ng-model="search" id="search">
         </div>
     </form>
 </header>
@@ -22,7 +22,7 @@
 <div class="ltypes" ng-controller="LTypeCtrl">
     <div class="swiper-container">
         <div class="swiper-wrapper" >
-            <div class="swiper-slide {{activeLTypeIndex == -1 ? 'active' : ''}}" ng-click="setLType(-1)">我的收藏</div>
+            <!--<div class="swiper-slide {{activeLTypeIndex == -1 ? 'active' : ''}}" ng-click="setLType(-1)">我的收藏</div>-->
             <div class="swiper-slide {{activeLTypeIndex == $index ? 'active' : ''}}" ng-repeat="type in types" data-id="{{type.id}}" ng-click="setLType($index)">{{type.title}}</div>
         </div>
     </div>
@@ -34,12 +34,12 @@
 
 <div class="stypes" ng-controller="STypeCtrl">
     <ul class="am-list">
-        <li class="special {{activeSTypeIndex == -1 ? 'active' : ''}}" ng-click="setSType(-1)">促销</li>
+        <!--<li class="special {{activeSTypeIndex == -1 ? 'active' : ''}}" ng-click="setSType(-1)">促销</li>-->
         <li class="{{activeSTypeIndex == $index ? 'active' : ''}}" ng-repeat="type in types[activeLTypeIndex].GoodsTypes" ng-click="setSType($index)">{{type.title}}</li>
     </ul>
 </div>
 
-<div class="goods-area" ng-controller="GoodsCtrl">
+<div class="goods-area">
     <div ng-repeat="goods in goodsData">
         <div ng-controller="GoodsItemCtrl" class="goods-item am-cf am-padding-sm" ng-init="index = $index">
             <div class="goods-item-left">
@@ -66,11 +66,15 @@
             </div>
         </div>
     </div>
+    <div class="am-text-center am-padding" ng-show="loadStatus != 2" ng-click="loadMore()">
+        <i class="am-icon {{loadStatus == 0 ? 'am-icon-hand-o-down' : 'am-icon-spinner'}}"></i>
+        {{loadStatus == 0 ? '加载更多' : '正在加载'}}
+    </div>
 </div>
 
 <div id="navbar" class="am-navbar ">
     <ul class="am-navbar-nav">
-        <li class="active">
+        <li>
             <a>
                 <i class="am-icon am-icon-home"></i>
                 <span class="am-navbar-label">首页</span>

@@ -4,15 +4,19 @@ require('Swiper/dist/css/swiper.css');
 
 require('Swiper/dist/js/swiper.js');
 require('exports?window.angular!angular');
+require('ngInfiniteScroll');
+var phoneBase = require('./base.js');
 
 $(function (){
+
+    phoneBase.bottomBar(0);
 
     var $window = $(window);
     var $header = $('.fixed-header');
     var $cityLabel = $('.city-label', $header);
     var $form = $('form', $header);
 
-    var app = angular.module('app', []);
+    var app = angular.module('app', ['infinite-scroll']);
     var cityParse = new BMap.LocalCity();
 
     var mySwiper;
@@ -52,7 +56,23 @@ $(function (){
 
         };
 
+        scope.pageData = {};
+
         scope.shoppingCart = undefined;
+
+        scope.loadStatus = 0;
+
+        scope.searchMode = false;
+        scope.searchCache = {};
+
+        angular.element('#search').on('keydown', function (e) {
+            if (e.keyCode != 13) {
+                return;
+            }
+            scope.searchMode = true;
+            scope.pageData[scope.search] = 1;
+            getGoodsData(undefined, 1, scope.search);
+        });
 
         $http
             .get('/user/shoppingcart')
@@ -68,29 +88,30 @@ $(function (){
             var cached = scope.goodsCache[id];
             if (cached) {
                 scope.goodsData = cached;
+                scope.$applyAsync();
             } else {
-                $http
-                    .get('/' + id + '/goods')
-                    .success(function (data) {
-                        scope.goodsCache[id] = data;
-                        scope.goodsData = scope.goodsCache[id];
-                        if (scope.shoppingCart && scope.shoppingCart.length !== 0) {
-                            updateShoppingNum();
-                        }
-                        scope.$applyAsync();
-                    });
+                scope.pageData[id] = 1;
+                getGoodsData(id, 1);
             }
         });
 
         scope.$applyAsync();
 
-        function updateShoppingNum() {
+        function updateShoppingNum(start, end) {
+            if (typeof start === 'undefined') {
+                start = 0;
+            }
+            if (typeof end === 'undefined') {
+                end = scope.goodsData.length -1;
+            }
             for(var j in scope.goodsData) {
+                if (j < start || j > end ) {
+                    continue;
+                }
                 var data = scope.goodsData[j];
                 for(var i in scope.shoppingCart) {
                     var item = scope.shoppingCart[i];
                     if (item.GoodId == data.id) {
-                        console.log('hit');
                         data.num = item.num;
                         break;
                     }
@@ -102,6 +123,51 @@ $(function (){
             scope.$applyAsync();
         }
 
+        scope.loadMore = function () {
+            var id;
+            var updateStartIndex = scope.goodsData.length -1;
+            if (!scope.searchMode) {
+                id = scope.types[scope.activeLTypeIndex].GoodsTypes[scope.activeSTypeIndex].id;
+                getGoodsData(id, ++scope.pageData[id]);
+            } else {
+                getGoodsData(undefined, ++scope.pageData[scope.search], scope.search);
+            }
+            updateShoppingNum(updateStartIndex);
+        };
+
+        function getGoodsData (id, page, txt) {
+            scope.loadStatus = 1;
+            var url = txt ? ('/goods-search/' + txt + '/' + page) : ('/' + id + '/goods/' + page);
+            $http
+                .get(url)
+                .success(function (data) {
+                    var src;
+                    if (txt) {
+                        scope.searchCache[txt] = data;
+                        src = scope.searchCache[txt];
+                    } else {
+                        scope.goodsCache[id] = data;
+                        src = scope.goodsCache[id];
+                    }
+                    if (data.length < 20) {
+                        scope.loadStatus = 2;
+                    } else {
+                        scope.loadStatus = 0;
+                    }
+                    var updateStartIndex;
+                    if (page == 1) {
+                        updateStartIndex = 0;
+                        scope.goodsData = src;
+                    } else {
+                        updateStartIndex = scope.goodsData.length;
+                        scope.goodsData = scope.goodsData.concat(src);
+                    }
+                    if (scope.shoppingCart && scope.shoppingCart.length !== 0) {
+                        updateShoppingNum(updateStartIndex);
+                    }
+                    scope.$applyAsync();
+                });
+        }
 
         window.s = scope;
     }]);
@@ -165,6 +231,8 @@ $(function (){
 
         scope.setLType = function (index) {
             scope.$parent.activeLTypeIndex = index;
+            scope.$parent.seachMode = false;
+            scope.$parent.$applyAsync();
         };
     }]);
 
