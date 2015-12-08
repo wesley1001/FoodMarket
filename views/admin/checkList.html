@@ -142,9 +142,11 @@
     </div>
 
     <div class="page-footer" ng-show="checked_data.length || uncheck_data.length">
-        <div>{{checked_data}}</div>
+        <div class="ui mini action input">
+            <input type="text" style="width: 98px;" sdt-page-input min="1">
+            <button class="ui right labeled icon button" sdt-page-btn><i class="right arrow icon"></i> <span sdt-total-page></span></button>
+        </div>
         <div class="col-md-1" sdt-prev-btn><button class="btn btn-default" type="button"><i class="fa fa-arrow-left"></i></button></div>
-        <div class="page-num"></div>
         <div class="col-md-1" sdt-next-btn><button class="btn btn-default" type="button"><i class="fa fa-arrow-right"></i></button></div>
     </div>
 </div>
