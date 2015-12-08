@@ -49,7 +49,7 @@ module.exports = (router) => {
                 });
             }
         }
-        if (ret = false) {
+        if (ret === false) {
             req.body.id ? this.redirect(`/adminer/save-goodstype/${req.body.id}`) : this.redirect('/adminer/save-goodstype');
             return;
         }

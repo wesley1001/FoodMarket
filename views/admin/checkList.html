@@ -61,7 +61,7 @@
 
                                     <tr>
                                         <th><button class="btn btn-success" type="button" ng-click="confirmSeller(data.id)">同意</button></th>
-                                        <th><button class="btn btn-danger" type="button">拒绝</button></th>
+                                        <th><button class="btn btn-danger" type="button" ng-click="deleteSeller(data.id)">拒绝</button></th>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -140,14 +140,17 @@
             <!--</div>-->
 
     </div>
+
+    <div class="page-footer" ng-show="checked_data.length || uncheck_data.length">
+        <div>{{checked_data}}</div>
+        <div class="col-md-1" sdt-prev-btn><button class="btn btn-default" type="button"><i class="fa fa-arrow-left"></i></button></div>
+        <div class="page-num"></div>
+        <div class="col-md-1" sdt-next-btn><button class="btn btn-default" type="button"><i class="fa fa-arrow-right"></i></button></div>
+    </div>
 </div>
 
 <!-- 换页 -->
-<div class="page-footer">
-    <div class="prev-page"></div>
-    <div class="page-num"></div>
-    <div class="next-page"></div>
-</div>
+
 <% block 'scripts': %>
     <script src="/dist/seller-list.js"></script>
 <% end %>
