@@ -11,12 +11,13 @@ module.exports = (router) => {
     var Adminer = db.models.Adminer;
 
     router.get('/adminer/checkAdminForm',  function *() {
+        this.body = yield render('admin/checkAdminForm.html');
+    });
 
-        var adminers = yield Adminer.findAll({
-
-        });
-        this.body = yield render('admin/checkAdminForm.html', {
-
-        });
+    router.get('/adminer/admin.json', function *() {
+        var adminer_list = yield Adminer.findAll();
+        this.body = JSON.stringify(adminer_list.map(function (item) {
+            return item.dataValues;
+        }));
     });
 };
