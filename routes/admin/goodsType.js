@@ -3,10 +3,19 @@ var util = require('util');
 var auth = require('../../helpers/auth.js');
 var db = require('../../models/index.js');
 var render = require('../../instances/render.js');
+var debug = require('../../instances/debug.js');
 
 module.exports = (router) => {
 
     var GoodsType = db.models.GoodsType;
+
+    router.get('/adminer/goodstype',  function *() {
+        debug('hell');
+        this.body = yield render('admin/goodstype', {
+
+        });
+        this.body = 'hello wrold';
+    });
 
     router.get('/adminer/save-goodstype',  saveView);
     router.get('/adminer/save-goodstype/:id', saveView);
