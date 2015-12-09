@@ -8,6 +8,13 @@ module.exports = (router) => {
 
     var GoodsType = db.models.GoodsType;
 
+    router.get('/adminer/goodstype', function *() {
+
+        this.body = yield render('admin/goodstype.html', {
+
+        });
+    });
+
     router.get('/adminer/save-goodstype', '/adminer/save-goodstype/:id', function *() {
 
         this.body = yield render('admin/goodstype/create.html', {
