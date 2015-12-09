@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <% include './shared/head' %>
+    <title>收货地址管理</title>
+</head>
+<body>
+<div class="am-g" ng-app="App">
+    <div class="address-list" ng-controller="Address">
+
+        <% contentHelper = (content) -> %>
+        <div class="content title" id="<%- content.id %>">
+            <div class="am-u-sm-10">
+                <div class="bian-content">
+                    <div class="am-u-sm-3">
+                        <div class="bian-head bian-name">
+                            <span><%- content.recieverName %></span>
+                        </div>
+                    </div>
+                    <div class="am-u-sm-3 am-u-sm-push-3">
+                        <div class="bian-head bian-tel">
+                            <span><%- content.phone %></span>
+                        </div>
+                    </div>
+                    <div class="bian-address">
+                        <div class="am-u-sm-2">
+                            <div class="bian-state">[默认]</div>
+                        </div>
+                        <div class="am-u-sm-10">
+                            <span><%- content.province %><%- content.city %><%- content.address %></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="am-u-sm-2  edit">
+                <div class="bian-edit">
+                    <div class="am-btn am-btn-primary bian-btn">编辑</div>
+                    <div class="am-btn am-btn-danger bian-btn del" id="<%- content.id %>">删除</div>
+                </div>
+            </div>
+        </div>
+        <% end %>
+
+
+        <% if @datas?.length : %>
+            <% for content in @datas : %>
+            <%- contentHelper content %>
+            <% end %>
+        <% else : %>
+        <p>List is empty</p>
+        <% end %>
+
+    </div>
+
+</div>
+
+<div class="add-address">
+    <div class="am-g">
+        <div class="am-u-sm-12">
+            <button class="am-btn am-btn-block" type="button" id="add">新增收货地址</button>
+        </div>
+    </div>
+</div>
+
+<script src="/dist/user-address-list.js"></script>
+</body>
+</html>

@@ -1,42 +1,45 @@
 <!-- BEGIN REGISTRATION FORM -->
-<form class="register-form" action="index.html" method="post">
+<!--erro don not do this form -->
+<form class="register-form"  id="register" action="/seller/register" method="post">
     <h3 >注册</h3>
-    <p>请在下面输入账户详细信息</p>
+    <p>请在下面输入待注册商户的详细信息</p>
+
     <div class="form-group">
-        <label class="control-label visible-ie8 visible-ie9">全名</label>
+        <label class="control-label visible-ie8 visible-ie9">店名</label>
         <div class="input-icon">
             <i class="fa fa-font"></i>
-            <input class="form-control placeholder-no-fix" type="text" placeholder="全名" name="fullname"/>
+            <input class="form-control placeholder-no-fix" type="text" placeholder="店名" name="shopName"/>
         </div>
     </div>
     <div class="form-group">
-        <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
-        <label class="control-label visible-ie8 visible-ie9">邮箱</label>
-        <div class="input-icon">
-            <i class="fa fa-envelope"></i>
-            <input class="form-control placeholder-no-fix" type="text" placeholder="邮箱" name="email"/>
-        </div>
+        <label class="control-label visible-ie8 visible-ie9">商铺类型</label>
+            <select name="type"  class="select2 form-control">
+                <option value="1">百货店铺</option>
+                <option value="2">超市店铺</option>
+                <option value="0" selected="selected">--- 商铺类型 ---</option>
+            </select>
     </div>
+
+    <p>请在下面输入账户详细信息</p>
     <div class="form-group">
-        <label class="control-label visible-ie8 visible-ie9">地址</label>
-        <div class="input-icon">
-            <i class="fa fa-check"></i>
-            <input class="form-control placeholder-no-fix" type="text" placeholder="地址" name="address"/>
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label visible-ie8 visible-ie9">所在城市</label>
-        <div class="input-icon">
-            <i class="fa fa-location-arrow"></i>
-            <input class="form-control placeholder-no-fix" type="text" placeholder="城市" name="city"/>
-        </div>
-    </div>
-    <p>请在下面输入待注册账户的详细信息</p>
-    <div class="form-group">
-        <label class="control-label visible-ie8 visible-ie9">用户名</label>
+        <label class="control-label visible-ie8 visible-ie9">姓名</label>
         <div class="input-icon">
             <i class="fa fa-user"></i>
-            <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="用户名" name="username"/>
+            <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="姓名" name="name"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="text">地址：</div>
+        <div data-toggle="distpicker" class="form-group">
+            <select class="select2 form-control" id="province" data-province="辽宁省"></select>
+            <select class="select2 form-control" id="city" data-city="大连市"></select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label visible-ie8 visible-ie9">详细地址</label>
+        <div class="input-icon">
+            <i class="fa fa-check"></i>
+            <input id="addr" class="form-control placeholder-no-fix" type="text" placeholder="详细地址" name="address"/>
         </div>
     </div>
     <div class="form-group">
@@ -55,6 +58,29 @@
             </div>
         </div>
     </div>
+
+    <p>验证手机号</p>
+    <div class="from-group">
+        <div class="padding-btm-10">
+            <label class="control-label visible-ie8 visible-ie9">手机号码</label>
+            <div class="input-icon">
+                <i class="glyphicon glyphicon-phone"></i>
+                <input id="tel" type="text" name="phone" class="form-control placeholder-no-fix" placeholder="手机号码">
+                <button id="validate" class="btn btn-success" type="button">发送验证码</button>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="padding-btn-10">
+            <label class="control-label visible-ie8 visible-ie9">输入手机接收到的验证码</label>
+            <div class="input-icon">
+                <i class="glyphicon glyphicon-send"></i>
+                <input id="code" class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="输入手机接收到的验证码"
+                       name="validatecode"/>
+                <button id="validatecode" class="btn btn-success" type="button">验证</button>
+            </div>
+        </div>
+    </div>
     <div class="form-group">
         <label>
             <input type="checkbox" name="tnc"/> 我同意 <a href="#">服务协议</a> 和 <a href="#">隐私协议</a>
@@ -65,7 +91,7 @@
         <button id="register-back-btn" type="button" class="btn">
             <i class="m-icon-swapleft"></i>  返回
         </button>
-        <button type="submit" id="register-submit-btn" class="btn green pull-right">
+        <button type="button" id="register-submit-btn" class="btn green pull-right">
             注册<i class="m-icon-swapright m-icon-white"></i>
         </button>
     </div>
