@@ -36,6 +36,7 @@
     "Swiper": "swiper#~3.2.6",
     "select2": "https://github.com/select2/select2.git#~4.0.1",
     "ajaxform": "https://github.com/alchapone/ajaxform.git#~0.1.2",
-    "simditor": "~2.3.5"
+    "simditor": "~2.3.5",
+    "ngInfiniteScroll": "https://github.com/sroze/ngInfiniteScroll.git#~1.2.1"
   }
 }

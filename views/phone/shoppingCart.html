@@ -1,0 +1,57 @@
+<% extend "phone/base.html" %>
+
+<div ng-controller="AppCtrl">
+    <div class="am-padding-sm" >
+        <div class="am-panel am-panel-default shoppingcart" ng-repeat="shop in shoppingCart" ng-controller="ShopCtrl" ng-init="shopIndex = $index">
+            <div class="am-panel-hd shoppingcart-shop-title">
+                <i class="am-icon am-icon-circle-o" ng-hide="shop.selected" ng-click="selectShop($index, true)"></i>
+                <i class="am-icon am-icon-check-circle" ng-show="shop.selected" ng-click="selectShop($index, false)"></i>
+                {{shop.shopName}}
+            </div>
+            <div class="am-panel-bd">
+                <div class="shoppingcart-item" ng-controller="GoodsCtrl" ng-repeat="goods in shoppingCart[shopIndex].goods" ng-init="goodsIndex = $index">
+                    <div class="shoppingcart-item-checkbox">
+                        <i class="am-icon am-icon-circle-o" ng-hide="goods.selected" ng-click="selectGoods($index, true)" ></i>
+                        <i class="am-icon am-icon-check-circle" ng-show="goods.selected" ng-click="selectGoods($index, false)" ></i>
+                    </div>
+                    <div class="shoppingcart-item-main">
+                        <img ng-src="{{goods.src.Good.mainImg}}" >
+                        <h3>{{goods.src.Good.title}}</h3>
+                        <p class="am-text-sm">￥ {{goods.src.Good.price}} </p>
+                        <div class="am-cf">
+                            <div class="goods-counter am-fl">
+                                <div class="btn minus am-text-warning" ng-click="add(-1)">
+                                    <i class="am-icon am-icon-minus-square-o"></i>
+                                </div>
+                                <input type="number" ng-model="goods.src.num" min="0">
+                                <div class="btn plus am-text-success" ng-click="add(1)">
+                                    <i class="am-icon am-icon-plus-square-o"></i>
+                                </div>
+                            </div>
+                            <i class="am-icon am-icon-trash am-fr am-margin-right" ng-click="remove()"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="counter am-cf">
+        <div class="am-fl">
+            <strong>总价: {{totalPrice}}</strong>
+        </div>
+        <div class="am-fr counter-buy-btn">
+            <span ng-click="buy()">去结算</span>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script type="text/plain" id="shoppingCart">
+    <%- @shoppingCart %>
+</script>
+
+<% block 'scripts': %>
+<script src="/dist/phone-shoppingcart.js"></script>
+<% end %>

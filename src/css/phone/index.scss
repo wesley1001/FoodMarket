@@ -3,7 +3,6 @@
 
 $header-height: 44px;
 $ltype-height: 36px;
-$navbar-height: 48px;
 $stype-width: 100px;
 .fixed-header {
   background-color: $main-color;
@@ -45,7 +44,11 @@ body{
   height: $ltype-height;
   overflow: hidden;
   .swiper-slide {
-    padding-top: 2px;
+    padding-top: 3px;
+    text-align: center;
+    &.active {
+      border-bottom: 3px solid $main-color;
+    }
   }
 }
 .ltypes-btn{
@@ -91,7 +94,14 @@ body{
   .goods-item{
     position: relative;
     border-bottom: 1px solid #d7d7d7;
+    $goods-item-right-width: 100px;
     &-left {
+      display: block;
+      margin-right: $goods-item-right-width;
+      color: #444;
+      &:hover{
+        color: #444;
+      }
       h3 {
         font-weight:bold;
       }
@@ -100,11 +110,13 @@ body{
       }
     }
     &-right{
+      $goods-item-right-height: 84px;
       position: absolute;
       right: 0;
-      top: 1rem;
-      width: 100px;
+      width: $goods-item-right-width;
       text-align: center;
+      top: 50%;
+      margin-top: - ($goods-item-right-height/2);
       img{
         $goods-img-size : 52px;
         width: $goods-img-size;
@@ -130,20 +142,5 @@ body{
         }
       }
     }
-  }
-}
-
-#navbar {
-  height: $navbar-height;
-  left: 0;
-  width: 100%;
-  bottom: 0;
-  background: #fff;
-  border-top: 1px solid #eee;
-  * {
-    color: #444 !important;
-  }
-  .active * {
-    color: $main-color !important;
   }
 }

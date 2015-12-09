@@ -1,3 +1,5 @@
-/**
- * Created by me on 15-12-5.
- */
+module.exports = {
+    bottomBar: function (active) {
+        jQuery('#navbar').find('li').eq(active).addClass('active');
+    }
+};

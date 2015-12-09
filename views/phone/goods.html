@@ -1,0 +1,50 @@
+<% extend 'phone/base.html' %>
+
+<div class="swiper-container">
+    <div class="swiper-wrapper" >
+        <% for img in @goods.imgs : %>
+            <div class="swiper-slide">
+                <img src="<%- img %>" />
+            </div>
+        <% end %>
+    </div>
+    <div class="swiper-pagination"></div>
+</div>
+<div class="goods">
+    <div class="am-g goods-header">
+        <div class="goods-title am-margin-left-sm ">
+            <h2><%= @goods.title %></h2>
+        </div>
+        <div class="am-text-center am-text-danger goods-price">
+            <%= @goods.price %> ￥
+        </div>
+    </div>
+    <div class="goods-info am-g am-text-center">
+        <div class="am-u-sm-4">已售<%= @goods.soldNum %></div>
+        <div class="am-u-sm-4">剩余<%= @goods.capacity %></div>
+        <div class="am-u-sm-4"><%= @goods.seller.shopName %></div>
+    </div>
+    <div class="goods-counter am-margin-vertical">
+        <div class="btn minus am-text-warning">
+            <i class="am-icon am-icon-minus-square-o"></i>
+        </div>
+        <input type="number"  ng-model="goods.num" data-id="<%- @goods.id %>" value="<%- @goods.num %>" min="0">
+        <div class="btn plus am-text-success">
+            <i class="am-icon am-icon-plus-square-o"></i>
+        </div>
+    </div>
+    <div class="am-padding-sm">
+        <div class="am-panel am-panel-default">
+            <div class="am-panel-hd">商品详情</div>
+            <div class="am-panel-bd">
+                <%- @goods.content %>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<% block 'scripts': %>
+<script src="/dist/phone-goods.js"></script>
+<% end %>
