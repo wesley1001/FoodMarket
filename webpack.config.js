@@ -2,15 +2,16 @@ var path = require('path');
 var webpack = require('webpack');
 module.exports = {
     entry: {
-        'admin-index': ['./src/js/admin/index.js'],
-        'goods-save': ['./src/js/goods/save.js'],
-        'goodsType': ['./src/js/goodsType/goodsType.js'],
-        'seller-login': ['./src/js/seller/login.js'],
-        'seller-goods-list':['./src/js/seller/goods.js'],
-        'seller-order-list': ['./src/js/order/seller-order-list.js'],
-        'user-address-list':['./src/js/user/user.address.js'],
-        'user-addaddress':['./src/js/user/user.addaddress.js'],
-        'phone-index': ['./src/js/phone/index.js']
+        //'admin-index': ['./src/js/admin/index.js'],
+        //'goods-save': ['./src/js/goods/save.js'],
+        //'goodsType': ['./src/js/goodsType/goodsType.js'],
+        //'seller-login': ['./src/js/seller/login.js'],
+        //'seller-goods-list':['./src/js/seller/goods.js'],
+        //'seller-order-list': ['./src/js/order/seller-order-list.js'],
+        //'user-address-list':['./src/js/user/user.address.js'],
+        //'user-addaddress':['./src/js/user/user.addaddress.js'],
+        //'phone-index': ['./src/js/phone/index.js'],
+        'admin-goodstype': ['./src/js/admin/goodstype.js']
     },
     output: {
         path: path.resolve(__dirname, 'public/dist'),

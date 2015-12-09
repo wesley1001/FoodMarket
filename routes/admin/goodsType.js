@@ -15,7 +15,6 @@ module.exports = (router) => {
         });
     });
 
-    router.get('/adminer/save-goodstype', '/adminer/save-goodstype/:id', function *() {
     router.get('/adminer/save-goodstype',  saveView);
     router.get('/adminer/save-goodstype/:id', saveView);
 
