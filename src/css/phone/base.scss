@@ -1,5 +1,13 @@
 $main-color: #ff4444;
 $navbar-height: 48px;
+
+body {
+  padding-bottom: $navbar-height;
+}
+#header {
+  background-color: $main-color;
+}
+
 #navbar {
   height: $navbar-height;
   left: 0;

@@ -94,7 +94,14 @@ body{
   .goods-item{
     position: relative;
     border-bottom: 1px solid #d7d7d7;
+    $goods-item-right-width: 100px;
     &-left {
+      display: block;
+      margin-right: $goods-item-right-width;
+      color: #444;
+      &:hover{
+        color: #444;
+      }
       h3 {
         font-weight:bold;
       }
@@ -103,11 +110,13 @@ body{
       }
     }
     &-right{
+      $goods-item-right-height: 84px;
       position: absolute;
       right: 0;
-      top: 1rem;
-      width: 100px;
+      width: $goods-item-right-width;
       text-align: center;
+      top: 50%;
+      margin-top: - ($goods-item-right-height/2);
       img{
         $goods-img-size : 52px;
         width: $goods-img-size;

@@ -15,7 +15,11 @@ fs
         return (file.indexOf('.') !== 0) && (file !== 'index.js' &&  file !== 'migrate.js');
     })
     .forEach(function (file) {
-        sequelize.import(path.join(__dirname, file));
+        try {
+            sequelize.import(path.join(__dirname, file));
+        } catch (e) {
+
+        }
     });
 
 var models = sequelize.models;

@@ -16,6 +16,14 @@ module.exports = function (sequelize, DataTypes) {
         instanceMethods: {
         },
         classMethods: {
+            my: function *(id) {
+                return sequelizex.Func.val(yield ShoppingCart.findAll({
+                    where: {
+                        UserId: id
+                    },
+                    attributes: ['id', 'num', 'GoodId']
+                }));
+            }
         }
     });
 

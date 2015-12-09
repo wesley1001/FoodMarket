@@ -253,7 +253,7 @@ $(function (){
         var timer;
         scope.add = function (delta) {
             var goods = scope.goodsData[scope.index];
-            if (goods.num + delta > 0 ){
+            if (goods.num + delta >= 0 ){
                 goods.num += delta;
                 if (timer) {
                     clearInterval(timer);

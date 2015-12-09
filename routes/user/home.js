@@ -80,8 +80,13 @@ module.exports = (router) => {
            }
         });
         if (shoppingCart) {
-            shoppingCart.num = this.params.num;
-            yield shoppingCart.save();
+            if (shoppingCart.num > 0 ) {
+                shoppingCart.num = this.params.num;
+                yield shoppingCart.save();
+            } else {
+                console.log('destory');
+                yield shoppingCart.destory();
+            }
         } else {
             yield ShoppingCart.create({
                 UserId: auth.user(this).id,
@@ -99,6 +104,59 @@ module.exports = (router) => {
             },
             attributes: ['id', 'num', 'GoodId']
         }));
+    });
+
+    router.get('/user/goods-page/:id', function *() {
+        this.checkParams('id').notEmpty().isInt().toInt();
+        if (this.errors) {
+            this.body = this.errors;
+            return;
+        }
+        var goods = yield Goods.findById(this.params.id);
+        goods.seller = yield goods.getSeller();
+        goods.imgs = JSON.parse(goods.imgs);
+        var shoppingCart = yield ShoppingCart.findOne({
+            where:{
+                UserId: auth.user(this).id,
+                GoodId: this.params.id
+            }
+        });
+        goods.num = shoppingCart ? shoppingCart.num : 0;
+        this.body = yield render('phone/goods.html', {
+            title: '商品:' + goods.title,
+            goods: goods
+        });
+    });
+
+    router.get('/user/shoppingcart-view', function *() {
+
+        var shoppingCart = yield sequelizex.Func.val(yield ShoppingCart.findAll({
+            where: {
+                UserId: auth.user(this).id
+            },
+            attributes: ['id', 'num', 'GoodId'],
+            include: [{
+                model: db.models.Goods,
+                attributes: ['SellerId', 'price', 'title', 'mainImg'],
+                include: [{
+                    model: db.models.Seller,
+                    attributes: ['shopName']
+                }]
+            }]
+        }));
+        //var data = [];
+        //shoppingCart.forEach(function (goods) {
+        //    var sellerId = val.Good.dataValues.SellerId;
+        //    data.push({
+        //        sellerId,
+        //        goods
+        //    });
+        //});
+
+        this.body = yield render('phone/shoppingcart.html', {
+            title: '购物车',
+            shoppingCart: JSON.stringify(shoppingCart)
+        });
     });
 
 };
