@@ -8,7 +8,7 @@ module.exports = {
         //'seller-order-list': ['./src/js/order/seller-order-list.js'],
         //'phone-index': ['./src/js/phone/index.js'],
         //'phone-goods': ['./src/js/phone/goods.js'],
-        'phone-shoppingcart': ['./src/js/phone/shoppingcart.js'],
+        'phone-shoppingcart': ['./src/js/phone/shoppingCart.js'],
     },
     output: {
         path: path.resolve(__dirname, 'public/dist'),

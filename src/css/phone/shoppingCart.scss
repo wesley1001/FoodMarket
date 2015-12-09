@@ -70,3 +70,19 @@
     }
   }
 }
+
+
+.counter {
+  position: fixed;
+  width: 100%;
+  left: 0;
+  bottom: $navbar-height;
+  $height: 48px;
+  height: $height;
+  line-height: $height;
+  background-color: #fff;
+  &-buy-btn{
+    background-color: $main-color;
+    color: #fff;
+  }
+}

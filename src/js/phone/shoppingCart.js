@@ -70,11 +70,15 @@ app.controller('GoodsCtrl', ['$scope', '$http', function (scope, $http) {
             }
             timer = setInterval(function () {
                 clearInterval(timer);
-                $http.get('/user/shoppingcart/' + goods.id + '/' + goods.num);
+                $http.get('/user/shoppingcart/' + goods.GoodId + '/' + goods.num);
             },  500);
         }
     };
-}]);
 
+    scope.remove = function () {
+        var goods = scope.$parent.$parent.shoppingCart[scope.shopIndex].goods.splice(scope.goodsIndex, 1)[0].src;
+        $http.get('/user/shoppingcart/' + goods.GoodId + '/-1');
+    };
+}]);
 
 angular.bootstrap(document.documentElement, ['app']);

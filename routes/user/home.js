@@ -1,6 +1,7 @@
 var auth = require('../../helpers/auth.js');
 var db = require('../../models/index.js');
 var render = require('../../instances/render.js');
+var debug = require('../../instances/debug.js');
 
 var sequelizex = require('../../lib/sequelizex.js');
 
@@ -68,7 +69,7 @@ module.exports = (router) => {
 
     router.get('/user/shoppingcart/:id/:num', function *() {
         this.checkParams('id').notEmpty().isInt().toInt();
-        this.checkParams('num').notEmpty().isInt().gt(0).toInt();
+        this.checkParams('num').notEmpty().isInt().toInt();
         if (this.errors) {
             this.body = this.errors;
             return;
@@ -80,14 +81,13 @@ module.exports = (router) => {
            }
         });
         if (shoppingCart) {
-            if (shoppingCart.num > 0 ) {
+            if (this.params.num >= 0 ) {
                 shoppingCart.num = this.params.num;
                 yield shoppingCart.save();
             } else {
-                console.log('destory');
-                yield shoppingCart.destory();
+                yield shoppingCart.destroy();
             }
-        } else {
+        } else if (this.params.num >= 0){
             yield ShoppingCart.create({
                 UserId: auth.user(this).id,
                 GoodId: this.params.id,
@@ -144,16 +144,7 @@ module.exports = (router) => {
                 }]
             }]
         }));
-        //var data = [];
-        //shoppingCart.forEach(function (goods) {
-        //    var sellerId = val.Good.dataValues.SellerId;
-        //    data.push({
-        //        sellerId,
-        //        goods
-        //    });
-        //});
-
-        this.body = yield render('phone/shoppingcart.html', {
+        this.body = yield render('phone/shoppingCart.html', {
             title: '购物车',
             shoppingCart: JSON.stringify(shoppingCart)
         });
