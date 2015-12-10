@@ -20,7 +20,14 @@ module.exports = function (sequelize, DataTypes) {
         instanceMethods: {
         },
         classMethods: {
-            findById: sequelizex.Func.findById
+            all: function * () {
+                return yield this.findAll({
+                    where: {
+                        type: 1
+                    },
+                    include: [this]
+                });
+            }
         }
     });
 
