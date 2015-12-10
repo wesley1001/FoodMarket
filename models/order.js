@@ -10,6 +10,9 @@ module.exports = function (sequelize, DataTypes) {
         address: shortDataTypes.String(),
         price: shortDataTypes.Double(),
         num: shortDataTypes.Int(),
+        /**
+         * 0 => 新建订单
+         */
         status: shortDataTypes.Int(),
         /**
          * 留言

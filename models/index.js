@@ -5,7 +5,7 @@ var Sequelize = require('sequelize');
 var configs = require('./../instances/config.js');
 
 var sequelize = new Sequelize(configs.db.toString(), {
-
+    logging: function () {}
 });
 
 //  autoload
