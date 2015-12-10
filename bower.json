@@ -31,7 +31,7 @@
     "fex-webuploader": "https://github.com/fex-team/webuploader.git#~0.1.5",
     "angular": "~1.4.8",
     "jquery-validation": "https://github.com/jzaefferer/jquery-validation.git#~1.14.0",
-    "distpicker": "~1.0.1",
+    "distpicker": "https://github.com/fengyuanchen/distpicker.git#~1.0.1",
     "angular-route": "~1.4.8",
     "Swiper": "swiper#~3.2.6",
     "select2": "https://github.com/select2/select2.git#~4.0.1",

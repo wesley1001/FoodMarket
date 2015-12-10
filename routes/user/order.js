@@ -172,7 +172,7 @@ module.exports = function (router) {
         this.body = 'finished';
     });
 
-    router.get('/user/order-list/:status', function *() {
+    router.get('/user/order-list/:status/:page', function *() {
         this.checkParams('status').notEmpty().isInt().toInt();
         if (this.errors) {
             this.body = this.errors;
@@ -184,6 +184,11 @@ module.exports = function (router) {
                 UserId: userId,
                 status: this.params.status
             }
+        });
+
+        this.body = yield render('phone/order-list', {
+            title: '订单',
+
         });
     });
 
