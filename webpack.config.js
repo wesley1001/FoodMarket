@@ -5,7 +5,6 @@ module.exports = {
         'admin-index': ['./src/js/admin/index.js'],
         'goods-save': ['./src/js/goods/save.js'],
         'goodsType': ['./src/js/goodsType/goodsType.js'],
-        'seller-order-list': ['./src/js/order/seller-order-list.js'],
         'seller-login': ['./src/js/seller/login.js'],
         'seller-goods-list':['./src/js/seller/goods.js'],
  	    'seller-order-list': ['./src/js/order/seller-order-list.js'],
