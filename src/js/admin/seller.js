@@ -7,7 +7,6 @@ require('./../admin-base/core.js');
 require('../../../src/bower_components/angular/angular.min.js');
 require('../../../src/css/admin/checkList.scss');
 require('../../../src/js/angular.simple-datatables.js');
-
 (function () {
     var check_list = angular.module('check_list', ['simpleDatatable']);
 

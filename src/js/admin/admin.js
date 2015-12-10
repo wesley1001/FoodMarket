@@ -8,10 +8,12 @@ require('../../../src/css/admin/checkList.scss');
 // require('../../../src/bower_components/angular/angular.min.js');
 
 (jQuery)(document).on('DOMContentLoaded', function () {
-    var $show_adminer = (jQuery)('a[href="#showAdminer"]');
-    //console.log(admin_list);
+    var $show_adminer = (jQuery)('a[href="#showAdminer"]'),
+        $add_adminer = (jQuery)('#addAdminer form'),
+        $submit_button = $add_adminer.find('#submit'),
+        assembleHTML;
 
-    var assembleHTML = function (data, append_html) {
+    assembleHTML = function (data, append_html) {
         data.forEach(function (every_data) {
             append_html += '<div class="col-md-4">' +
                 '<div class="portlet box red">' +
@@ -46,15 +48,65 @@ require('../../../src/css/admin/checkList.scss');
         var $show_admin_html = (jQuery)('#showAdminer');
         (jQuery).get('/adminer/admin.json', function (data) {
             var append_html = '';
-            console.log(data);
-            console.log(data instanceof Array);
-
             append_html = assembleHTML(data, append_html);
-
-            console.log(append_html);
-
             $show_admin_html.html(append_html);
         });
+    });
+
+    $submit_button.on('click', function (event) {
+        event.preventDefault();
+        var user = {
+                phone : (jQuery)('#phone'),
+                username : (jQuery)('#account'),
+                password : (jQuery)('#password'),
+                confirm : (jQuery)('#confirm')
+            },
+            user_value = {
+                phone : user.phone.val(),
+                username : user.username.val(),
+                password : user.password.val(),
+                confirm : user.confirm.val()
+            },
+
+            $note = (jQuery)('pre.col-md-12'),
+            LEGAL_PHONE = /\b([1-9])([0-9]){10}\b/,
+            LEGAL_USERNAME = /\w{4,16}/,
+            LEGAL_PASSWORD = /.{6,}/;
+
+        console.log(user_value.phone, user_value.username, user_value.password);
+        if (user_value.password !== user_value.confirm) {
+            $note.removeClass('hide')
+                 .html('两次输入密码不一');
+
+            return false;
+        }
+
+        if (LEGAL_PHONE.test(user_value.phone) && LEGAL_USERNAME.test(user_value.username) && LEGAL_PASSWORD.test(user_value.password)) {
+            (jQuery).post('/adminer/checkAdminForm', {
+                username : user_value.username,
+                password : user_value.password,
+                phone : user_value.phone
+            }, function (data) {
+                if (data.success) {
+                    for (var i in user) {
+                        if (user.hasOwnProperty(i)) {
+                            user[i].val('');
+                        }
+                    }
+                    $note.addClass('hide')
+                } else {
+                    $note.removeClass('hide')
+                    .html(data.error);
+                }
+            });
+        } else {
+            $note
+                .removeClass('hide')
+                .html('账号或密码或电话输入有误');
+
+            return false;
+        }
+
 
 
     });

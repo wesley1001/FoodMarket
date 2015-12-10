@@ -20,4 +20,29 @@ module.exports = (router) => {
             return item.dataValues;
         });
     });
+
+    router.post('/adminer/checkAdminForm', function *() {
+        var request = this.request,
+            data = request.body,
+            user = yield Adminer.findAll({
+                    where : {
+                        name : data.username
+                    }
+                });
+        console.log(data);
+        console.log(user.length);
+        if (user.length === 0) {
+            Adminer.create({
+                name : data.username,
+                password : data.password,
+                phone : data.phone,
+                status : -1,
+                flag : 0
+            });
+            this.body = {success : true}
+        } else {
+            this.body = {error: '该用户已存在'}
+        }
+        // console.log(data);
+    });
 };
