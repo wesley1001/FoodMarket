@@ -12,6 +12,14 @@
       width: $width;
       height: $height;
     }
+    &-main {
+      text-align: center;
+      img{
+        margin: 0 auto;
+        width: 128px;
+        height: 128px;
+      }
+    }
     overflow: hidden;
     &-tools {
       position: absolute;

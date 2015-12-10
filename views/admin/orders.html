@@ -1,0 +1,66 @@
+<% extend 'shared/admin-base' %>
+
+
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+        <h3 class="page-title">
+            订单管理 <small></small>
+        </h3>
+        <ul class="page-breadcrumb breadcrumb">
+            <li></li>
+            <li class="col-md-3 col-sm-3">
+               宝贝
+            </li>
+            <li class="col-md-3 col-sm-3">
+                单价
+            </li>
+
+            <li class="col-md-3 col-sm-3">
+                数量
+            </li>
+        </ul>
+        <!-- END PAGE TITLE & BREADCRUMB-->
+    </div>
+</div>
+
+<div class="row">
+
+
+
+    <% for type in @orders : %>
+    <tr>
+        <div class="col-md-12 col-sm-12">
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">订单编号：<%= type.dataValues.id %>    &nbsp; 成交时间：<%= type.dataValues.payTime.toLocaleString() %></div>
+
+
+                    <div class="tools">
+                        <a href="" class="collapse"></a>
+
+                    </div>
+
+                </div>
+                <div class="portlet-body">
+                    <div class="table-responsive">
+
+                        <%= type.dataValues.OrderItems.goods %>
+                        <%= type.dataValues.OrderItems.price %>
+                        <%= type.dataValues.OrderItems.num %>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </tr>
+    <% end %>
+</div>
+
+
+
+
+<% block 'scripts': %>
+<script src="/dist/admin-orders.js"></script>
+<% end %>

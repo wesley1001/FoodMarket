@@ -1,73 +1,86 @@
-<!-- BEGIN REGISTRATION FORM -->
-<form class="register-form" action="index.html" method="post">
-    <h3 >注册</h3>
-    <p>请在下面输入账户详细信息</p>
-    <div class="form-group">
-        <label class="control-label visible-ie8 visible-ie9">全名</label>
-        <div class="input-icon">
-            <i class="fa fa-font"></i>
-            <input class="form-control placeholder-no-fix" type="text" placeholder="全名" name="fullname"/>
-        </div>
-    </div>
-    <div class="form-group">
-        <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
-        <label class="control-label visible-ie8 visible-ie9">邮箱</label>
-        <div class="input-icon">
-            <i class="fa fa-envelope"></i>
-            <input class="form-control placeholder-no-fix" type="text" placeholder="邮箱" name="email"/>
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label visible-ie8 visible-ie9">地址</label>
-        <div class="input-icon">
-            <i class="fa fa-check"></i>
-            <input class="form-control placeholder-no-fix" type="text" placeholder="地址" name="address"/>
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label visible-ie8 visible-ie9">所在城市</label>
-        <div class="input-icon">
-            <i class="fa fa-location-arrow"></i>
-            <input class="form-control placeholder-no-fix" type="text" placeholder="城市" name="city"/>
-        </div>
-    </div>
-    <p>请在下面输入待注册账户的详细信息</p>
-    <div class="form-group">
-        <label class="control-label visible-ie8 visible-ie9">用户名</label>
-        <div class="input-icon">
-            <i class="fa fa-user"></i>
-            <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="用户名" name="username"/>
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label visible-ie8 visible-ie9">密码</label>
-        <div class="input-icon">
-            <i class="fa fa-lock"></i>
-            <input class="form-control placeholder-no-fix" type="password" autocomplete="off" id="register_password" placeholder="密码" name="password"/>
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label visible-ie8 visible-ie9">确认密码</label>
-        <div class="controls">
-            <div class="input-icon">
-                <i class="fa fa-check"></i>
-                <input class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="确认密码" name="rpassword"/>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include 'shared/head' %>
+</head>
+<body>
+
+<div class="">
+    <form class="am-form am-form-horizontal" method="post">
+        <h3 class="am-text-center">店铺入驻</h3>
+        <div class="am-form-group">
+            <label class="am-u-sm-3 am-form-label am-text-sm">店铺名称</label>
+            <div class="am-u-sm-9">
+                <input type="text" placeholder="填写您的店铺名称" required name="shopName">
+                <div class="am-alert am-alert-secondary am-hide">请填写店铺名称</div>
             </div>
         </div>
-    </div>
-    <div class="form-group">
-        <label>
-            <input type="checkbox" name="tnc"/> 我同意 <a href="#">服务协议</a> 和 <a href="#">隐私协议</a>
-        </label>
-        <div id="register_tnc_error"></div>
-    </div>
-    <div class="form-actions">
-        <button id="register-back-btn" type="button" class="btn">
-            <i class="m-icon-swapleft"></i>  返回
-        </button>
-        <button type="submit" id="register-submit-btn" class="btn green pull-right">
-            注册<i class="m-icon-swapright m-icon-white"></i>
-        </button>
-    </div>
-</form>
-<!-- END REGISTRATION FORM -->
+        <div class="am-form-group">
+            <label class="am-u-sm-3 am-form-label am-text-sm">店长姓名</label>
+
+            <div class="am-u-sm-9">
+                <input type="text" placeholder="填写店长姓名" required name="name">
+                <div class="am-alert am-alert-secondary am-hide">填写店长姓名</div>
+            </div>
+        </div>
+        <div class="am-form-group">
+            <label class="am-u-sm-3 am-form-label am-text-sm">店铺位置</label>
+
+            <div class="am-u-sm-9">
+                <div class="am-g" id="distpicker">
+                    <div class="am-u-sm-6">
+                        <select class="am-margin-vertical-xs" name="province" required></select>
+                    </div>
+                    <div class="am-u-sm-6">
+                        <select class="am-margin-vertical-xs" name="city" required></select>
+                    </div>
+                    <select class="am-margin-vertical-xs" name="country" required></select>
+                </div>
+                <input name="address" type="text" placeholder="请输入具体地址" required>
+                <div class="am-alert am-alert-secondary am-hide">请填写店铺位置</div>
+            </div>
+
+        </div>
+        <div class="am-form-group">
+            <label class="am-u-sm-3 am-form-label am-text-sm">手机号</label>
+
+            <div class="am-u-sm-9">
+                <div class="am-input-group">
+                    <input type="text" class="am-form-field js-pattern-phone" name="phone" required id="phone">
+                    <span class="am-input-group-btn">
+                        <button class="am-btn am-btn-default" type="button" id="get-verify-code">获取验证码</button>
+                    </span>
+                </div>
+                <div class="am-alert am-alert-secondary am-hide">请填写手机号</div>
+            </div>
+        </div>
+        <div class="am-form-group">
+            <label class="am-u-sm-3 am-form-label am-text-sm">验证码</label>
+
+            <div class="am-u-sm-9">
+                <input type="text" placeholder="验证码" name="verifyCode" required id="code">
+                <div class="am-alert am-alert-secondary am-hide">请输入正确验证码</div>
+            </div>
+        </div>
+
+        <div class="am-form-group">
+            <label class="am-u-sm-3 am-form-label am-text-sm">密码</label>
+
+            <div class="am-u-sm-9">
+                <input type="password" placeholder="密码" name="password" required minlength="6">
+                <div class="am-alert am-alert-secondary am-hide">请输入密码(最小长度为6)</div>
+            </div>
+        </div>
+        <input type="hidden" name="districtCode">
+        <div class="am-form-group am-text-center">
+            <button type="submit" class="am-btn am-btn-warning">提交登入</button>
+        </div>
+    </form>
+</div>
+
+
+<script src="/jquery.min.js"></script>
+<script src="/amazeui.min.js"></script>
+<script src="/dist/seller-register.js"></script>
+</body>
+</html>

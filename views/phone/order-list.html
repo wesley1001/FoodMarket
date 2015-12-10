@@ -1,0 +1,39 @@
+<% extend 'phone/base.html' %>
+
+<div class="am-padding-sm" >
+    <div class="am-panel am-panel-default shoppingcart am-margin-bottom-sm" ng-repeat="shop in shoppingCart" ng-controller="ShopCtrl" ng-init="shopIndex = $index">
+        <div class="am-panel-hd shoppingcart-shop-title">
+            {{shop.shopName}}
+        </div>
+        <div class="am-panel-bd">
+            <div class="shoppingcart-item" ng-controller="GoodsCtrl" ng-repeat="goods in shoppingCart[shopIndex].goods" ng-init="goodsIndex = $index">
+                <div class="shoppingcart-item-main">
+                    <img ng-src="{{goods.src.Good.mainImg}}" >
+                    <h3>{{goods.src.Good.title}}</h3>
+                    <p class="am-text-sm am-cf">
+                        <span class="am-text-danger">￥ {{goods.src.Good.price}} </span>
+                        <span class="am-fr am-margin-right-sm">x {{goods.src.num}}</span>
+                    </p>
+                </div>
+            </div>
+            <div class="am-form am-form-horizontal am-margin-top-sm">
+                <div class="am-form-group">
+                    <label class="am-u-sm-3 am-form-label">留言</label>
+                    <div class="am-u-sm-9">
+                        <input class="am-form-field" placeholder="买家留言" ng-model="shop.msg">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="am-panel-footer">
+            <div class="am-text-right">
+                <span class="am-margin-horizontal-sm">共 {{shop.goods.length}}</span>
+                <span class="am-margin-horizontal-sm">合计： <span class="am-text-warning">{{shop.price}}</span></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<% block 'scripts': %>
+<script src="/dist/phone-order-list.js"></script>
+<% end %>
