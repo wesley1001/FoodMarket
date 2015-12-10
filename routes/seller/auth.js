@@ -15,30 +15,30 @@ module.exports = (router) => {
     });
 
     // todo: redirect
-    router.post('/seller/login',function *(){
+    router.post('/seller/login', function *() {
         var ctx = this;
         var body = this.request.body;
         console.log(body);
         this.checkBody('phone').notEmpty();
         this.checkBody('phone').match(/^1[3-8]+\d{9}$/);
         this.checkBody('password').notEmpty();
-        if(this.errors){
+        if (this.errors) {
             console.log(this.errors);
             return;
         }
-        try{
+        try {
             var c = yield Seller.count({
-                where:{
-                    phone:body.phone,
-                    password:body.password
+                where: {
+                    phone: body.phone,
+                    password: body.password
                 }
             });
-            if(c){
+            if (c) {
                 ctx.body = '1';
-            }else{
+            } else {
                 ctx.body = '0';
             }
-        }catch (err){
+        } catch (err) {
             ctx.body = '0';
         }
     });
@@ -46,7 +46,7 @@ module.exports = (router) => {
     router.get('/verifyCode/:phone', function *() {
         this.checkParams('phone').notEmpty();
         this.checkParams('phone').match(/^1[3-8]+\d{9}$/);
-        if(this.errors){
+        if (this.errors) {
             debug(this.errors);
             this.body = -1;
             return;
@@ -56,51 +56,51 @@ module.exports = (router) => {
         this.body = code;
     });
 
-    router.get('/verifyCode/:phone/:code', function *() {
-        this.checkParams('phone').notEmpty();
-        this.checkParams('phone').match(/^1[3-8]+\d{9}$/);
-        this.checkParams('code').notEmpty();
-        this.checkParams('code').optional().len(6);
-        if(this.errors){
-            this.body = 0;
+    router.get('/verifyCode', function *() {
+        this.checkQuery('phone').notEmpty();
+        this.checkQuery('phone').match(/^1[3-8]+\d{9}$/);
+        this.checkQuery('code').notEmpty();
+        this.checkQuery('code').optional().len(6);
+        if (this.errors) {
+            this.body = this.errors;
             return;
         }
-        var result = yield verifyCode.verify(this.params.phone, this.params.code);
+        var result = yield verifyCode.verify(this.query.phone, this.query.code);
         this.body = result;
     });
 
-    router.post('/seller/register',function *(){
+    router.get('/seller-register', function *() {
+        this.body = yield render('seller/register', {});
+    });
+
+    router.post('/seller-register', function *() {
         var body = this.request.body;
-        console.log(body);
         var ctx = this;
         this.checkBody('name').notEmpty();
         this.checkBody('password').notEmpty();
-        this.checkBody('phone').notEmpty();
-        this.checkBody('type').notEmpty();
+        this.checkBody('phone').notEmpty().match(/^1[3-8]+\d{9}$/);;
         this.checkBody('address').notEmpty();
         this.checkBody('shopName').notEmpty();
-        if(this.errors){
-            console.log(this.errors);
+        if (this.errors) {
+            this.body = this.errors;
+            //this.redirect('/seller-register');
             return;
         }
-
-        data = {
-            name:body.name,
-            password:body.password,
-            phone:body.phone,
-            address:body.address,
-            shopName:body.shopName,
-            type:body.type
+        var data = {
+            name: body.name,
+            password: body.password,
+            phone: body.phone,
+            address: body.address,
+            shopName: body.shopName,
+            province: body.province,
+            city: body.city,
+            country: body.country,
+            districtCode: body.districtCode,
         };
 
-        console.log(data);
-
-        try{
-            yield Seller.create(data);
-            this.body = '1';
-        }catch (err){
-            console.log(err);
-            this.body = '0';
-        }
+        yield Seller.create(data);
+        this.body = yield render('phone/seller-registered')
     });
+
+
 };

@@ -17,6 +17,7 @@ module.exports = {
         'admin-goodstype': ['./src/js/admin/goodstype.js'],
         'admin-orders':['./src/js/admin/orders.js'],
         'admin-fare':['./src/js/admin/fare.js'],
+        'seller-register': ['./src/js/seller/register.js'],
     },
     output: {
         path: path.resolve(__dirname, 'public/dist'),
