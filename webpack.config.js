@@ -3,6 +3,8 @@ var webpack = require('webpack');
 module.exports = {
     entry: {
         'admin-goodstype': ['./src/js/admin/goodstype.js'],
+        'admin-orders':['./src/js/admin/orders.js'],
+        'admin-fare':['./src/js/admin/fare.js'],
         //'admin-index': ['./src/js/admin/index.js'],
         //'goods-save': ['./src/js/goods/save.js'],
         //'goodsType': ['./src/js/goodsType/goodsType.js'],

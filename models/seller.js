@@ -17,6 +17,12 @@ module.exports = function (sequelize, DataTypes) {
          * 目前为两种 百货店铺 超市店铺
          */
         type: shortDataTypes.Int(),
+
+        /*运费 */
+        fare:shortDataTypes.Int(),
+
+        content:shortDataTypes.Int(),
+
         /**
          * -1 待审核
          * 0 审核通过 审核不通过直接在数据库删除资源
