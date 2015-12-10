@@ -1,6 +1,22 @@
 /**
  * Created by nobody on 2015/12/9.
  */
+var Sequelize = require('sequelize');
+var auth = require('../../helpers/auth.js');
+var db = require('../../models/index.js');
+var render = require('../../instances/render.js');
+var debug = require('../../instances/debug.js');
+
+var sequelizex = require('../../lib/sequelizex.js');
+
+
+var GoodsType = db.models.GoodsType;
+var Goods = db.models.Goods;
+var ShoppingCart = db.models.ShoppingCart;
+var DeliverAddress = db.models.DeliverAddress;
+var Order = db.models.Order;
+var OrderItem = db.models.OrderItem;
+
 module.exports = function (router) {
 
     router.post('/user/order-comfirm', function *() {

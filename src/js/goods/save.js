@@ -16,7 +16,7 @@ require('imports?$=jquery!simple-uploader');
 var Simditor = require('imports?$=jquery!simditor/lib/simditor.js');
 require('exports?window.angular!angular');
 require('imports?$=jquery!jquery-validation');
-require('imports?$=jquery!ajaxform/ajaxform.js');
+
 
 
 var $ = jQuery;

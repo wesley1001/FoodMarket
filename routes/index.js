@@ -108,6 +108,7 @@ router.get('/view', function *() {
     this.body = yield render('admin/index.html');
 });
 
+
 //todo: for validate and test and redirect
 router.get('/seller/login',function *(){
    debug('start render seller login');

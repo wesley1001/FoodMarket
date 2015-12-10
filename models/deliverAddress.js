@@ -14,7 +14,9 @@ module.exports = function (sequelize, DataTypes) {
         phone: shortDataTypes.Phone(),
         province: shortDataTypes.String(),
         city: shortDataTypes.String(),
-        address: shortDataTypes.String()
+        area: shortDataTypes.String(),
+        address: shortDataTypes.String(),
+        isDefault: shortDataTypes.Bool()
     }, {
         timestamps: false,
         associate: function (models) {
@@ -24,6 +26,13 @@ module.exports = function (sequelize, DataTypes) {
         instanceMethods: {
         },
         classMethods: {
+            my: function *(whoAmI) {
+                return yield this.findAll({
+                   where: {
+                       UserId: whoAmI
+                   }
+                });
+            }
         }
     });
 

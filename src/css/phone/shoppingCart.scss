@@ -1,5 +1,10 @@
 @import "base";
 
+$counter-height: 48px;
+
+body {
+  padding-bottom: $navbar-height + $counter-height;
+}
 .shoppingcart{
   .am-panel-bd {
     padding: 0;
@@ -81,8 +86,16 @@
   height: $height;
   line-height: $height;
   background-color: #fff;
-  &-buy-btn{
+  &-buy-btn {
     background-color: $main-color;
     color: #fff;
+    $height: $counter-height;
+    height: $height;
+    line-height: $height;
+    background-color: #3c3c3c;
+    color: #fff;
+    &-buy-btn {
+      background-color: $main-color;
+    }
   }
 }

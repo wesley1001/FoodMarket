@@ -8,6 +8,8 @@ module.exports = {
         'seller-login': ['./src/js/seller/login.js'],
         'seller-goods-list':['./src/js/seller/goods.js'],
         'seller-order-list': ['./src/js/order/seller-order-list.js'],
+        'phone-goods': ['./src/js/phone/goods.js'],
+        'phone-order-comfirm': ['./src/js/phone/order-comfirm.js'],
         'user-address-list':['./src/js/user/user.address.js'],
         'user-addaddress':['./src/js/user/user.addaddress.js'],
         'phone-index': ['./src/js/phone/index.js'],
