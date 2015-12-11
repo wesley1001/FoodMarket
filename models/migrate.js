@@ -15,6 +15,8 @@ co(function * () {
             city: '大连市',
             country: '开发区',
             districtCode: '210251',
+            fare:20,
+            content:80
         })
     }
     console.log('finished ...');

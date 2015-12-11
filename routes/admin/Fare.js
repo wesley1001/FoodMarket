@@ -10,15 +10,15 @@ var debug = require('../../instances/debug.js');
 
 module.exports = (router) => {
 
+    var seller = db.models.Seller;
 
     router.get('/adminer/fare',  function *() {
-        //var id=this.query.id;
-        //var seller=yield Seller.findById(1);
-        var fare=10;
-        var cotent=20;
+        var id=this.query.id;
+        var seller=yield Seller.findById(1);
+
         this.body = yield render('admin/Fare', {
-            fare
-        });
+            seller
+                    });
     });
 
 
