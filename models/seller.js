@@ -40,7 +40,12 @@ module.exports = function (sequelize, DataTypes) {
         instanceMethods: {
         },
         classMethods: {
-        }
+        },
+        getterMethods: {
+            fullAddress: function()  {
+                return this.province + this.city + this.country + this.address;
+            }
+        },
     });
 
     return Seller;

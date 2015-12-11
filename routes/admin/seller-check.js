@@ -12,34 +12,37 @@ module.exports = (router) => {
         this.body = yield render('admin/checkList.html');
     });
 
+    router.post('/adminer/seller-admin-action', function *() {
 
-    /**
-     * 处理审核结果
-     */
-    router.post('/adminer/checkList', function *() {
-        var request = this.request,
-            data = request.body;
-            console.log(data);
-        try{
-            if (data.event === 'confirm') {
-                var confirm_seller = yield Seller.findById(data.id);
-                if (!util.isNullOrUndefined(confirm_seller)) {
-                    confirm_seller.status = 0;
-                    yield confirm_seller.save();
-                }
-            }
+        this.checkBody('id').notEmpty();
+        this.checkBody('status').notEmpty();
 
-            if (data.event === 'delete') {
-                var delete_seller = yield Seller.findById(data.id);
-
-                if (!util.isNullOrUndefined(delete_seller)) {
-                    yield delete_seller.destroy();
-                }
-            }
-
-        }catch(error){
-            throw error;
+        var body = this.request.body;
+        if (this.errors) {
+            this.body = this.errors;
+            return;
         }
+
+        var status = body.status;
+        if (status == 0) {
+            yield Seller.update({
+                status: 0
+            }, {
+                where: {
+                    id: body.id
+                }
+            });
+        } else if (status == -2) {
+            yield Seller.destroy({
+                where: {
+                    id: body.id
+                }
+            });
+        }
+
+        this.body = {
+            status: true
+        };
 
     });
 
@@ -47,31 +50,29 @@ module.exports = (router) => {
     /**
      * 获取未审核数据
      */
-    router.get('/adminer/uncheck.json',  function *() {
+    router.get('/adminer/seller-admin/:status',  function *() {
 
-        var non_check_sellers = yield Seller.findAll({
+        this.checkParams('status').notEmpty().isInt().toInt();
+        if(this.errors) {
+            this.body = this.errors;
+            return;
+        }
+        var data = yield Seller.findAll({
             where: {
-                status: -1
-            }
+                status: this.params.status
+            },
+            attributes: ['id', 'shopName', 'name', 'city', 'country', 'address', 'province', 'phone']
         });
-        this.body = JSON.stringify(non_check_sellers.map(function (item) {
-            return item.dataValues;
-        }));
+        data = data.map(function (item) {
+            return {
+                id: item.id,
+                shopName: item.shopName,
+                name: item.name,
+                phone: item.phone,
+                fullAddress: item.fullAddress
+            };
+        });
+        this.body = data;
     });
 
-
-    /**
-     * 获取已审核数据
-     */
-    router.get('/adminer/check.json', function *() {
-        var check_sellers = yield Seller.findAll({
-            where: {
-                status: 0
-            }
-        });
-
-        this.body = JSON.stringify(check_sellers.map(function (item) {
-            return item.dataValues;
-        }));
-    });
 };

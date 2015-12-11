@@ -1,115 +1,138 @@
-/**
- * Created by li_rz on 2015/12/4.
- */
-
-require('../../../src/css/admin-base/common.js');
-require('./../admin-base/core.js');
-require('../../../src/bower_components/angular/angular.min.js');
+require('./../admin-base/common.js');
+require('angular');
+require('angular-route');
 require('../../../src/css/admin/checkList.scss');
-require('../../../src/js/angular.simple-datatables.js');
-(function () {
-    var check_list = angular.module('check_list', ['simpleDatatable']);
+require('../angular.simple-datatables.js');
 
-    /**
-     *
-     * @param $scope - Angular $scope
-     * @param $http - Angular $http
-     * 获取未审核用户数据
-     */
-    function getUncheckData ($scope, $http) {
+var app = angular.module('checkList', ['simpleDatatable', 'ngRoute']);
+
+
+var getUserData = function ($http, scope, status) {
+    if (status === -1 ? !scope.data.uncheck : !scope.data.checked) {
         $http
-            .get('uncheck.json', {cache: true})
+            .get('/adminer/seller-admin/' + status)
             .success(function (data) {
-                $scope.uncheck_data = data;
-            });
-    }
-
-    /**
-     *
-     * @param $scope - Angular $scope
-     * @param $http - Angular $http
-     * 获取已审核用户数据
-     */
-    function getCheckedData ($scope, $http) {
-        $http
-            .get('check.json', {cache: true})
-            .success(function (data) {
-                $scope.checked_data = data;
-            });
-    }
-
-    check_list.controller('nonCheckCtrl', function ($scope, $http) {
-        getUncheckData($scope, $http);
-
-        $scope.confirmSeller = function (data_id) {
-            console.log(data_id);
-            var flag = false;
-            for (var i = 0; i < $scope.uncheck_data.length; ++i) {
-                console.log($scope.uncheck_data[i]);
-                if (data_id === $scope.uncheck_data[i].id) {
-                    $http
-                        .post('/adminer/checkList', {event: 'confirm', id: data_id})
-                        .success(function () {
-                            console.log('Success');
-                            flag = true;
-
-                            //getUncheckData($scope, $http);
-                            //getCheckedData($scope, $http);
-                        })
-                        .error(function (error) {
-                            throw error;
-                        });
-                    if (flag) {
-                        $scope.checked_data.push($scope.uncheck_data[i]);
-                        $scope.uncheck_data.splice(i, 1);
-                    }
-                    break;
+                if (status === -1) {
+                    scope.data.uncheck = data;
+                    scope.list = scope.data.uncheck;
+                } else {
+                    scope.data.checked = data;
+                    scope.list = scope.data.checked;
                 }
-            }
-        };
+                scope.$applyAsync();
+            })
+    } else {
+        scope.list = status === -1 ? scope.data.uncheck : scope.data.checked;
+        scope.$applyAsync();
+    }
+};
 
-        $scope.deleteSeller = function (data_id) {
-            var flag = false;
-            for (var i = 0; i < $scope.uncheck_data.length; ++i) {
-                console.log($scope.uncheck_data[i]);
-                if (data_id === $scope.uncheck_data[i].id) {
-                    $http
-                        .post('/adminer/checkList', {event: 'delete', id: data_id})
-                        .success(function () {
-                            console.log('Success');
-                            flag = true;
-                        })
-                        .error(function (error) {
-                            throw error;
-                        });
-                    if (flag) {
-                        $scope.uncheck_data.splice(i, 1);
-                    }
-                    break;
-                }
-            }
-        };
+app.config(['$routeProvider', function ($routeProvider) {
+    $routeProvider
+        .when('/uncheck', {
+            template: '',
+            controller: 'UncheckCtrl'
+        })
+        .when('/checked', {
+            template: '',
+            controller: 'CheckedCtrl'
+        })
+        .otherwise({
+            redirectTo: '/uncheck'
+        });
+}]);
+
+
+app.controller('AppCtrl', ['$scope', '$http', function (scope, $http) {
+    scope.tab = undefined;
+
+    scope.data = {
+    };
+
+    scope.list = [];
+
+    scope.$watch('tab', function (newVal, oldVal){
+        if (newVal == oldVal && typeof newVal !== 'undefined') {
+            return;
+        }
+        scope.actionColFactory =  scope.actionColFactories[newVal + 1];
+        getUserData($http, scope, newVal);
+
     });
 
+    scope.sdtOn = function (event, row) {
+        var extraParams = Array.prototype.slice.call(arguments, 2);
+        var status = 0;
+        var remover = extraParams[1];
+        if (extraParams[0] === 'pass') {
+            status = 0;
+        } else if (extraParams[0] === 'reject') {
+            status = -2;
+            if (scope.data.check) {
+                scope.data.push(row);
+            }
+        }
+        $http
+            .post('/adminer/seller-admin-action', {
+                id: row.id,
+                status: status.toString()
+            })
+            .success(function (ret) {
+                if (ret.status) {
+                    remover();
+                    if (status === -2 && scope.data.checked) {
+                        scope.data.checked.push(row);
+                        scope.$applyAsync();
+                    }
+                }
+            })
+            .error(function () {
+                alert('操作失败，请刷新重试');
+            });
+    };
 
-    check_list.controller('checkedCtrl', function ($scope, $http) {
-        getCheckedData($scope, $http);
-    });
+    scope.actionColFactories = [angular.element('#uncheck-btn').html(), angular.element('#checked-btn').html()]
+    scope.actionColFactory =  scope.actionColFactories[0];
+    //scope.actionColFactory = angular.element('#uncheck-btn').html();
 
+    window.s = scope;
+}]);
 
+app.controller('UncheckCtrl', ['$scope', function (scope) {
+    scope.$parent.tab = -1;
+}]);
 
-    //check_list.run([
-    //    '$rootScope',
-    //    '$location',
-    //    function ($rootScope, $location) {
-    //        $rootScope.path = $location.path();
-    //        $rootScope.on('$routeChangeSuccess', function (newVal) {
-    //            $rootScope.path = $location.path();
-    //        });
-    //}]);
+app.controller('CheckedCtrl', ['$scope', function (scope) {
+    scope.$parent.tab = 0;
+}]);
 
-    angular.bootstrap(document.documentElement, ['check_list']);
-}());
+//app.controller('nonCheckCtrl', function ($scope, $http) {
+//
+//    //$scope.confirmSeller = function (data_id) {
+//    //    var flag = false;
+//    //    for (var i = 0; i < $scope.uncheck_data.length; ++i) {
+//    //        console.log($scope.uncheck_data[i]);
+//    //        if (data_id === $scope.uncheck_data[i].id) {
+//    //            $http
+//    //                .post('/adminer/checkList', {event: 'confirm', id: data_id})
+//    //                .success(function () {
+//    //                    console.log('Success');
+//    //                    flag = true;
+//    //                })
+//    //                .error(function (error) {
+//    //                    throw error;
+//    //                });
+//    //            if (flag) {
+//    //                $scope.checked_data.push($scope.uncheck_data[i]);
+//    //                $scope.uncheck_data.splice(i, 1);
+//    //            }
+//    //            break;
+//    //        }
+//    //    }
+//    //};
+//});
+
+angular.bootstrap(document.documentElement, ['checkList']);
 
 
 

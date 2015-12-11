@@ -104,6 +104,7 @@
                 scope.totalPage = Math.ceil(scope.ngModel.length / scope.perPage);
                 scope.sortCol = undefined;
                 scope.sortColReverse = false;
+                scope.sdtRowId = scope.sdtRowId || 'id';
                 angular.copy(scope.ngModel, scope.list);
 
                 // scope
@@ -159,22 +160,27 @@
                     scope.$applyAsync();
                 };
 
-                scope.edit = function (index){
-                    if (typeof scope.sdtOn === 'function') {
-                        scope.sdtOn('edit', scope.currentList[index]);
-                    }
-                };
-
-                scope.remove = function (id) {
-                    var item = find(scope.ngModel, function (item) {
-                        return item[scope.sdtRowId] == id;
-                    });
-                    
-                    if (item) {
-                        if (typeof scope.sdtOn === 'function') {
-                            scope.sdtOn('remove', item.item);
+                scope.click = function (index, event) {
+                    var row = scope.currentList[index];
+                    var params= [event, row].concat(Array.prototype.slice.call(arguments, 2));
+                    if (event === 'remove') {
+                        var item = find(scope.ngModel, function (item) {
+                            return item[scope.sdtRowId] == row.id;
+                        });
+                        if (item) {
+                            if (typeof scope.sdtOn === 'function') {
+                                scope.sdtOn.apply(null, params.concat([remove]));
+                            } else {
+                                remove();
+                            }
+                            function remove() {
+                                scope.ngModel.splice(item.index, 1);
+                            }
                         }
-                        scope.ngModel.splice(item.index, 1);
+                        return;
+                    }
+                    if (typeof scope.sdtOn === 'function') {
+                        scope.sdtOn.apply(null, params);
                     }
                 };
 
@@ -200,9 +206,13 @@
                     for(var i in scope.ngModel) {
                         var item = scope.ngModel[i];
                         for(var col in scope.colNames) {
-                            if (getProperty($parse, item, scope.colNames[col]).toString().indexOf(searchText) !== -1) {
-                                list.push(item);
-                                break;
+                            try {
+                                if (getProperty($parse, item, scope.colNames[col]).toString().indexOf(searchText) !== -1) {
+                                    list.push(item);
+                                    break;
+                                }
+                            } catch (e) {
+
                             }
                         }
                     }
@@ -232,12 +242,38 @@
                     scope.goto();
                 });
 
+                scope.trWrapper = function () {
+                    var str = "" +
+                        "<tr ng-repeat='row in currentList' data-sdt-row-id='{{ sdtRowId ? (row | property: sdtRowId) : $index}}'>" +
+                        "<td ng-repeat='name in colNames'>" +
+                        "{{row | property: name}}" +
+                        "</td>";
+                    if (scope.sdtActionCol) {
+                        var actionCol = scope.sdtActionCol;
+                        actionCol = actionCol.replace('sdt-row-remove', "ng-click='click($index, \"remove\")'");
+                        actionCol = actionCol.replace(/sdt-row-click="(.*?)"/g, function (searchValue, replaceValue) {
+                            return "ng-click='click($index, " + replaceValue.split(',').map(function (item) {
+                                return "\"" + item.trim() + "\"";
+                            }).join(',') + ")'";
+                        });
+                        str += actionCol;
+                    }
+                    str += "</tr>";
+                    tbody.html($compile(str)(scope));
+                };
+
                 scope.$watchCollection('ngModel', function (newVal, oldVal) {
                     if (angular.equals(oldVal, newVal)) {
                         return;
                     }
-                    
                     scope.search();
+                });
+
+                scope.$watchCollection('sdtActionCol', function (newVal, oldVal) {
+                    if (angular.equals(oldVal, newVal)) {
+                        return;
+                    }
+                    scope.trWrapper();
                 });
 
                 // init action
@@ -249,20 +285,8 @@
 
             // env bind
                 // draw tr
-                var str = "" +
-                    "<tr ng-repeat='row in currentList' data-sdt-row-id='{{ sdtRowId ? (row | property: sdtRowId) : $index}}'>" +
-                        "<td ng-repeat='name in colNames'>" +
-                            "{{row | property: name}}" +
-                        "</td>";
-                if (scope.sdtActionCol) {
-                    var actionCol = scope.sdtActionCol;
-                    actionCol = actionCol.replace('sdt-row-edit', "ng-click='edit($index)'");
-                    actionCol = actionCol.replace('sdt-row-remove', "ng-click='remove((row | property: sdtRowId))'");
-                    str += actionCol;
-                }
-                str += "</tr>";
+                scope.trWrapper();
 
-                tbody.html($compile(str)(scope));
 
                 // bind search event
                 scope.searchInput = '';
@@ -285,7 +309,6 @@
                 $compile(totalPageLabel)(scope);
 
                 var pageInput = element.find('[sdt-page-input]');
-                window.p = pageInput;
                 pageInput.attr('ng-model', 'pageInput');
                 pageInput.attr('max', '{{totalPage}}');
                 $compile(pageInput)(scope);
