@@ -65,6 +65,9 @@
         return function (ctx, propertyStr) {
             var val = getProperty($parse, ctx, propertyStr);
             val = typeof val === 'undefined' ? '' : val;
+            if (val instanceof  Date) {
+                val = val.toLocaleString();
+            }
             return $sce.trustAsHtml(val.toString());
         };
     }]);

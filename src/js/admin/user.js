@@ -4,14 +4,16 @@ require('angular-route');
 require('../../../src/css/admin/checkList.scss');
 require('../angular.simple-datatables.js');
 
-var app = angular.module('checkList', ['simpleDatatable', 'ngRoute']);
-
+var app = angular.module('app', ['simpleDatatable', 'ngRoute']);
 
 var getUserData = function ($http, scope, status) {
     if (status === -1 ? !scope.data.uncheck : !scope.data.checked) {
         $http
-            .get('/adminer/seller-admin/' + status)
+            .get('/adminer/user-admin/' + status)
             .success(function (data) {
+                for(var i in data){
+                    data[i].joinTime = (new Date(data[i].joinTime)).toLocaleString();
+                }
                 if (status === -1) {
                     scope.data.uncheck = data;
                     scope.list = scope.data.uncheck;
@@ -55,7 +57,6 @@ app.controller('AppCtrl', ['$scope', '$http', function (scope, $http) {
         if (newVal == oldVal || typeof newVal === 'undefined') {
             return;
         }
-        scope.actionColFactory =  scope.actionColFactories[newVal + 1];
         getUserData($http, scope, newVal);
 
     });
@@ -70,14 +71,15 @@ app.controller('AppCtrl', ['$scope', '$http', function (scope, $http) {
             status = -2;
         }
         $http
-            .post('/adminer/seller-admin-action', {
+            .post('/adminer/user-admin-action', {
                 id: row.id,
                 status: status.toString()
             })
             .success(function (ret) {
                 if (ret.status) {
                     remover();
-                    if (status === -2 && scope.data.checked) {
+                    if (status === 0 && scope.data.checked) {
+                        row.status = status;
                         scope.data.checked.push(row);
                         scope.$applyAsync();
                     }
@@ -88,9 +90,9 @@ app.controller('AppCtrl', ['$scope', '$http', function (scope, $http) {
             });
     };
 
-    scope.actionColFactories = [angular.element('#uncheck-btn').html(), angular.element('#checked-btn').html()]
-    scope.actionColFactory =  scope.actionColFactories[0];
-    //scope.actionColFactory = angular.element('#uncheck-btn').html();
+    scope.actionColFactory =  angular.element('#row-btn').html();
+
+    window.s = scope;
 
 }]);
 
@@ -102,7 +104,7 @@ app.controller('CheckedCtrl', ['$scope', function (scope) {
     scope.$parent.tab = 0;
 }]);
 
-angular.bootstrap(document.documentElement, ['checkList']);
+angular.bootstrap(document.documentElement, ['app']);
 
 
 

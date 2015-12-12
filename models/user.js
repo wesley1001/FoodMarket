@@ -13,7 +13,10 @@ module.exports = function (sequelize, DataTypes) {
         unionid: shortDataTypes.String(),
         openid: shortDataTypes.String(),
         joinTime: shortDataTypes.Date(),
-        status: shortDataTypes.Int(),
+        status: {
+			type: DataTypes.INTEGER,
+			defaultValue: -1
+		},
         flag: {
             type: DataTypes.INTEGER,
             defaultValue: 1

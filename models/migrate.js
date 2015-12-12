@@ -2,6 +2,22 @@ var db = require('./index.js');
 var co = require('co');
 
 
+function * userSeed(){
+    for(var i = 0; i < 40; i ++) {
+        yield db.models.User.create({
+            name: '用户' + i,
+            password: '123456',
+            phone: '18840823910',
+            nickname: '用户' + i,
+            headimage: 'http://www.baidu.com',
+            sex: 0,
+            unionid: 'unionid',
+            openid: 'openid',
+            joinTime: Date.now(),
+        })
+    }
+}
+
 function * sellerSeed(){
     var cities = [
         { province: '广东省', city: '广州市', country: '越秀区'},
@@ -104,8 +120,8 @@ function * goodsTypeSeed() {
 }
 
 co(function * () {
-    yield db.models.Goods.sync({force: true});
-    yield goodsSeed();
+
+    yield userSeed();
     //yield goodsTypeSeed();
     console.log('finished ...');
 }).catch(function () {
