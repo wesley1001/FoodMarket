@@ -2,8 +2,7 @@ var db = require('./index.js');
 var co = require('co');
 
 
-co(function * () {
-    yield db.sync({force: true});
+function * sellerSeed(){
     var cities = [
         { province: '广东省', city: '广州市', country: '越秀区'},
         { province: '广东省', city: '广州市', country: '花都区'},
@@ -25,6 +24,89 @@ co(function * () {
             content: 40
         })
     }
+}
+
+function * goodsSeed() {
+    var goodsTypes = yield db.models.GoodsType.findAll({
+        where: {
+            type: 2
+        }
+    });
+    var sellers = yield db.models.Seller.findAll({
+        where: {
+            status: 0
+        }
+    });
+    for(var i = 0; i < 40; i ++) {
+        yield db.models.Goods.create({
+            title: '商品' + i,
+            mainImg: '/tmp/1 (1).jpg',
+            imgs: '["/tmp/1 (2).jpg", "/tmp/1 (3).jpg"]',
+            price: 20 + i,
+            oldPrice: 10 + i,
+            capacity: 20 + i,
+            content: '内容' + i,
+            GoodsTypeId: goodsTypes[i % goodsTypes.length].id,
+            SellerId: sellers[i % sellers.length].id,
+        })
+    }
+}
+
+function * goodsTypeSeed() {
+    //yield db.models.GoodsType.sync({force: true});
+    var ids = [];
+    ids.push(yield db.models.GoodsType.create({
+        title: '时令水果',
+        type: 1
+    }));
+    ids.push(yield db.models.GoodsType.create({
+        title: '新鲜蔬菜',
+        type: 1
+    }));
+    ids.push(yield db.models.GoodsType.create({
+        title: '禽蛋肉类',
+        type: 1
+    }));
+    yield db.models.GoodsType.create({
+        title: '禽蛋肉类',
+        type: 1
+    });
+    yield db.models.GoodsType.create({
+        title: '叶菜类',
+        type: 2,
+        GoodsTypeId: ids[0].id
+    });
+    yield db.models.GoodsType.create({
+        title: '根茎类',
+        type: 2,
+        GoodsTypeId: ids[0].id
+    });
+    yield db.models.GoodsType.create({
+        title: '豆类',
+        type: 2,
+        GoodsTypeId: ids[0].id
+    });
+    yield db.models.GoodsType.create({
+        title: '精品类',
+        type: 2,
+        GoodsTypeId: ids[1].id
+    });
+    yield db.models.GoodsType.create({
+        title: '热带类',
+        type: 2,
+        GoodsTypeId: ids[1].id
+    });
+    yield db.models.GoodsType.create({
+        title: '苹果类',
+        type: 2,
+        GoodsTypeId: ids[1].id
+    });
+}
+
+co(function * () {
+    yield db.models.Goods.sync({force: true});
+    yield goodsSeed();
+    //yield goodsTypeSeed();
     console.log('finished ...');
 }).catch(function () {
     console.log(arguments);

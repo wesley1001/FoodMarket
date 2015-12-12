@@ -14,17 +14,34 @@ module.exports = function (sequelize, DataTypes) {
          * [url, url, url]
          */
         imgs: shortDataTypes.String(),
+        /**
+         * 现价
+         */
         price: shortDataTypes.Double(),
+        /**
+         * 原价
+         */
+        oldPrice: shortDataTypes.Double(),
         /**
          * 已售数量
          */
         soldNum: shortDataTypes.Int(),
+        /**
+         * 剩余量
+         */
         capacity: shortDataTypes.Int(),
         content: {
             type: DataTypes.TEXT
         },
-        discount: shortDataTypes.Bool(),
-        status: shortDataTypes.Int()
+        /**
+         * -1 已删除
+         * 0 下架
+         * 1 已上架
+         */
+        status: {
+            type: DataTypes.INTEGER,
+            defaultValue: 0
+        }
     }, {
         timestamps: false,
         paranoid: true,

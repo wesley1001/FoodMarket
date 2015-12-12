@@ -144,6 +144,10 @@ $(function () {
                     required: true,
                     number: true
                 },
+                oldPrice: {
+                    required: true,
+                    number: true
+                },
                 capacity: {
                     required: true,
                     number: true
@@ -162,6 +166,10 @@ $(function () {
                 },
                 price: {
                     required: '请填写价格',
+                    number: '请填写数字'
+                },
+                oldPrice: {
+                    required: '请填写原价',
                     number: '请填写数字'
                 },
                 capacity: {
@@ -193,7 +201,6 @@ $(function () {
 
             submitHandler: function (form) {
                 if (uploaded) {
-                    debugger
                     form.submit();
                 }
                 uploaded = true;

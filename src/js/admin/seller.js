@@ -68,9 +68,6 @@ app.controller('AppCtrl', ['$scope', '$http', function (scope, $http) {
             status = 0;
         } else if (extraParams[0] === 'reject') {
             status = -2;
-            if (scope.data.check) {
-                scope.data.push(row);
-            }
         }
         $http
             .post('/adminer/seller-admin-action', {
@@ -95,7 +92,6 @@ app.controller('AppCtrl', ['$scope', '$http', function (scope, $http) {
     scope.actionColFactory =  scope.actionColFactories[0];
     //scope.actionColFactory = angular.element('#uncheck-btn').html();
 
-    window.s = scope;
 }]);
 
 app.controller('UncheckCtrl', ['$scope', function (scope) {
@@ -105,32 +101,6 @@ app.controller('UncheckCtrl', ['$scope', function (scope) {
 app.controller('CheckedCtrl', ['$scope', function (scope) {
     scope.$parent.tab = 0;
 }]);
-
-//app.controller('nonCheckCtrl', function ($scope, $http) {
-//
-//    //$scope.confirmSeller = function (data_id) {
-//    //    var flag = false;
-//    //    for (var i = 0; i < $scope.uncheck_data.length; ++i) {
-//    //        console.log($scope.uncheck_data[i]);
-//    //        if (data_id === $scope.uncheck_data[i].id) {
-//    //            $http
-//    //                .post('/adminer/checkList', {event: 'confirm', id: data_id})
-//    //                .success(function () {
-//    //                    console.log('Success');
-//    //                    flag = true;
-//    //                })
-//    //                .error(function (error) {
-//    //                    throw error;
-//    //                });
-//    //            if (flag) {
-//    //                $scope.checked_data.push($scope.uncheck_data[i]);
-//    //                $scope.uncheck_data.splice(i, 1);
-//    //            }
-//    //            break;
-//    //        }
-//    //    }
-//    //};
-//});
 
 angular.bootstrap(document.documentElement, ['checkList']);
 

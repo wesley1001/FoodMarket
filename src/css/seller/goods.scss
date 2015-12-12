@@ -1,0 +1,12 @@
+$img-size: 120px;
+table img{
+  width: $img-size;
+  height: $img-size;
+}
+table th {
+  text-align: center;
+}
+table td {
+  text-align: center;
+  line-height:$img-size !important;
+}

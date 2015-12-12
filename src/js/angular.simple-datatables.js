@@ -61,9 +61,11 @@
         return quickSortBy($parse, left, property, compare, reverse).concat([pivot], quickSortBy($parse, right, property, compare, reverse));
     };
 
-    simpleDataTable.filter('property', ['$parse', function ($parse) {
+    simpleDataTable.filter('property', ['$parse', '$sce', function ($parse, $sce) {
         return function (ctx, propertyStr) {
-            return getProperty($parse, ctx, propertyStr);
+            var val = getProperty($parse, ctx, propertyStr);
+            val = typeof val === 'undefined' ? '' : val;
+            return $sce.trustAsHtml(val.toString());
         };
     }]);
 
@@ -175,6 +177,7 @@
                             }
                             function remove() {
                                 scope.ngModel.splice(item.index, 1);
+                                scope.$applyAsync();
                             }
                         }
                         return;
@@ -243,11 +246,11 @@
                 });
 
                 scope.trWrapper = function () {
-                    var str = "" +
-                        "<tr ng-repeat='row in currentList' data-sdt-row-id='{{ sdtRowId ? (row | property: sdtRowId) : $index}}'>" +
-                        "<td ng-repeat='name in colNames'>" +
-                        "{{row | property: name}}" +
-                        "</td>";
+                    var str = '' +
+                        '<tr ng-repeat="row in currentList track by $index" >' +
+                        '<td ng-repeat="name in colNames" ng-bind-html="row | property: name">' +
+                            //'{{row | property: name}}' +
+                        '</td>';
                     if (scope.sdtActionCol) {
                         var actionCol = scope.sdtActionCol;
                         actionCol = actionCol.replace('sdt-row-remove', "ng-click='click($index, \"remove\")'");

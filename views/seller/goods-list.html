@@ -4,25 +4,25 @@
     <div class="col-md-12">
         <div class="portlet ">
             <div class="portlet-title">
-                <div class="caption"><i class="fa fa-users"></i>商家管理</div>
+                <div class="caption"><i class="fa fa-users"></i>商品管理</div>
                 <div class="tools">
                     <div class="btn-group" data-toggle="buttons">
                         <label class="btn default btn {{tab == -1 ? "active": ""}}" >
-                            <a ng-href="#/uncheck">
-                                <input type="radio" name="options" class="toggle">待审核
-                            </a>
+                        <a ng-href="#/active">
+                            <input type="radio" name="options" class="toggle">上架了的商品
+                        </a>
                         </label>
                         <label class="btn default btn tab-toggle {{tab == 0 ? "active": ""}}" >
-                            <a ng-href="#/checked">
-                                <input type="radio" name="options" class="toggle">已审核
-                            </a>
+                        <a ng-href="#/inactive">
+                            <input type="radio" name="options" class="toggle">下架了的商品
+                        </a>
                         </label>
                     </div>
                 </div>
             </div>
             <div class="portlet-body">
                 <div ng-view></div>
-
+                <div ng-bind-html="test"></div>
                 <div simple-datatable ng-model="list" sdt-action-col="actionColFactory" sdt-on="sdtOn">
                     <div class="row" style="margin-top: 20px; margin-bottom: 20px;">
                         <div class=" col-md-4 col-md-offset-8">
@@ -38,11 +38,14 @@
                             <table class="table table-striped table-hover table-bordered">
                                 <thead>
                                 <tr>
-                                    <th  data-sdt-col="shopName">店铺名称</th>
-                                    <th  data-sdt-col="name">店长姓名</th>
-                                    <th  data-sdt-col="phone">手机号</th>
-                                    <th  data-sdt-col="fullAddress">地址</th>
-                                    <th style="width: 160px;"></th>
+                                    <th  data-sdt-col="id">编号</th>
+                                    <th  data-sdt-col="mainImg">图片</th>
+                                    <th  data-sdt-col="title">标题</th>
+                                    <th  data-sdt-col="GoodsType.title">类型</th>
+                                    <th  data-sdt-col="price">现价</th>
+                                    <th  data-sdt-col="soldNum">已售</th>
+                                    <th  data-sdt-col="capacity">剩余</th>
+                                    <th style="width: 240px;"></th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -57,30 +60,27 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<script type="text/x-handlebars-template" id="uncheck-btn">
+<script type="text/x-handlebars-template" id="row-btn">
     <td>
         <div class="btn-group dropup">
-            <button type="button" class="btn btn-primary" sdt-row-click="remove, pass">通过</button>
-            <button type="button" class="btn btn-warning" sdt-row-click="remove, reject">不通过</button>
-        </div>
-    </td>
-</script>
-<script type="text/x-handlebars-template" id="checked-btn">
-    <td>
-        <div class="btn-group dropup">
-            <button type="button" class="btn btn-primary" sdt-row-click="look, ">查看</button>
+            <button type="button" class="btn btn-primary" sdt-row-click="remove, up" ng-show="row.status == 0">上架</button>
+            <button type="button" class="btn btn-primary" sdt-row-click="remove, down" ng-show="row.status == 1">下架</button>
+            <button type="button" class="btn btn-success" sdt-row-click="look">查看</button>
+            <a class="btn btn-default" href="/seller/goods/save/{{row.id}}">编辑</a>
+            <button type="button" class="btn btn-warning" sdt-row-click="remove, del">删除</button>
         </div>
     </td>
 </script>
 
 <% block 'scripts': %>
-<script src="/dist/seller-list.js"></script>
+<script src="/dist/seller-goods-list.js"></script>
 <% end %>
 
 

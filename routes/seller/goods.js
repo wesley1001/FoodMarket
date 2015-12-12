@@ -3,20 +3,18 @@ var db = require('../../models/index.js');
 var render = require('../../instances/render.js');
 var debug = require('../../instances/debug');
 
-var Sequelize = require('sequelize');
-
 module.exports = (router) => {
 
     var Goods = db.models.Goods;
     var GoodsType = db.models.GoodsType;
 
-    router.get('/seller/goods/save',  get);
-    router.get('/seller/goods/save/:id',  get);
+    router.get('/seller/goods/save',  saveView);
+    router.get('/seller/goods/save/:id',  saveView);
 
     router.post('/seller/goods/save',  save);
     router.post('/seller/goods/save/:id',  save);
 
-    function *get() {
+    function *saveView() {
         var types = yield GoodsType.findAll({
             where: {
                 type: 1
@@ -46,6 +44,7 @@ module.exports = (router) => {
         this.checkBody('mainImg').notEmpty();
         this.checkBody('imgs').notEmpty();
         this.checkBody('price').notEmpty().isFloat().gt(0).toFloat();
+        this.checkBody('oldPrice').notEmpty().isFloat().gt(0).toFloat();
         this.checkBody('capacity').notEmpty().isInt().gt(0).toInt();
         this.checkBody('GoodsTypeId').notEmpty().isInt().toInt();
 
@@ -64,6 +63,7 @@ module.exports = (router) => {
                 goods.mainImg = body.mainImg;
                 goods.imgs = body.imgs;
                 goods.price = body.price;
+                goods.oldPrice = body.oldPrice;
                 goods.capacity = body.capacity;
                 goods.discount = Boolean(body.discount);
                 goods.GoodsTypeId = body.GoodsTypeId;
@@ -79,11 +79,11 @@ module.exports = (router) => {
                 mainImg: body.mainImg,
                 imgs: body.imgs,
                 price: body.price,
+                oldPrice: body.oldPrice,
                 capacity: body.capacity,
                 discount: typeof body.discount === 'undefined',
                 SellerId: auth.user(this).id,
                 GoodsTypeId: body.GoodsTypeId,
-                status: -1,
                 soldNum: 0,
                 content: body.content
             });
@@ -92,10 +92,45 @@ module.exports = (router) => {
         this.body = 'ok';
     }
 
-    router.get('/seller/goods/list',function *(){
+    router.get('/seller/goods',function *(){
         this.body = yield render('seller/goods-list.html',{
         });
+    });
 
+    router.get('/seller/goods/:status',function *(){
+        this.checkParams('status').notEmpty().isInt().toInt();
+        if (this.errors) {
+            this.body = this.errors;
+            return;
+        }
+        this.body = yield Goods.findAll({
+            where: {
+                SellerId: auth.user(this).id,
+                status: this.params.status
+            },
+            attributes: ['id', 'price', 'mainImg', 'soldNum', 'capacity', 'title', 'status'],
+            include: [GoodsType]
+        });
+    });
+
+    router.post('/seller/goods/action',function *(){
+        this.checkBody('id').notEmpty().isInt().toInt();
+        this.checkBody('status').notEmpty().isInt().toInt();
+        if (this.errors) {
+            this.body = this.errors;
+            return;
+        }
+        var body = this.request.body;
+        yield Goods.update({
+            status: body.status
+        }, {
+            where: {
+                id: body.id
+            }
+        });
+        this.body = {
+            status: true
+        };
     });
 
     router.get('/seller/goods/all',function *(){
@@ -119,26 +154,6 @@ module.exports = (router) => {
             this.body = '0';
             console.log(error);
         }
-    });
-
-    router.get('/seller/goods/fortest/add/',function *(){
-        var sellerid = 1;
-        data = {
-            title:"this is a test",
-            mainImg:"http://baidu.com/baidu.icon",
-            imgs:"{}",
-            price:100,
-            soldNum:100,
-            capacity:10,
-            content:"this is a test",
-            discount:false,
-            status:-1,
-            SellerId:1,
-            GoodTypeId:2
-        };
-
-        yield Goods.create(data);
-        this.body = "1";
     });
 
 };
