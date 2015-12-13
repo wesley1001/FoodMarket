@@ -103,8 +103,30 @@
         </div>
     </div>
 </div>
+
+<div class="full-modal am-modal am-modal-no-btn" tabindex="-1" id="area-modal" ng-controller="AreaCtrl">
+    <div class="am-modal-dialog">
+        <div class="am-modal-hd">切换区域
+            <a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
+        </div>
+        <div class="am-modal-bd">
+            <div>
+                <ul class="am-list am-list-static am-list-border am-list-striped">
+                    <li class="am-text-left am-text-sm" ng-click="select(-1)">全城</li>
+                    <li ng-repeat="country in showed" class="am-text-left am-text-sm" ng-click="select($index)">
+                        {{country}}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script type="text/plain" id="types">
     <%- @types %>
+</script>
+<script type="text/plain" id="area">
+    <%- @area %>
 </script>
 <script src="/jquery.min.js"></script>
 <script src="/amazeui.min.js"></script>

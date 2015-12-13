@@ -1,3 +1,5 @@
+var Sequelize = require('sequelize');
+
 var auth = require('../../helpers/auth.js');
 var db = require('../../models/index.js');
 var render = require('../../instances/render.js');
@@ -8,10 +10,29 @@ var sequelizex = require('../../lib/sequelizex.js');
 
 var GoodsType = db.models.GoodsType;
 var Goods = db.models.Goods;
+var Seller = db.models.Seller;
 var ShoppingCart = db.models.ShoppingCart;
 
 
 module.exports = (router) => {
+
+    router.get('/t', function *() {
+        //var areaInfo = yield Se;
+        //this.body = yield Seller.findAll({
+        //    attributes: [[Sequelize.col()]]
+        //});
+        this.body = (yield Seller.findAll({
+            attributes: [
+                [Sequelize.literal('DISTINCT city'), 'city'],
+                'country',
+            ],
+            where: {
+                status: 0
+            }
+        })).map(function (item) {
+
+        });
+    });
 
     router.get('/user/index',  function *() {
         var types = yield GoodsType.findAll({
@@ -21,8 +42,20 @@ module.exports = (router) => {
             attributes: ['title', 'type', 'id'],
             include: [GoodsType]
         });
+
+        var area = yield Seller.findAll({
+            attributes: [
+                [Sequelize.literal('DISTINCT city'), 'city'],
+                'country',
+            ],
+            where: {
+                status: 0
+            }
+        });
+
         this.body = yield render('phone/index.html', {
-            types: JSON.stringify(types)
+            types: JSON.stringify(types),
+            area: JSON.stringify(area)
         });
     });
 

@@ -12,7 +12,7 @@ module.exports = {
  	  	//'phone-order-comfirm': ['./src/js/phone/order-comfirm.js'],
         //'user-address-list':['./src/js/user/user.address.js'],
         //'user-addaddress':['./src/js/user/user.addaddress.js'],
-        //'phone-index': ['./src/js/phone/index.js'],
+        'phone-index': ['./src/js/phone/index.js'],
         //'phone-shoppingcart': ['./src/js/phone/shoppingCart.js'],
         //'admin-goodstype': ['./src/js/admin/goodstype.js'],
         //'admin-orders':['./src/js/admin/orders.js'],

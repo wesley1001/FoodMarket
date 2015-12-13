@@ -169,13 +169,15 @@ $(function (){
                 });
         }
 
+        scope.area = JSON.parse(angular.element('#area').html());
+
         window.s = scope;
     }]);
 
     app.controller('CityCtrl', ['$scope', function (scope) {
 
         scope.cities = ['大连', '北京'];
-        scope.showed = angular.copy(scope.cities);
+        //scope.showed = sco;
 
         var _modal;
         var modal = function () {
@@ -248,7 +250,6 @@ $(function (){
     }]);
 
     app.controller('GoodsItemCtrl', ['$scope', '$http', function (scope, $http)  {
-
 
         var timer;
         scope.add = function (delta) {
