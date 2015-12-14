@@ -36,12 +36,13 @@
             </div>
             <div class="portlet-body form">
                 <!-- BEGIN FORM-->
-                <form action="#" class="form-horizontal form-bordered">
+                <form action="/adminer/fare" method="post"  class="form-horizontal form-bordered">
+                    <input value="<%= @seller.dataValues.id %>" type="hidden" name="id">
                     <div class="form-body">
                         <div class="form-group">
                             <label class="control-label col-md-3">基础运费</label>
                             <div class="col-md-3">
-                                <input id="touchspin_demo1" type="number" value="55" name="demo1" class="form-control" disabled>
+                                <input id="touchspin_demo1" type="number" value="<%= @seller.dataValues.fare %>"  name="fare" class="form-control" disabled>
 											<span class="help-block">
 											基础运费
 											</span>
@@ -50,7 +51,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-3">包邮标准</label>
                             <div class="col-md-3">
-                                <input id="touchspin_demo2" type="number" value="55" name="demo1" class="form-control" disabled>
+                                <input id="touchspin_demo2" type="number" value="<%= @seller.dataValues.content %>" name="content" class="form-control" disabled>
 											<span class="help-block">
 											达到多少钱包邮
 											</span>
@@ -60,7 +61,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="col-md-offset-3 col-md-9">
-                                        <button type="submit" class="btn green"><i class="fa fa-check"></i> 保存</button>
+                                        <button type="submit" id="savebtn" class="btn green" disabled><i class="fa fa-check"></i> 保存</button>
                                         <button type="button" id="edit" class="btn default">修改</button>
                                     </div>
                                 </div>
