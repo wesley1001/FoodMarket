@@ -16,24 +16,6 @@ var ShoppingCart = db.models.ShoppingCart;
 
 module.exports = (router) => {
 
-    router.get('/t', function *() {
-        //var areaInfo = yield Se;
-        //this.body = yield Seller.findAll({
-        //    attributes: [[Sequelize.col()]]
-        //});
-        this.body = (yield Seller.findAll({
-            attributes: [
-                [Sequelize.literal('DISTINCT city'), 'city'],
-                'country',
-            ],
-            where: {
-                status: 0
-            }
-        })).map(function (item) {
-
-        });
-    });
-
     router.get('/user/index',  function *() {
         var types = yield GoodsType.findAll({
             where: {
@@ -69,35 +51,56 @@ module.exports = (router) => {
         this.body = types;
     });
 
-    var goodsPerPage = 20;
-    router.get('/:stype/goods/:page', getGoodsData);
-    router.get('/goods-search/:txt/:page', getGoodsData);
+    var goodsPerPage = 3;
+    router.post('/get-goods', getGoodsData);
+    //router.get('/goods-search/:txt/:page', getGoodsData);
 
     function *getGoodsData() {
-        //this.checkParams('stype').notEmpty().isInt().toInt();
-        this.checkParams('page').notEmpty().isInt().toInt();
+
+        this.checkBody('page').notEmpty().isInt().toInt();
+        this.checkBody('city').notEmpty();
+        //this.checkBody('country').notEmpty();
+
         if (this.errors) {
             this.body = this.errors;
             return;
         }
+        var body = this.request.body;
+        var ids = (yield Seller.findAll({
+            where: body.country ?{
+                city: body.city,
+                country: body.country
+            } : {
+                city: body.city
+            },
+            attributes: ['id']
+        })).map(function (item) {
+            return item.id;
+        });
         var where;
-        if (this.params.txt) {
+        if (body.txt) {
             where = {
                 title: {
-                    $like: '%' + this.params.txt + '%'
+                    $like: `%${body.txt.trim()}%`
+                },
+                SellerId: {
+                    $in: ids
                 }
             };
-        } else if (this.params.stype && /^\d*$/.test(this.params.stype)){
+        } else if (body.stype && /^\d*$/.test(body.stype)){
            where =  {
-               GoodsTypeId: this.params.stype
+               GoodsTypeId: body.stype,
+               SellerId: {
+                   $in: ids
+               }
            };
         }
-        this.body = sequelizex.Func.val(yield Goods.findAll({
+        this.body = yield Goods.findAll({
             where: where,
-            offset: (this.params.page - 1) * goodsPerPage,
+            offset: (body.page - 1) * goodsPerPage,
             limit: goodsPerPage,
-            order: 'soldNum DESC'
-        }));
+            order: [['soldNum', 'DESC'], 'title']
+        });
     }
 
     router.get('/user/shoppingcart/:id/:num', function *() {

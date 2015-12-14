@@ -22,6 +22,7 @@ module.exports = function (sequelize, DataTypes) {
          * 原价
          */
         oldPrice: shortDataTypes.Double(),
+        per: shortDataTypes.String(),
         /**
          * 已售数量
          */

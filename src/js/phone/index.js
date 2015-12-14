@@ -21,6 +21,17 @@ $(function (){
 
     var mySwiper;
 
+    var _areModal;
+    var areaModal = function () {
+        if (!_areModal) {
+            _areModal = $('#area-modal').modal({
+                show: 'false',
+                closeViaDimmer: false
+            });
+        }
+        return _areModal;
+    };
+
     function resize() {
         $form.width($header.width() - $cityLabel.width() - 50 + 'px');
     }
@@ -30,17 +41,17 @@ $(function (){
     resize();
 
     app.controller('AppCtrl', ['$scope', '$http', function (scope, $http) {
-        scope.city = '大连';
-        scope.realCity;
+        scope.city = undefined;
+        scope.country = -1;
+        scope.realCity = undefined;
 
         cityParse.get(function (result) {
-            scope.city = result.name.substr(0, result.name.length - 1);
-            scope.realCity = scope.city;
-            scope.$applyAsync();
-        });
-
-        scope.$watch('city', function () {
-            resize();
+            for(var i in scope.map) {
+                scope.city = result.name;
+                scope.realCity = scope.city;
+                scope.country = -1;
+                scope.$applyAsync();
+            }
         });
 
         var typesStr = angular.element('#types').html();
@@ -70,8 +81,7 @@ $(function (){
                 return;
             }
             scope.searchMode = true;
-            scope.pageData[scope.search] = 1;
-            getGoodsData(undefined, 1, scope.search);
+            getGoodsData();
         });
 
         $http
@@ -79,21 +89,10 @@ $(function (){
             .success(function (data) {
                 scope.shoppingCart = data;
                 if(scope.goodsData.length !== 0) {
+                    console.log('update');
                     updateShoppingNum();
                 }
             });
-
-        scope.$watch('[activeLTypeIndex,activeSTypeIndex]', function (newVals, oldvals) {
-            var id = scope.types[newVals[0]].GoodsTypes[newVals[1]].id;
-            var cached = scope.goodsCache[id];
-            if (cached) {
-                scope.goodsData = cached;
-                scope.$applyAsync();
-            } else {
-                scope.pageData[id] = 1;
-                getGoodsData(id, 1);
-            }
-        });
 
         scope.$applyAsync();
 
@@ -119,65 +118,117 @@ $(function (){
                 if(!data.num) {
                     data.num = 0;
                 }
+                console.log(data);
             }
             scope.$applyAsync();
         }
 
         scope.loadMore = function () {
-            var id;
+            var id = dataIndex(scope.searchMode);
+            scope.pageData[id] ++;
             var updateStartIndex = scope.goodsData.length -1;
-            if (!scope.searchMode) {
-                id = scope.types[scope.activeLTypeIndex].GoodsTypes[scope.activeSTypeIndex].id;
-                getGoodsData(id, ++scope.pageData[id]);
-            } else {
-                getGoodsData(undefined, ++scope.pageData[scope.search], scope.search);
-            }
+            getGoodsData();
             updateShoppingNum(updateStartIndex);
         };
 
-        function getGoodsData (id, page, txt) {
+        function stypeId() {
+            return scope.types[scope.activeLTypeIndex].GoodsTypes[scope.activeSTypeIndex].id;
+        }
+
+        function dataIndex(mode){
+            return mode ? scope.city + scope.country + scope.search:
+                scope.city + scope.country + stypeId();
+        }
+
+        function getGoodsData () {
+            if (typeof scope.city === 'undefined' || typeof scope.country === 'undefined') {
+                return;
+            }
+            var searchMode = scope.searchMode;
+            var id = dataIndex(searchMode);
+            scope.pageData[id] = scope.pageData[id] || 1;
             scope.loadStatus = 1;
-            var url = txt ? ('/goods-search/' + txt + '/' + page) : ('/' + id + '/goods/' + page);
+            var params = {};
+            params.city = scope.city;
+            params.country = scope.country === -1 ? undefined : scope.map[scope.city].countries[scope.country];
+            params.page = scope.pageData[id];
+            if (searchMode) {
+                params.txt = scope.search;
+            } else {
+                params.stype = stypeId();
+            }
             $http
-                .get(url)
+                .post('/get-goods', params)
                 .success(function (data) {
-                    var src;
-                    if (txt) {
-                        scope.searchCache[txt] = data;
-                        src = scope.searchCache[txt];
-                    } else {
-                        scope.goodsCache[id] = data;
-                        src = scope.goodsCache[id];
+                    if (!scope.goodsCache[id]) {
+                        scope.goodsCache[id] = [];
                     }
-                    if (data.length < 20) {
+                    scope.goodsCache[id] = scope.goodsCache[id].concat(data);
+                    if (data.length < 3) {
                         scope.loadStatus = 2;
                     } else {
                         scope.loadStatus = 0;
                     }
-                    var updateStartIndex;
-                    if (page == 1) {
-                        updateStartIndex = 0;
-                        scope.goodsData = src;
-                    } else {
+                    var updateStartIndex = 0;
+                    if (params.page != 1) {
                         updateStartIndex = scope.goodsData.length;
-                        scope.goodsData = scope.goodsData.concat(src);
                     }
-                    if (scope.shoppingCart && scope.shoppingCart.length !== 0) {
-                        updateShoppingNum(updateStartIndex);
-                    }
+                    scope.goodsData = scope.goodsCache[id];
+                    updateShoppingNum(updateStartIndex);
                     scope.$applyAsync();
                 });
         }
 
-        scope.area = JSON.parse(angular.element('#area').html());
+        (function () {
+            var areas = JSON.parse(angular.element('#area').html());
+            var mapDict = {};
+            for(var i in areas) {
+                var item = areas[i];
+                if (!mapDict[item.city]) {
+                    mapDict[item.city] = {}
+                }
+                mapDict[item.city][item.country] = 0;
+            }
+            var map = {};
+            var cities = [];
+            for(var i in mapDict) {
+                var item = mapDict[i];
+                map[i] = [];
+                for(j in item) {
+                    map[i].push(j);
+                }
+                cities.push(i);
+            }
+            scope.map = map;
+            scope.cities = cities;
+        }());
+
+        scope.$watch('city', function () {
+            getGoodsData();
+            setTimeout(function () {
+                resize();
+            }, 0)
+        });
+
+        scope.$watch('[activeLTypeIndex,activeSTypeIndex]', function (newVals, oldvals) {
+            scope.searchMode = false;
+            var id = dataIndex(scope.searchMode);
+            var cached = scope.goodsCache[id];
+            if (cached) {
+                scope.goodsData = cached;
+                scope.$applyAsync();
+            } else {
+                scope.pageData[id] = 1;
+                getGoodsData();
+            }
+        });
 
         window.s = scope;
     }]);
 
     app.controller('CityCtrl', ['$scope', function (scope) {
 
-        scope.cities = ['大连', '北京'];
-        //scope.showed = sco;
+        scope.showed = angular.copy(scope.cities);
 
         var _modal;
         var modal = function () {
@@ -196,7 +247,8 @@ $(function (){
             modal().modal('close');
         };
 
-        $('.city-label').click(function () {
+        $('#city-select').click(function () {
+            areaModal().modal('close');
             modal().modal('open');
         });
 
@@ -206,12 +258,29 @@ $(function (){
             modal().modal('close');
         };
 
-        scope.$watch('filter', function () {
+        scope.$watch('filter', function (newVal, oldVal) {
+            if (typeof newVal === 'undefined' || newVal === oldVal) {
+                return;
+            }
             scope.showed = scope.cities.filter(function (city) {
-                return city.includes(scope.filter);
+                return city.includes(newVal);
             });
             scope.$applyAsync();
         });
+    }]);
+
+    app.controller('AreaCtrl', ['$scope', function (scope) {
+
+        scope.select = function (index) {
+            scope.$parent.country = index;
+            scope.$parent.$applyAsync();
+            areaModal().modal('close');
+        };
+
+        $('.city-label').click(function () {
+            areaModal().modal('open');
+        });
+
     }]);
 
     app.controller('LTypeCtrl', ['$scope', '$http', function (scope, $http)  {

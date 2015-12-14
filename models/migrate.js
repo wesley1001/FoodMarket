@@ -64,6 +64,7 @@ function * goodsSeed() {
             content: '内容' + i,
             GoodsTypeId: goodsTypes[i % goodsTypes.length].id,
             SellerId: sellers[i % sellers.length].id,
+            per:  i % 2 ? '每斤' : '每个'
         })
     }
 }
@@ -120,11 +121,11 @@ function * goodsTypeSeed() {
 }
 
 co(function * () {
-
-    yield userSeed();
-    //yield goodsTypeSeed();
+    //yield db.models.Goods.sync({force: true});
+    //yield goodsSeed();
     console.log('finished ...');
 }).catch(function () {
     console.log(arguments);
 });
+
 
