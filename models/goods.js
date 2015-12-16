@@ -4,11 +4,11 @@ var shortDataTypes = sequelizex.DataTypes;
 module.exports = function (sequelize, DataTypes) {
 
     var Goods = sequelize.define('Goods', {
-        title: shortDataTypes.String(),
+        title: shortDataTypes.String(100),
         /**
          * 主图
          */
-        mainImg: shortDataTypes.Url(),
+        mainImg: shortDataTypes.String(),
         /**
          * 图片链接数组的json串
          * [url, url, url]
@@ -22,11 +22,22 @@ module.exports = function (sequelize, DataTypes) {
          * 原价
          */
         oldPrice: shortDataTypes.Double(),
-        per: shortDataTypes.String(),
+        /**
+         * 规格
+         */
+        per: shortDataTypes.String(100),
         /**
          * 已售数量
          */
         soldNum: shortDataTypes.Int(),
+        /**
+         * 简要描述
+         */
+        brief: shortDataTypes.String(100),
+        /**
+         *
+         */
+        vipDiscount: shortDataTypes.Double(1),
         /**
          * 剩余量
          */
@@ -47,8 +58,6 @@ module.exports = function (sequelize, DataTypes) {
         timestamps: false,
         paranoid: true,
         associate: function (models) {
-            models.Seller.hasMany(models.Goods);
-            models.Goods.belongsTo(models.Seller);
         },
         instanceMethods: {
         },

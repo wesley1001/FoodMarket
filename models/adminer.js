@@ -4,14 +4,21 @@ var shortDataTypes = sequelizex.DataTypes;
 module.exports = function (sequelize, DataTypes) {
 
     var Adminer = sequelize.define('Adminer', {
+        /**
+         * 登录名，不可重复
+         */
+        nickname: shortDataTypes.String(),
+        /***
+         * 真实姓名
+         */
         name: shortDataTypes.String(),
         password: shortDataTypes.String(),
         phone: shortDataTypes.Phone(),
         status: shortDataTypes.Int(),
-        flag: {
-            type: DataTypes.INTEGER,
-            defaultValue: 0
-        }
+        /**
+         * 管理员类型
+         */
+        type: shortDataTypes.Int()
     }, {
         timestamps: false,
         associate: function (models) {
