@@ -10,14 +10,13 @@ var debug = require('../../instances/debug.js');
 
 module.exports = (router) => {
 
-    var Seller = db.models.Seller;
+    var Admins = db.models.Adminer;
 
     router.get('/adminer/accountlist',  function *() {
-        var id=this.query.id;
-        var seller=yield Seller.findById(id);
-        debug(seller);
-        this.body = yield render('admin/Fare', {
-            seller
+        var admin=yield Admins.findAll();
+        debug(admin);
+        this.body = yield render('admin/AccountList', {
+            admin
         });
     });
 
