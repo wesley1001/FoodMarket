@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "dev",
+    "password": "sa",
+    "database": "FoodMarket",
+    "host": "121.42.209.160",
+    "dialect": "mssql"
+  },
+  "test": {
+    "username": "dev",
+    "password": "sa",
+    "database": "FoodMarket",
+    "host": "121.42.209.160",
+    "dialect": "mssql"
+  },
+  "production": {
+    "username": "dev",
+    "password": "sa",
+    "database": "FoodMarket",
+    "host": "121.42.209.160",
+    "dialect": "mssql"
+  }
+}

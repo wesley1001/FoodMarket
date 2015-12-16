@@ -70,7 +70,6 @@ function * goodsSeed() {
 }
 
 function * goodsTypeSeed() {
-    //yield db.models.GoodsType.sync({force: true});
     var ids = [];
     ids.push(yield db.models.GoodsType.create({
         title: '时令水果',
@@ -121,8 +120,6 @@ function * goodsTypeSeed() {
 }
 
 co(function * () {
-    //yield db.models.Goods.sync({force: true});
-    //yield goodsSeed();
     console.log('finished ...');
 }).catch(function () {
     console.log(arguments);
