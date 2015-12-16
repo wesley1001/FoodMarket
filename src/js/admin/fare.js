@@ -7,6 +7,6 @@ require('../admin-base/common.js');
 var $ = jQuery;
 
 $('#edit').click(function(){
-
-    $('input').removeAttr("disabled");
+    $('input').removeAttr("disabled")
+    $('#savebtn').removeAttr("disabled")
 });
