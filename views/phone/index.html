@@ -2,27 +2,31 @@
 <html lang="en">
 <head>
     <% include 'shared/head' %>
-    <script src="http://api.map.baidu.com/api?v=2.0&ak=drv2UkNNlsTAAXNIb0fWZM9u"></script>
 </head>
 <body ng-controller="AppCtrl">
 
 <header class="fixed-header am-padding-xs">
-
-    <button class="am-btn am-btn-danger am-btn-sm am-radius am-fl city-label">
-        {{city}}
-        <span class="am-icon-caret-down"></span>
-    </button>
-    <form class="am-fl am-margin-left-xs" role="search">
-        <div class="am-form-group">
-            <input type="text" class="am-form-field am-input-sm am-radius" placeholder="搜索" ng-model="search" id="search">
+    <div class="am-g">
+        <div class="am-u-sm-9">
+            <form class="" role="search">
+                <div class="am-form-group">
+                    <input type="text" class="am-form-field am-input-sm am-radius" placeholder="搜索" ng-model="search" id="search">
+                </div>
+            </form>
         </div>
-    </form>
+        <div class="am-u-sm-3">
+            <a href="/user/msg" class="am-btn am-btn-danger am-btn-sm am-radius am-fl city-label" ng-controller="MsgCtrl">
+                <i class="am-icon am-icon-envelope-o"></i>({{msgCount}})
+            </a>
+        </div>
+    </div>
+
 </header>
 
 <div class="ltypes" ng-controller="LTypeCtrl">
     <div class="swiper-container">
         <div class="swiper-wrapper" >
-            <!--<div class="swiper-slide {{activeLTypeIndex == -1 ? 'active' : ''}}" ng-click="setLType(-1)">我的收藏</div>-->
+            <div class="swiper-slide {{activeLTypeIndex == -1 ? 'active' : ''}}" ng-click="setLType(-1)">我的收藏</div>
             <div class="swiper-slide {{activeLTypeIndex == $index ? 'active' : ''}}" ng-repeat="type in types" data-id="{{type.id}}" ng-click="setLType($index)">{{type.title}}</div>
         </div>
     </div>
@@ -34,7 +38,6 @@
 
 <div class="stypes" ng-controller="STypeCtrl">
     <ul class="am-list">
-        <!--<li class="special {{activeSTypeIndex == -1 ? 'active' : ''}}" ng-click="setSType(-1)">促销</li>-->
         <li class="{{activeSTypeIndex == $index ? 'active' : ''}}" ng-repeat="type in types[activeLTypeIndex].GoodsTypes" ng-click="setSType($index)">{{type.title}}</li>
     </ul>
 </div>
@@ -44,22 +47,26 @@
         <div ng-controller="GoodsItemCtrl" class="goods-item am-cf am-padding-sm" ng-init="index = $index">
             <a class="goods-item-left" ng-href="/user/goods-page/{{goods.id}}">
                 <h3 class="">{{goods.title}}</h3>
+                <small class="goods-item-brief">{{goods.brief}}</small>
                 <p>
                     <span class="am-text-danger">{{goods.price}}</span>
                     /
                     <span class="am-text-xs">{{goods.per}}</span>
+                    <del class="am-text-xs">原价{{goods.oldPrice}}</del>
+                    <span class="am-text-danger am-text-xs" ng-show="goods.vipDiscount < 10">会员{{goods.vipDiscount}}折</span>
                 </p>
-                <p class="am-text-xs">已售{{goods.soldNum}}</p>
-                <p class="am-text-xs">剩余{{goods.capacity}}</p>
+
+                <p class="am-text-xs">已售{{goods.soldNum}} / 剩余{{goods.capacity}}</p>
+
             </a>
             <div class="goods-item-right">
                 <img ng-src="{{goods.mainImg}}">
                 <div class="counter am-cf">
-                    <div class="btn minus am-fl am-text-warning" ng-click="add(-1)">
+                    <div class="btn minus am-fl am-text-warning" ng-click="goods.num = goods.num - 1">
                         <i class="am-icon am-icon-minus-square-o"></i>
                     </div>
                     <input type="text" pattern="" class="am-fl" ng-model="goods.num">
-                    <div class="btn plus am-fl am-text-success" ng-click="add(1)">
+                    <div class="btn plus am-fl am-text-success" ng-click="goods.num = goods.num + 1">
                         <i class="am-icon am-icon-plus-square-o"></i>
                     </div>
                 </div>
@@ -74,62 +81,8 @@
 
 <% include "phone/bottom-navbar.html" %>
 
-<div class="full-modal am-modal am-modal-no-btn" tabindex="-1" id="city-modal" ng-controller="CityCtrl">
-    <div class="am-modal-dialog">
-        <div class="am-modal-hd">切换城市
-            <a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
-        </div>
-        <div class="am-modal-bd">
-            <div class="am-input-group">
-                <span class="am-input-group-btn">
-                    <button class="am-btn am-btn-default" type="button">
-                        <span class="am-icon-search"></span>
-                    </button>
-                </span>
-                <input type="text" class="am-form-field" ng-model="filter">
-            </div>
-            <div class="am-cf am-margin-vertical">
-                <span class="am-fl">当前所在城市</span>
-                <span class="am-btn am-btn-success am-fr" ng-click="selectRealCity()">{{realCity}}</span>
-                <div class="am-divider am-divider-default"></div>
-            </div>
-            <div>
-                <ul class="am-list am-list-static am-list-border am-list-striped">
-                    <li ng-repeat="city in showed" class="am-text-left am-text-sm" ng-click="select($index)">
-                        {{city}}
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="full-modal am-modal am-modal-no-btn" tabindex="-1" id="area-modal" ng-controller="AreaCtrl">
-    <div class="am-modal-dialog">
-        <div class="am-modal-hd">切换区域
-            <a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
-        </div>
-        <div class="am-modal-bd">
-            <div class="am-cf">
-                <div class="am-btn {{country == -1 ? 'am-btn-success' : 'am-btn-default'}} am-fl am-margin-sm" ng-click="select(-1)">全城</div>
-                <div class="am-btn {{country == $index ? 'am-btn-success' : 'am-btn-default'}} am-fl am-margin-sm" ng-repeat="name in map[city]" ng-click="select($index)">
-                    {{name}}
-                </div>
-            </div>
-            <p class="am-cf">
-                <span>切换城市: {{city}}</span>
-                <span class="am-btn am-btn-default" id="city-select">切换城市</span>
-            </p>
-            <p class="am-text-sm">住：只列出提供服务的范围</p>
-        </div>
-    </div>
-</div>
-
 <script type="text/plain" id="types">
     <%- @types %>
-</script>
-<script type="text/plain" id="area">
-    <%- @area %>
 </script>
 <script src="/jquery.min.js"></script>
 <script src="/amazeui.min.js"></script>

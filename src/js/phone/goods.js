@@ -21,12 +21,9 @@ $(function () {
         goodsId = $input.data('id'),
         goodsNum = parseInt($input.val());
 
-    console.log($add);
-
     var timer;
 
     function counterChange(num) {
-        console.log('what');
         if (num >= 0 ){
             goodsNum = num;
             $input.val(goodsNum);
@@ -54,4 +51,23 @@ $(function () {
            counterChange(num);
        }
     });
+
+    var $collect = $('.collect-btn');
+    var id = $collect.data('id');
+    var collectUrl = '/user/goods-collect/' + id;
+        $collect.click(function () {
+        $.ajax({
+            url: collectUrl,
+            success: function () {
+                if ($collect.hasClass('am-warning')) {
+                    $collect.removeClass('am-warning');
+                } else {
+                    $collect.addClass('am-warning');
+                }
+            },
+            error: function () {
+                alert('操作失败，请刷新重试');
+            }
+        })
+    })
 });
