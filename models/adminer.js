@@ -17,6 +17,10 @@ module.exports = function (sequelize, DataTypes) {
         status: shortDataTypes.Int(),
         /**
          * 管理员类型
+         * 1普通管理员
+         * 2运营员
+         * 3业务员
+         * 100超级管理员
          */
         type: shortDataTypes.Int()
     }, {

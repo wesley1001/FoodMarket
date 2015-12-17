@@ -1,5 +1,7 @@
 <% extend 'shared/admin-base' %>
 
+
+
 <div class="row">
     <div class="col-md-12">
         <!-- BEGIN EXAMPLE TABLE PORTLET-->
@@ -7,10 +9,7 @@
             <div class="portlet-title">
                 <div class="caption"><i class="fa fa-globe"></i>人员列表</div>
                 <div class="tools">
-                    <a href="javascript:;" class="collapse"></a>
-                    <a href="#portlet-config" data-toggle="modal" class="config"></a>
-                    <a href="javascript:;" class="reload"></a>
-                    <a href="javascript:;" class="remove"></a>
+
                 </div>
             </div>
             <div class="portlet-body">
@@ -22,26 +21,39 @@
                     </div>
 
                 </div>
-                <table class="table table-striped table-bordered table-hover" id="sample_1">
+                <table class="table table-striped table-bordered table-hover" id="sample_2">
                     <thead>
                     <tr>
-                        <th >序号</th>
-                        <th >姓名</th>
-                        <th >电话</th>
-                        <th >权限</th>
-                        <th >&nbsp;</th>
+                        <th>序号</th>
+                        <th>登陆名</th>
+                        <th>姓名</th>
+                        <th>电话</th>
+                        <th>权限</th>
+                        <th style="width:150px">操作</th>
                     </tr>
                     </thead>
                     <tbody>
 
                     <% for user in @admin : %>
-                    <tr class="odd gradeX">
-                        <td ><%= user.id %></td>
-                        <td ><%= user.name %></td>
-                        <td ><%= user.phone %></td>
-                        <td ><%= user.flag %></td>
+                    <tr datatr="<%= user.id %>" class="odd gradeX">
+                        <td><%= user.id %></td>
+                        <td><%= user.nickname %></td>
+                        <td><%= user.name %></td>
+                        <td><%= user.phone %></td>
+                        <% if user.type==1 : %>
+                        <td>普通管理员</td>
+                        <% else if user.type==2 : %>
+                        <td>运营员</td>
+                        <% else if user.type==3 : %>
+                        <td>业务员</td>
+                        <% else if user.type==100 : %>
+                        <td>超级管理员</td>
+                        <% end %>
 
-                        <td ><span class="label label-sm label-success">Approved</span></td>
+                        <td>
+                            <a data="<%= user.id %>" href="#addmodal" data-toggle="modal" class="btn blue btn-xs editbtn"><i class="fa fa-edit"></i>修改</a>
+                            <butten class="btn delbtn btn-warning btn-xs"><i class="fa fa-times"></i>删除</butten>
+                        </td>
                     </tr>
                     <% end %>
 
@@ -59,46 +71,92 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                <h4 class="modal-title">添加</h4>
+                <h4 class="modal-title" align="center">添加</h4>
             </div>
-            <div class="modal-body" style="height: 150px !important">
-
+            <div class="modal-body" style="">
                 <div class="row">
-                    <div class="col-md-12">
-                        <h4>姓名</h4>
-                        <p><input  type="text" class="col-md-12 form-control"></p>
-                    </div>
+                    <form id="form" method="post" action="/adminer/accountadd" class="form">
+                        <input type="hidden" name="id" id="id" class="col-md-12 form-control">
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <h4>登陆名</h4>
 
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <h4>电话</h4>
-                        <p><input  type="text" class="col-md-12 form-control"></p>
-                    </div>
+                                <p><input type="text" name="nickname" id="nickname" class="col-md-12 form-control"></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <h4>姓名</h4>
 
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <h4>权限</h4>
-                        <p><input  type="text" class="col-md-12 form-control"></p>
-                    </div>
+                                <p><input type="text" name="name" id="name" class="col-md-12 form-control"></p>
+                            </div>
 
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <h4>手机</h4>
+
+                                <p><input type="text" name="phone" id="phone" class="col-md-12 form-control"></p>
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <h4>权限</h4>
+                                <select name="type" id="type" class="form-control">
+                                    <option >请选择</option>
+                                    <option value="1">普通管理员</option>
+                                    <option value="2">运营员</option>
+                                    <option value="3">业务员</option>
+
+                                </select>
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <h4>密码</h4>
+
+                                <input type="password" id="password" name="password" class="form-control" >
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <h4>确认密码</h4>
+
+                                <input type="password" id="password2"  name="password2" class="form-control" >
+                            </div>
+
+                        </div>
+                        <span class="span"></span>
+
+                        <div class="" >
+                            <div class="col-md-12" style="margin-top: 10px">
+                                <button style="float: right" type="submit" id="add1btn" class="btn green">保存</button>
+                            </div>
+
+
+
+                        </div>
+                    </form>
                 </div>
 
             </div>
             <div class="modal-footer">
-                <button type="button" data-dismiss="modal" class="btn default">关闭</button>
-                <button type="button" id="add1btn" class="btn green">保存</button>
+
+
             </div>
         </div>
     </div>
 </div>
 
 
-
-
-
-
 <% block 'scripts': %>
-<script src="/dist/admin-fare.js"></script>
+<script src="/dist/admin-account.js"></script>
+
+
+<script>
+
+</script>
 <% end %>

@@ -48,7 +48,7 @@ router.use(function *(next) {
     //    return;
     //}
     //debug('admin');
-    //yield next;
+    yield next;
 });
 
 /****************************/
