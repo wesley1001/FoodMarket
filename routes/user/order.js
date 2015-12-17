@@ -2,10 +2,12 @@
  * Created by nobody on 2015/12/9.
  */
 var Sequelize = require('sequelize');
+var util = require('util');
 var auth = require('../../helpers/auth.js');
 var db = require('../../models/index.js');
 var render = require('../../instances/render.js');
 var debug = require('../../instances/debug.js');
+var co = require('co');
 
 var sequelizex = require('../../lib/sequelizex.js');
 
@@ -53,6 +55,7 @@ module.exports = function (router) {
 
     router.post('/user/buy', function *() {
 
+
         this.checkBody('order').notEmpty();
         this.checkBody('address').notEmpty();
         if (this.errors) {
@@ -75,14 +78,11 @@ module.exports = function (router) {
             this.body = 'invalid address';
             return;
         }
-        address = address.dataValues;
 
-        var ids = [];
-        orderInfo.forEach(function (shop) {
-            shop.goods.forEach(function (goods) {
-                ids.push(goods.id)
-            });
+        var ids = orderInfo.map(function (item) {
+            return item.id;
         });
+        debug(ids);
         var shoppingCart = yield ShoppingCart.findAll({
             where: {
                 UserId: auth.user(this).id,
@@ -95,73 +95,93 @@ module.exports = function (router) {
         });
 
         yield db.transaction(function (t) {
-            var promise;
-            var orders = [];
-            orderInfo.forEach(function (shop) {
-                var price = 0;
-                var orderItems = shop.goods.map(function (item) {
-                    var goods = shoppingCart.filter(function (goods) {
-                        return goods.id === item.id
+
+            return co(function *() {
+                var orderItems = [];
+                for(var i in orderInfo) {
+                    var buyItem = orderInfo[i];
+                    var price = 0;
+                    var shoppingCartItem = shoppingCart.filter(function (item) {
+                        return item.id === buyItem.id
                     })[0];
-                    if (item.num === goods.num) {
-                        if (promise) {
-                            promise = promise.then(function () {
-                                return goods.destroy({transaction: t});
-                            }, {transaction: t});
-                        } else {
-                            promise = goods.destroy({transaction: t});
-                        }
-                    } else if(item.num < goods.num){
-                        goods.num -= item.num;
-                        if (promise) {
-                            promise = promise.then(function () {
-                                return goods.save({transaction: t});
-                            }, {transaction: t});
-                        } else {
-                            promise = goods.save({transaction: t});
-                        }
+                    if (util.isNullOrUndefined(shoppingCartItem)){
+                        throw 'invalid op';
+                    }
+                    if (buyItem.num === shoppingCartItem.num) {
+                        yield shoppingCartItem.destroy({transaction: t});
+                        //if (promise) {
+                        //    promise = promise.then(function () {
+                        //        return shoppingCartItem.destroy({transaction: t});
+                        //    }, {transaction: t});
+                        //} else {
+                        //    promise = shoppingCartItem.destroy({transaction: t});
+                        //}
+                    } else if(buyItem.num < shoppingCartItem.num){
+                        shoppingCartItem.num -= item.num;
+                        yield shoppingCartItem.save({transaction: t});
+                        //if (promise) {
+                        //    promise = promise.then(function () {
+                        //        return goods.save({transaction: t});
+                        //    }, {transaction: t});
+                        //} else {
+                        //    promise = goods.save({transaction: t});
+                        //}
                     } else {
                         throw "invalid num";
                     }
-                    price += item.num * goods.Good.price;
+                    price += buyItem.num * shoppingCartItem.Good.price;
 
-                    return OrderItem.build({
-                        goods: JSON.stringify({
-                            title: goods.Good.title,
-                            price: goods.Good.price,
-                            mainImg: goods.Good.mainImg,
-                            id: goods.Good.id,
-                            discount: goods.Good.discount
-                        }),
-                        price: item.num * goods.Good.price,
-                        num: item.num,
-                        GoodId: goods.Good.id
-                    });
-                });
-                promise = promise.then(function () {
-                    return Order.create({
-                        address: JSON.stringify(address),
-                        price,
-                        num: orderItems.length,
-                        status: 0,
-                        message: shop.msg,
-                        UserId: userId,
-                        SellerId: shop.id
-                    });
+                    orderItems.push(OrderItem.build({
+                        goods: JSON.stringify(shoppingCartItem),
+                        price: buyItem.num * shoppingCartItem.Good.price,
+                        num: buyItem.num,
+                        GoodId: shoppingCartItem.Good.id
+                    }));
+                };
+
+                var order = yield Order.create({
+                    recieverName: address.recieverName,
+                    phone: address.phone,
+                    province: address.province,
+                    city: address.city,
+                    area: address.area,
+                    address: address.address,
+                    price,
+                    num: orderItems.length,
+                    status: 0,
+                    message: body.msg ? body.msg : '',
+                    UserId: userId
                 }, {transaction: t});
+
                 for(var i in orderItems) {
                     var orderItem = orderItems[i];
-                    (function (orderItem) {
-                        promise = promise.then(function (data) {
-                            orderItem.OrderId = data.id;
-                            return orderItem.save({transaction: t}).then(function () {
-                                return data.id;
-                            });
-                        });
-                    }(orderItem));
+                    orderItem.OrderId = order.id;
+                    yield orderItem.save({transaction: t});
                 }
+                //promise = promise.then(function () {
+                //    return Order.create({
+                //        address: JSON.stringify(address),
+                //        price,
+                //        num: orderItems.length,
+                //        status: 0,
+                //        message: shop.msg,
+                //        UserId: userId,
+                //        SellerId: shop.id
+                //    });
+                //}, {transaction: t});
+                //for(var i in orderItems) {
+                //    var orderItem = orderItems[i];
+                //    (function (orderItem) {
+                //        promise = promise.then(function (data) {
+                //            orderItem.OrderId = data.id;
+                //            return orderItem.save({transaction: t}).then(function () {
+                //                return data.id;
+                //            });
+                //        });
+                //    }(orderItem));
+                //}
             });
-            return promise;
+
         });
 
         // todo: pay

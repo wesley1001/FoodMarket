@@ -7,6 +7,11 @@ module.exports = function (sequelize, DataTypes) {
         /**
          * address 对象json
          */
+        recieverName: shortDataTypes.String(),
+        phone: shortDataTypes.Phone(),
+        province: shortDataTypes.String(),
+        city: shortDataTypes.String(),
+        area: shortDataTypes.String(),
         address: shortDataTypes.String(),
         price: shortDataTypes.Double(),
         num: shortDataTypes.Int(),
@@ -25,8 +30,6 @@ module.exports = function (sequelize, DataTypes) {
         associate: function (models) {
             models.User.hasMany(models.Order);
             models.Order.belongsTo(models.User);
-            models.Seller.hasMany(models.Order);
-            models.Order.belongsTo(models.Seller);
         },
         instanceMethods: {
         },

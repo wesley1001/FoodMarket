@@ -101,16 +101,35 @@ function * msgSeed(){
     }
 }
 
+function * addressSeed() {
+    var users = yield db.models.User.findAll({});
+    var defaults = {};
+    for(var i = 0; i < 160; i ++) {
+        yield db.models.DeliverAddress.create({
+            recieverName: '收货人' + i,
+            phone: "1884082391" + i % 10,
+            province: '辽宁省',
+            city: '大连市',
+            area: '开发区',
+            address: '大连理工大学软件学院',
+            isDefault: defaults[users[i % users.length].id] ? false : true,
+            UserId: users[i % users.length].id
+        })
+        defaults[users[i % users.length].id] = true;
+    }
+}
+
 function * init() {
     yield db.sync({force: true});
     yield goodsTypeSeed();
     yield userSeed();
     yield goodsSeed();
     yield msgSeed();
+    yield addressSeed();
 }
 
 co(function * () {
-    yield init();
+    yield db.models.OrderItem.sync();
     console.log('finished ...');
 }).catch(function () {
     console.log(arguments);
