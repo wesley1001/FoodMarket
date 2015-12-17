@@ -38,11 +38,7 @@ module.exports = function (router) {
             attributes: ['id', 'num', 'GoodId'],
             include: [{
                 model: db.models.Goods,
-                attributes: ['SellerId', 'price', 'title', 'mainImg'],
-                include: [{
-                    model: db.models.Seller,
-                    attributes: ['shopName']
-                }]
+                attributes: ['price', 'title', 'mainImg', 'oldPrice', 'brief', 'vipDiscount']
             }]
         });
 

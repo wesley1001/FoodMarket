@@ -17,13 +17,14 @@ body {
   }
   &-item {
     position: relative;
-    $checkbox-size: 32px;
+    $checkbox-size: 48px;
     min-height: $checkbox-size;
     border-bottom: 1px solid #d7d7d7;
     &-checkbox {
       position: absolute;
       width: $checkbox-size;
       height: $checkbox-size;
+      line-height:$checkbox-size;
       top: 50%;
       left: 0;
       margin-top: - $checkbox-size / 2;
@@ -34,7 +35,7 @@ body {
     &-main{
       position: relative;
       margin: 6px 0 6px $checkbox-size;
-      $img-size: 56px;
+      $img-size: 64px;
       min-height: $img-size;
       padding-left: $img-size + 16px;
       img{
@@ -85,17 +86,14 @@ body {
   $height: 48px;
   height: $height;
   line-height: $height;
-  background-color: #fff;
+  color: #fff !important;
+  background-color: #3c3c3c;
   &-buy-btn {
     background-color: $main-color;
     color: #fff;
     $height: $counter-height;
     height: $height;
     line-height: $height;
-    background-color: #3c3c3c;
-    color: #fff;
-    &-buy-btn {
-      background-color: $main-color;
-    }
+    background-color: $main-color;
   }
 }
