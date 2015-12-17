@@ -48,11 +48,6 @@ function * goodsSeed() {
             type: 2
         }
     });
-    var sellers = yield db.models.Seller.findAll({
-        where: {
-            status: 0
-        }
-    });
     for(var i = 0; i < 40; i ++) {
         yield db.models.Goods.create({
             title: '商品' + i,
@@ -63,8 +58,8 @@ function * goodsSeed() {
             capacity: 20 + i,
             content: '内容' + i,
             GoodsTypeId: goodsTypes[i % goodsTypes.length].id,
-            SellerId: sellers[i % sellers.length].id,
-            per:  i % 2 ? '每斤' : '每个'
+            per:  i % 2 ? '每斤' : '每个',
+            brief: '简介'
         })
     }
 }
@@ -120,6 +115,7 @@ function * goodsTypeSeed() {
 }
 
 co(function * () {
+    yield goodsSeed();
     console.log('finished ...');
 }).catch(function () {
     console.log(arguments);

@@ -8,8 +8,8 @@
     var injector = angular.injector(["ng"]);
 
     angular.element('<style>' +
-        '.sdt-orderby { position: relative; }' +
-        '.sdt-orderby-desc { position: relative; }' +
+        '.sdt-orderby { position: relative !important; }' +
+        '.sdt-orderby-desc { position: relative !important; }' +
         '.sdt-orderby:after{content: ""; position: absolute; top: 50%; margin-top: -12px; right:8px; border-style: solid; border-width: 8px; border-color: transparent transparent #008080 transparent; }' +
         '.sdt-orderby-desc:after{content: ""; position: absolute; bottom: 50%; margin-bottom: -12px; right:8px; border-style: solid; border-width: 8px; border-color: #008080 transparent transparent transparent; }' +
         '</style>').appendTo('head');

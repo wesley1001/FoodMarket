@@ -6,7 +6,7 @@ module.exports = {
         'goods-save': ['./src/js/goods/save.js'],
         'goodsType': ['./src/js/goodsType/goodsType.js'],
         'seller-login': ['./src/js/seller/login.js'],
-        'seller-goods-list':['./src/js/seller/goods.js'],
+        'goods-list':['./src/js/goods/list.js'],
  	    'seller-order-list': ['./src/js/order/seller-order-list.js'],
  	  	'phone-goods': ['./src/js/phone/goods.js'],
  	  	'phone-order-comfirm': ['./src/js/phone/order-comfirm.js'],

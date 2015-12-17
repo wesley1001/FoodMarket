@@ -19,6 +19,7 @@ var router = new Router();
 
 // todo: for test
 router.use(function *(next) {
+    yield next;
     // todo: for test
     //var req = this.req;
     //var data;

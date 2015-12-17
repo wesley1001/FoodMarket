@@ -1,5 +1,6 @@
 var sequelizex = require('../lib/sequelizex');
 var shortDataTypes = sequelizex.DataTypes;
+var util = require('util');
 
 module.exports = function (sequelize, DataTypes) {
 
@@ -37,7 +38,7 @@ module.exports = function (sequelize, DataTypes) {
         /**
          *
          */
-        vipDiscount: shortDataTypes.Double(1),
+        vipDiscount: shortDataTypes.Double(10),
         /**
          * 剩余量
          */
