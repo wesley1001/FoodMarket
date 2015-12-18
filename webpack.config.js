@@ -21,7 +21,8 @@ module.exports = {
         //'seller-list': ['./src/js/admin/seller.js'],
         //'user-list': ['./src/js/admin/user.js'],
         //'admin-form' : ['./src/js/admin/admin.js'],
-        'admin-account':['./src/js/admin/account.js']
+        'admin-account':['./src/js/admin/account.js'],
+        'admin-area':['./src/js/admin/Area.js']
     },
     output: {
         path: path.resolve(__dirname, 'public/dist'),

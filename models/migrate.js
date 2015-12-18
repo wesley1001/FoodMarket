@@ -120,6 +120,7 @@ function * goodsTypeSeed() {
 }
 
 co(function * () {
+    yield db.models.Area.sync();
     console.log('finished ...');
 }).catch(function () {
     console.log(arguments);
