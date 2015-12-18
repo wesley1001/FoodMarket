@@ -101,8 +101,31 @@ function * msgSeed(){
     }
 }
 
+function * areaSeed() {
+    var ids = [];
+    for(var i = 0; i < 40; i ++) {
+        ids.push((yield db.models.Area.create({
+            title: '一级区域' + i,
+            type: 1
+        })).id);
+    }
+
+    for(var i = 0; i < 320; i ++) {
+        ids.push((yield db.models.Area.create({
+            title: '二级区域' + i,
+            type: 2,
+            AreaId: ids[i % ids.length]
+        })).id);
+    }
+}
+
 function * addressSeed() {
     var users = yield db.models.User.findAll({});
+    var areas = yield db.models.Area.findAll({
+        where: {
+            type: 2
+        }
+    });
     var defaults = {};
     for(var i = 0; i < 160; i ++) {
         yield db.models.DeliverAddress.create({
@@ -113,23 +136,47 @@ function * addressSeed() {
             area: '开发区',
             address: '大连理工大学软件学院',
             isDefault: defaults[users[i % users.length].id] ? false : true,
-            UserId: users[i % users.length].id
+            UserId: users[i % users.length].id,
+            AreaId: areas[i % areas.length].id
         })
         defaults[users[i % users.length].id] = true;
+    }
+}
+
+function * containerSeed() {
+    yield db.models.Container.fare({
+        basicFare: 10,
+        freeLine: 80
+    });
+}
+
+function * shoppingCartSeed() {
+    var users = yield db.models.User.findAll({});
+    var goods = yield db.models.Goods.findAll();
+    for(var i = 0; i < 1280; i ++) {
+        yield db.models.ShoppingCart.create({
+            num: i,
+            UserId: users[i % users.length].id,
+            AreaId: goods[i % goods.length].id
+        })
     }
 }
 
 function * init() {
     yield db.sync({force: true});
     yield goodsTypeSeed();
+    yield areaSeed();
     yield userSeed();
     yield goodsSeed();
     yield msgSeed();
     yield addressSeed();
+    yield containerSeed();
+    yield shoppingCartSeed();
 }
 
 co(function * () {
-    yield db.models.Area.sync();
+    yield db.sync({force: true});
+    yield init();
     console.log('finished ...');
 }).catch(function () {
     console.log(arguments);
