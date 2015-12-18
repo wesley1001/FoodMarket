@@ -129,7 +129,6 @@ function * init() {
 }
 
 co(function * () {
-    yield db.models.OrderItem.sync();
     console.log('finished ...');
 }).catch(function () {
     console.log(arguments);
