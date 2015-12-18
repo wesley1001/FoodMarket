@@ -8,11 +8,11 @@ module.exports = (router) => {
     var Goods = db.models.Goods;
     var GoodsType = db.models.GoodsType;
 
-    router.get('/seller/goods/save',  saveView);
-    router.get('/seller/goods/save/:id',  saveView);
+    router.get('/adminer/goods/save',  saveView);
+    router.get('/adminer/goods/save/:id',  saveView);
 
-    router.post('/seller/goods/save',  save);
-    router.post('/seller/goods/save/:id',  save);
+    router.post('/adminer/goods/save',  save);
+    router.post('/adminer/goods/save/:id',  save);
 
     function *saveView() {
         var types = yield GoodsType.findAll({
@@ -92,12 +92,12 @@ module.exports = (router) => {
         this.body = 'ok';
     }
 
-    router.get('/seller/goods',function *(){
-        this.body = yield render('seller/goods-list.html',{
+    router.get('/adminer/goods',function *(){
+        this.body = yield render('goods/list.html',{
         });
     });
 
-    router.get('/seller/goods/:status',function *(){
+    router.get('/adminer/goods/:status',function *(){
         this.checkParams('status').notEmpty().isInt().toInt();
         if (this.errors) {
             this.body = this.errors;
@@ -105,15 +105,18 @@ module.exports = (router) => {
         }
         this.body = yield Goods.findAll({
             where: {
-                SellerId: auth.user(this).id,
                 status: this.params.status
             },
-            attributes: ['id', 'price', 'mainImg', 'soldNum', 'capacity', 'title', 'status'],
+            attributes: [
+                'id', 'price', 'mainImg', 'soldNum', 'capacity', 'title', 'status',
+                'oldPrice',
+                'vipDiscount'
+            ],
             include: [GoodsType]
         });
     });
 
-    router.post('/seller/goods/action',function *(){
+    router.post('/adminer/goods/action',function *(){
         this.checkBody('id').notEmpty().isInt().toInt();
         this.checkBody('status').notEmpty().isInt().toInt();
         if (this.errors) {
@@ -133,7 +136,7 @@ module.exports = (router) => {
         };
     });
 
-    router.get('/seller/goods/all',function *(){
+    router.get('/adminer/goods/all',function *(){
         var goods = yield Goods.findAll({
             attributes: ['id','title', 'price','soldNum','content']
         });
@@ -141,7 +144,7 @@ module.exports = (router) => {
         this.body = JSON.stringify(goods);
     });
 
-    router.get('/seller/goods/remove/:id',function *(){
+    router.get('/adminer/goods/remove/:id',function *(){
         var id = this.params.id;
         try {
             yield Goods.destroy({

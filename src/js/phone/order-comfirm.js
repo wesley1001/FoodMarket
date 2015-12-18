@@ -9,56 +9,20 @@ var app = angular.module('app', []);
 
 app.controller('AppCtrl', ['$scope', '$http', function (scope, $http) {
 
+    scope.msg = '';
+
     scope.shoppingCart = [];
     var src = JSON.parse(angular.element('#shoppingCart').html());
 
-    (function () {
-
-        var tmp = {};
-        for(var i in src) {
-            var item = src[i];
-            var sellerId = item.Good.SellerId;
-            if (!tmp[sellerId]) {
-                tmp[sellerId] = [];
-            }
-            tmp[sellerId].push({
-                sellerId: sellerId,
-                src: item,
-            });
-        }
-
-        var tmpArr = [];
-
-        for(var i in tmp) {
-            tmpArr.push({
-                id: i,
-                shopName: tmp[i][0].src.Good.Seller.shopName,
-                goods: tmp[i],
-                msg: ''
-            });
-        }
-
-        for(var i in tmpArr) {
-            var price = 0;
-            for(var j in tmpArr[i].goods){
-                price += tmpArr[i].goods[j].src.Good.price;
-            }
-            tmpArr[i].price = price;
-        }
-
-        scope.shoppingCart = tmpArr;
-    }());
+    scope.shoppingCart = src;
 
     scope.totalPrice = cal();
 
     function cal() {
         var fee = 0;
         for(var i in scope.shoppingCart) {
-            var shop = scope.shoppingCart[i];
-            for(var j in shop.goods) {
-                var goods = shop.goods[j];
-                fee += goods.src.Good.price * goods.src.num;
-            }
+            var goods = scope.shoppingCart[i];
+            fee += goods.Good.price * goods.num;
         }
         return fee;
     }
@@ -82,21 +46,16 @@ app.controller('AppCtrl', ['$scope', '$http', function (scope, $http) {
             return;
         }
         submit = true;
-        var order = scope.shoppingCart.map(function (shop) {
+        var order = scope.shoppingCart.map(function (item) {
             return {
-                id: shop.id,
-                msg: shop.msg,
-                goods: shop.goods.map(function (item) {
-                    return {
-                        id: item.src.id,
-                        num: item.src.num
-                    }
-                })
+                id: item.id,
+                num: item.num
             }
         });
         var form = angular.element('#order-form');
         form.find('[name=order]').val(JSON.stringify(order));
         form.find('[name=address]').val(scope.address[scope.addressIndex].id);
+        form.find('[name=msg]').val(scope.msg);
         form.submit();
     };
 
@@ -107,8 +66,6 @@ app.controller('AppCtrl', ['$scope', '$http', function (scope, $http) {
     };
 }]);
 
-app.controller('ShopCtrl', ['$scope', function (scope) {
-}]);
 
 app.controller('GoodsCtrl', ['$scope', '$http', function (scope, $http) {
 }]);

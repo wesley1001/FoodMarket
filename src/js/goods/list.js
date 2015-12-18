@@ -1,16 +1,16 @@
 require('./../admin-base/common.js');
 require('angular');
 require('angular-route');
-require('../../css/seller/goods.scss');
+require('../../css/admin/goods.scss');
 require('../angular.simple-datatables.js');
 
 var app = angular.module('app', ['simpleDatatable', 'ngRoute']);
 
 
 var getGoodsData = function ($http, scope, status) {
-    if (status === -1 ? !scope.data.uncheck : !scope.data.checked) {
+    if (status === 0 ? !scope.data.uncheck : !scope.data.checked) {
         $http
-            .get('/seller/goods/' + status)
+            .get('/adminer/goods/' + status)
             .success(function (data) {
                 for(var i in data) {
                     data[i].mainImg = '<img src="' + data[i].mainImg + '" >';
@@ -25,7 +25,7 @@ var getGoodsData = function ($http, scope, status) {
                 scope.$applyAsync();
             })
     } else {
-        scope.list = status === -1 ? scope.data.inactive : scope.data.active;
+        scope.list = status === 0 ? scope.data.inactive : scope.data.active;
         scope.$applyAsync();
     }
 };
@@ -81,7 +81,7 @@ app.controller('AppCtrl', ['$scope', '$http', '$sce', function (scope, $http, $s
             status = -1;
         }
         $http
-            .post('/seller/goods/action', {
+            .post('/adminer/goods/action', {
                 id: row.id,
                 status: status.toString()
             })

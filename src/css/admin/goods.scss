@@ -3,6 +3,9 @@ table img{
   width: $img-size;
   height: $img-size;
 }
+table .img-col {
+  width: $img-size + 40px;
+}
 table th {
   text-align: center;
 }
@@ -10,3 +13,4 @@ table td {
   text-align: center;
   line-height:$img-size !important;
 }
+@import "../shared/table";

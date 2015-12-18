@@ -19,35 +19,28 @@ var router = new Router();
 
 // todo: for test
 router.use(function *(next) {
+
     // todo: for test
-    //var req = this.req;
-    //var data;
-    //if (/\/user\/.*/.test(req.url)) {
-    //    data = yield db.models.User.findOne();
-    //}
-    //if (/\/seller\/.*/.test(req.url)) {
-    //    data = yield db.models.Seller.findOne();
-    //}
+    var req = this.req;
+    var data;
+    if (/\/user\/.*/.test(req.url)) {
+        data = yield db.models.User.findOne();
+    }
     //if (/\/adminer\/*/.test(req.url)) {
     //    data = yield db.models.Adminer.findOne();
     //}
-    //if (data) {
-    //    auth.login(this, data);
-    //}
-    //var user = auth.user(this);
-    //if (/\/user\/.*/.test(req.url) && (util.isNullOrUndefined(user) || user.flag !== 1)) {
-    //    this.redirect('/user-login');
-    //    return;
-    //}
-    //if (/\/seller\/.*/.test(req.url) && (util.isNullOrUndefined(user) || user.flag !== 2)) {
-    //    this.redirect('/user-login');
-    //    return;
-    //}
+    if (data) {
+        auth.login(this, data);
+    }
+    var user = auth.user(this);
+    if (/\/user\/.*/.test(req.url) && (util.isNullOrUndefined(user) || user.flag !== 1)) {
+        this.redirect('/user-login');
+        return;
+    }
     //if (/\/adminer\/*/.test(req.url) && (util.isNullOrUndefined(user) || user.flag !== 0)) {
     //    this.redirect('/user-login');
     //    return;
     //}
-    //debug('admin');
     yield next;
 });
 

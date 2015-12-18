@@ -109,8 +109,11 @@ body{
         margin: 4px 0;
       }
     }
+    &-brief {
+      color: #888;
+    }
     &-right{
-      $goods-item-right-height: 84px;
+      $goods-item-right-height: 109px;
       position: absolute;
       right: 0;
       width: $goods-item-right-width;
@@ -118,7 +121,7 @@ body{
       top: 50%;
       margin-top: - ($goods-item-right-height/2);
       img{
-        $goods-img-size : 52px;
+        $goods-img-size : 78px;
         width: $goods-img-size;
         height: $goods-img-size;
       }
