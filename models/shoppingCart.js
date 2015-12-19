@@ -5,7 +5,6 @@ module.exports = function (sequelize, DataTypes) {
 
     var ShoppingCart = sequelize.define('ShoppingCart', {
         num: shortDataTypes.Int(),
-
     }, {
         timestamps: false,
         associate: function (models) {

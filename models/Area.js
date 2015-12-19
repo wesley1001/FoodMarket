@@ -11,7 +11,12 @@ module.exports = function (sequelize, DataTypes) {
         /**
          * 一级类别，二级类别
          */
-        type: shortDataTypes.Int()
+        type: shortDataTypes.Int(),
+        /**
+         * 0 => 正常
+         * -1 => 已删除
+         */
+        status: shortDataTypes.Int(),
     }, {
         timestamps: false,
         associate: function (models) {
@@ -24,7 +29,8 @@ module.exports = function (sequelize, DataTypes) {
             all: function * () {
                 return yield this.findAll({
                     where: {
-                        type: 1
+                        type: 1,
+                        status: 0
                     },
                     include: [this]
                 });

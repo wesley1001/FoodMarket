@@ -6,9 +6,9 @@ require('./base.js').bottomBar(2);
 
 var $ = jQuery;
 
-$(function () {
-
-});
+//$(function () {
+//
+//});
 
 var app = angular.module('app', []);
 
@@ -16,28 +16,15 @@ app.controller('AppCtrl', ['$scope', '$http', function (scope, $http) {
 
     scope.shoppingCart = [];
     var src = JSON.parse(angular.element('#shoppingCart').html());
-    var tmp = {};
-    for(var i in src) {
-        var item = src[i];
-        var sellerId = item.SellerId;
-        if (!tmp[sellerId]) {
-            tmp[sellerId] = [];
+    scope.shoppingCart = src;
+    scope.all = false;
+    scope.selectAll = function (selected) {
+        scope.all = selected;
+        for(var i in scope.shoppingCart) {
+            scope.shoppingCart[i].selected  = selected;
         }
-        tmp[sellerId].push({
-            sellerId: sellerId,
-            src: item,
-            selected: false
-        });
-    }
-
-    for(var i in tmp) {
-        scope.shoppingCart.push({
-            id: i,
-            shopName: tmp[i][0].src.Good.Seller.shopName,
-            goods: tmp[i],
-            selected: false
-        });
-    }
+        scope.totalPrice = cal();
+    };
 
     scope.totalPrice = cal();
 
@@ -48,12 +35,9 @@ app.controller('AppCtrl', ['$scope', '$http', function (scope, $http) {
     function cal() {
         var fee = 0;
         for(var i in scope.shoppingCart) {
-            var shop = scope.shoppingCart[i];
-            for(var j in shop.goods) {
-                var goods = shop.goods[j];
-                if (goods.selected) {
-                    fee += goods.src.Good.price * goods.src.num;
-                }
+            var goods = scope.shoppingCart[i];
+            if (goods.selected) {
+                fee += goods.Good.price * goods.num;
             }
         }
         return fee;
@@ -65,15 +49,11 @@ app.controller('AppCtrl', ['$scope', '$http', function (scope, $http) {
             return;
         }
 
-        var selectedIds = []
+        var selectedIds = [];
         for(var i in scope.shoppingCart) {
-            var shop = scope.shoppingCart[i];
-            for(var j in shop.goods) {
-                var goods = shop.goods[j];
-                console.log(goods);
-                if (goods.selected) {
-                    selectedIds.push(goods.src.id);
-                }
+            var goods = scope.shoppingCart[i];
+            if (goods.selected) {
+                selectedIds.push(goods.id);
             }
         }
         if (selectedIds.length === 0){
@@ -90,49 +70,45 @@ app.controller('AppCtrl', ['$scope', '$http', function (scope, $http) {
         form.submit();
     };
 
-}]);
-
-app.controller('ShopCtrl', ['$scope', function (scope) {
-
-    scope.selectShop = function (index, selected) {
-        scope.$parent.shoppingCart[index].selected = selected;
-        var goods = scope.$parent.shoppingCart[index].goods;
-        for(var i in goods) {
-            goods[i].selected = selected;
-        }
-        scope.$emit('price-change');
-    };
+    //window.s = scope;
 
 }]);
 
 app.controller('GoodsCtrl', ['$scope', '$http', function (scope, $http) {
 
-    scope.selectGoods = function (index, selected) {
-        scope.$parent.$parent.shoppingCart[scope.shopIndex].goods[scope.goodsIndex].selected = selected;
-        scope.$emit('price-change');
-    };
-
     var timer;
-    scope.add = function (delta) {
-        var goods = scope.$parent.$parent.shoppingCart[scope.shopIndex].goods[scope.goodsIndex].src;
-        if (goods.num + delta >= 0 ){
-            goods.num += delta;
-            scope.$emit('price-change');
-            if (timer) {
-                clearInterval(timer);
-            }
-            timer = setInterval(function () {
-                clearInterval(timer);
-                $http.get('/user/shoppingcart/' + goods.GoodId + '/' + goods.num);
-            },  500);
+    scope.$watch('goods.num', function (newVal, oldVal) {
+        if (newVal === oldVal || typeof newVal === 'undefined') {
+            return;
         }
-    };
+        if (scope.goods.num < 0) {
+            scope.goods.num = 0;
+        }
+        if (timer) {
+            clearInterval(timer);
+        }
+        timer = setInterval(function () {
+            clearInterval(timer);
+            $http.get('/user/shoppingcart/' + scope.goods.GoodId + '/' + scope.goods.num);
+        },  800);
+        scope.$emit('price-change');
+    });
 
     scope.remove = function () {
-        var goods = scope.$parent.$parent.shoppingCart[scope.shopIndex].goods.splice(scope.goodsIndex, 1)[0].src;
+        var goods = scope.$parent.shoppingCart.splice(scope.goodsIndex, 1)[0];
         scope.$emit('price-change');
         $http.get('/user/shoppingcart/' + goods.GoodId + '/-1');
     };
+
+    scope.$watch('goods.selected', function (newVal, oldVal) {
+        if (newVal === oldVal) {
+            return;
+        }
+        if (scope.goods.selected && scope.goods.num === 0) {
+            scope.goods.num = 1;
+        }
+        scope.$emit('price-change');
+    });
 }]);
 
 angular.bootstrap(document.documentElement, ['app']);

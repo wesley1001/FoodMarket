@@ -22,6 +22,8 @@ module.exports = function (sequelize, DataTypes) {
         associate: function (models) {
             models.User.hasMany(models.DeliverAddress);
             models.DeliverAddress.belongsTo(models.User);
+            models.Area.hasMany(models.DeliverAddress);
+            models.DeliverAddress.belongsTo(models.Area);
         },
         instanceMethods: {
         },

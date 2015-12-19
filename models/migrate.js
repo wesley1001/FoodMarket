@@ -18,39 +18,10 @@ function * userSeed(){
     }
 }
 
-function * sellerSeed(){
-    var cities = [
-        { province: '广东省', city: '广州市', country: '越秀区'},
-        { province: '广东省', city: '广州市', country: '花都区'},
-        { province: '辽宁省', city: '大连市', country: '开发区'},
-        { province: '辽宁省', city: '大连市', country: '中山区'}
-    ];
-    for(var i = 0; i < 40; i ++) {
-        yield db.models.Seller.create({
-            name: '店长' + i,
-            password: '123456',
-            phone: '18840823910',
-            address: '好地方',
-            shopName: '店铺' + i,
-            province: cities[i % 4].province,
-            city: cities[i % 4].city,
-            country: cities[i % 4].country,
-            districtCode: '210251',
-            fare: 10,
-            content: 40
-        })
-    }
-}
-
 function * goodsSeed() {
     var goodsTypes = yield db.models.GoodsType.findAll({
         where: {
             type: 2
-        }
-    });
-    var sellers = yield db.models.Seller.findAll({
-        where: {
-            status: 0
         }
     });
     for(var i = 0; i < 40; i ++) {
@@ -63,8 +34,8 @@ function * goodsSeed() {
             capacity: 20 + i,
             content: '内容' + i,
             GoodsTypeId: goodsTypes[i % goodsTypes.length].id,
-            SellerId: sellers[i % sellers.length].id,
-            per:  i % 2 ? '每斤' : '每个'
+            per:  i % 2 ? '每斤' : '每个',
+            brief: '简介'
         })
     }
 }
@@ -119,8 +90,93 @@ function * goodsTypeSeed() {
     });
 }
 
+function * msgSeed(){
+    var users = yield db.models.User.findAll({});
+    for(var i = 0; i < 160; i ++) {
+        yield db.models.Msg.create({
+            title: '消息测试' + i,
+            link: '#',
+            UserId: users[i % users.length].id
+        })
+    }
+}
+
+function * areaSeed() {
+    var ids = [];
+    for(var i = 0; i < 40; i ++) {
+        ids.push((yield db.models.Area.create({
+            title: '一级区域' + i,
+            type: 1
+        })).id);
+    }
+
+    for(var i = 0; i < 320; i ++) {
+        ids.push((yield db.models.Area.create({
+            title: '二级区域' + i,
+            type: 2,
+            AreaId: ids[i % ids.length]
+        })).id);
+    }
+}
+
+function * addressSeed() {
+    var users = yield db.models.User.findAll({});
+    var areas = yield db.models.Area.findAll({
+        where: {
+            type: 2
+        }
+    });
+    var defaults = {};
+    for(var i = 0; i < 160; i ++) {
+        yield db.models.DeliverAddress.create({
+            recieverName: '收货人' + i,
+            phone: "1884082391" + i % 10,
+            province: '辽宁省',
+            city: '大连市',
+            area: '开发区',
+            address: '大连理工大学软件学院',
+            isDefault: defaults[users[i % users.length].id] ? false : true,
+            UserId: users[i % users.length].id,
+            AreaId: areas[i % areas.length].id
+        })
+        defaults[users[i % users.length].id] = true;
+    }
+}
+
+function * containerSeed() {
+    yield db.models.Container.fare({
+        basicFare: 10,
+        freeLine: 80
+    });
+}
+
+function * shoppingCartSeed() {
+    var users = yield db.models.User.findAll({});
+    var goods = yield db.models.Goods.findAll();
+    for(var i = 0; i < 1280; i ++) {
+        yield db.models.ShoppingCart.create({
+            num: i,
+            UserId: users[i % users.length].id,
+            AreaId: goods[i % goods.length].id
+        })
+    }
+}
+
+function * init() {
+    yield db.sync({force: true});
+    yield goodsTypeSeed();
+    yield areaSeed();
+    yield userSeed();
+    yield goodsSeed();
+    yield msgSeed();
+    yield addressSeed();
+    yield containerSeed();
+    yield shoppingCartSeed();
+}
+
 co(function * () {
-    yield db.models.Area.sync();
+    yield db.sync({force: true});
+    yield init();
     console.log('finished ...');
 }).catch(function () {
     console.log(arguments);

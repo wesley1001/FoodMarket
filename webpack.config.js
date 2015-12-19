@@ -46,5 +46,6 @@ module.exports = {
         new webpack.ResolverPlugin(
             new webpack.ResolverPlugin.DirectoryDescriptionFilePlugin("bower.json", ["main"])
         )
-    ]
+    ],
+    devtool: 'source-map'
 };
