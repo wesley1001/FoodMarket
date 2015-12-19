@@ -23,7 +23,8 @@ module.exports = {
         //'admin-form' : ['./src/js/admin/admin.js'],
         //'admin-account':['./src/js/admin/account.js'],
         //'admin-area':['./src/js/admin/Area.js'],
-        'admin-gooddetail':['./src/js/goods/detail.js']
+        'admin-gooddetail':['./src/js/goods/detail.js'],
+        'phone-evaluation':['./src/js/phone/evaluation.js']
     },
     output: {
         path: path.resolve(__dirname, 'public/dist'),
