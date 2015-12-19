@@ -152,13 +152,15 @@ function * containerSeed() {
 
 function * shoppingCartSeed() {
     var users = yield db.models.User.findAll({});
-    var goods = yield db.models.Goods.findAll();
-    for(var i = 0; i < 1280; i ++) {
-        yield db.models.ShoppingCart.create({
-            num: i,
-            UserId: users[i % users.length].id,
-            AreaId: goods[i % goods.length].id
-        })
+    var goods = yield db.models.Goods.findAll({});
+    for(var i = 0; i < users.length; i ++) {
+        for(var j = 0 ; j < goods.length; j ++) {
+            s = yield db.models.ShoppingCart.create({
+                num: i + j + 1,
+                UserId: users[i % users.length].id,
+                GoodId: goods[j % goods.length].id
+            });
+        }
     }
 }
 
@@ -175,8 +177,6 @@ function * init() {
 }
 
 co(function * () {
-    yield db.sync({force: true});
-    yield init();
     console.log('finished ...');
 }).catch(function () {
     console.log(arguments);

@@ -25,14 +25,13 @@ module.exports = function (sequelize, DataTypes) {
             models.Area.hasMany(models.DeliverAddress);
             models.DeliverAddress.belongsTo(models.Area);
         },
-        instanceMethods: {
-        },
+        instanceMethods: {},
         classMethods: {
             my: function *(whoAmI) {
                 return yield this.findAll({
-                   where: {
-                       UserId: whoAmI
-                   }
+                    where: {
+                        UserId: whoAmI
+                    }
                 });
             }
         }

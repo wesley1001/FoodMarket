@@ -12,7 +12,8 @@ var co = require('co');
 var sequelizex = require('../../lib/sequelizex.js');
 
 
-var GoodsType = db.models.GoodsType;
+var Container = db.models.Container;
+var Area = db.models.Area;
 var Goods = db.models.Goods;
 var ShoppingCart = db.models.ShoppingCart;
 var DeliverAddress = db.models.DeliverAddress;
@@ -44,12 +45,19 @@ module.exports = function (router) {
             }]
         });
 
-        var addresses = yield DeliverAddress.my(auth.user(this).id);
+        var addresses = yield DeliverAddress.findAll({
+            where: {
+                UserId: auth.user(this).id
+            },
+            include: [Area]
+        });
 
+        var fare = yield Container.fare();
         this.body = yield render('phone/order-comfirm.html', {
             title: '订单确认',
             order: JSON.stringify(order),
-            addresses: JSON.stringify(addresses)
+            addresses: JSON.stringify(addresses),
+            fare: JSON.stringify(fare)
         });
     });
 
@@ -73,6 +81,8 @@ module.exports = function (router) {
                 UserId: auth.user(this).id
             }
         });
+
+        var fare = yield Container.fare();
 
         if (!address) {
             this.body = 'invalid address';
@@ -139,6 +149,11 @@ module.exports = function (router) {
                     }));
                 };
 
+                var orderFare = 0;
+                if (price < fare.freeLine) {
+                    orderFare = fare.basicFare;
+                    price += orderFare;
+                }
                 var order = yield Order.create({
                     recieverName: address.recieverName,
                     phone: address.phone,
@@ -149,6 +164,7 @@ module.exports = function (router) {
                     price,
                     num: orderItems.length,
                     status: 0,
+                    fare: orderFare,
                     message: body.msg ? body.msg : '',
                     UserId: userId
                 }, {transaction: t});

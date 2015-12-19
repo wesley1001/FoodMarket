@@ -14,6 +14,7 @@ module.exports = function (sequelize, DataTypes) {
         area: shortDataTypes.String(),
         address: shortDataTypes.String(),
         price: shortDataTypes.Double(),
+        fare: shortDataTypes.Double(),
         num: shortDataTypes.Int(),
         /**
          * 0 => 新建订单
