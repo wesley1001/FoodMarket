@@ -164,6 +164,51 @@ function * shoppingCartSeed() {
     }
 }
 
+function * orderSeed() {
+    var fare = yield db.models.Container.fare();
+    var users = yield db.models.User.findAll({});
+    var goods = yield db.models.Goods.findAll({});
+    for(var i = 0; i < users.length; i ++) {
+        for(var j = 0 ; j < 80; j ++) {
+            var items = [];
+            var price = 0;
+            for(var k = 0 ; k < (i + j % 10) + 1; k ++ ){
+                var goodsItem = goods[(i+j+k) % goods.length];
+                price += (i+j+k) * goodsItem.price;
+                items.push(db.models.OrderItem.build({
+                    goods: JSON.stringify(goodsItem),
+                    price: ((i + j % 10) + 1) * goodsItem.price,
+                    num: (i + j % 10) + 1,
+                    GoodId: goodsItem.id
+                }));
+            }
+            var orderFare = 0;
+            if (price < fare.freeLine) {
+                orderFare = fare.basicFare;
+                price += orderFare;
+            }
+            var order = yield db.models.Order.create({
+                recieverName: '收货人' + i,
+                phone: "1884082391" + i % 10,
+                province: '辽宁省',
+                city: '大连市',
+                area: '开发区',
+                address: '大连理工大学软件学院',
+                price,
+                num: items.length,
+                status: 0,
+                fare: orderFare,
+                message: '留言啊',
+                UserId: users[i].id
+            });
+            for(var k = 0 ; k < items.length; k ++ ){
+                items[i].OrderId = order.id;
+                yield items[i].save();
+            }
+        }
+    }
+}
+
 function * init() {
     yield db.sync({force: true});
     yield goodsTypeSeed();
@@ -174,6 +219,7 @@ function * init() {
     yield addressSeed();
     yield containerSeed();
     yield shoppingCartSeed();
+    yield orderSeed();
 }
 
 co(function * () {

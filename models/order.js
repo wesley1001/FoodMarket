@@ -18,6 +18,10 @@ module.exports = function (sequelize, DataTypes) {
         num: shortDataTypes.Int(),
         /**
          * 0 => 新建订单
+         * 1 => 已支付
+         * 2 => 已发货
+         * 3 => 已签收
+         * -1 => 已取消
          */
         status: shortDataTypes.Int(),
         /**

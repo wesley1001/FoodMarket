@@ -147,6 +147,9 @@ module.exports = function (router) {
                         num: buyItem.num,
                         GoodId: shoppingCartItem.Good.id
                     }));
+                    shoppingCartItem.Good.capacity --;
+                    shoppingCartItem.Good.soldNum ++;
+                    yield shoppingCartItem.Good.save({transaction: t});
                 };
 
                 var orderFare = 0;

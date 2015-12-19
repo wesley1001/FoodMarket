@@ -37,6 +37,9 @@
     "select2": "https://github.com/select2/select2.git#~4.0.1",
     "ajaxform": "https://github.com/alchapone/ajaxform.git#~0.1.2",
     "simditor": "~2.3.5",
-    "ngInfiniteScroll": "https://github.com/sroze/ngInfiniteScroll.git#~1.2.1"
+    "ngInfiniteScroll": "https://github.com/sroze/ngInfiniteScroll.git#~1.2.1",
+    "moment": "~2.10.6",
+    "bootstrap-daterangepicker": "https://github.com/dangrossman/bootstrap-daterangepicker.git#~2.1.17",
+    "eonasdan-bootstrap-datetimepicker": "https://github.com/Eonasdan/bootstrap-datetimepicker.git#~4.17.37"
   }
 }
