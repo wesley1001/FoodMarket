@@ -5,6 +5,7 @@
 var render = require('../../instances/render');
 var db = require('../../models/index');
 var deliverAddress = db.models.DeliverAddress;
+var Area = db.models.Area;
 
 module.exports = (router) => {
     router.get('/user/address',function *(){
@@ -19,7 +20,14 @@ module.exports = (router) => {
     });
 
     router.get('/user/addaddress',function *(){
-       this.body = yield render('user/addaddress.html');
+        var area = yield Area.findAll({
+            where:{
+                type:2
+            }
+        });
+        this.body = yield render('user/addaddress.html',{
+            area
+        });
     });
 
     router.get('/user/address/del/:id',function *(){
