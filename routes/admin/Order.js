@@ -13,7 +13,7 @@ module.exports = (router) => {
     var Goods=db.models.Goods;
     var Orders = db.models.Order;
     var OrderItem = db.models.OrderItem;
-
+    var User= db.models.User;
 
     router.get('/adminer/orders',  function *() {
         var t=this.query.t;
@@ -174,6 +174,25 @@ module.exports = (router) => {
         var id=this.query.id;
         var sendtime=this.query.time;
         debug("id="+id+"time="+sendtime);
+    });
+
+    router.get('/adminer/order',  function *() {
+        var id=this.query.id;
+
+        var order= yield Orders.findAll({
+            where:{
+                id:id
+            },
+            include: [{
+                model: OrderItem,
+                include: [Goods]
+            },User]
+        });;
+        debug(order);
+
+        this.body = yield render('admin/order', {
+            order
+        });
     });
 
 };

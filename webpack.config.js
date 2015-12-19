@@ -10,8 +10,8 @@ module.exports = {
  	    //'seller-order-list': ['./src/js/order/seller-order-list.js'],
  	  	//'phone-goods': ['./src/js/phone/goods.js'],
  	  	//'phone-order-comfirm': ['./src/js/phone/order-comfirm.js'],
-        'user-address-list':['./src/js/user/user.address.js'],
-        'user-addaddress':['./src/js/user/user.addaddress.js'],
+        //'user-address-list':['./src/js/user/user.address.js'],
+        //'user-addaddress':['./src/js/user/user.addaddress.js'],
         //'phone-index': ['./src/js/phone/index.js'],
         //'phone-shoppingcart': ['./src/js/phone/shoppingCart.js'],
         //'admin-goodstype': ['./src/js/admin/goodstype.js'],
@@ -21,8 +21,9 @@ module.exports = {
         //'seller-list': ['./src/js/admin/seller.js'],
         //'user-list': ['./src/js/admin/user.js'],
         //'admin-form' : ['./src/js/admin/admin.js'],
-        'admin-account':['./src/js/admin/account.js'],
-        'admin-area':['./src/js/admin/Area.js']
+        //'admin-account':['./src/js/admin/account.js'],
+        //'admin-area':['./src/js/admin/Area.js'],
+        'admin-gooddetail':['./src/js/goods/detail.js']
     },
     output: {
         path: path.resolve(__dirname, 'public/dist'),

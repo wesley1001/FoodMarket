@@ -2,11 +2,13 @@ var auth = require('../../helpers/auth.js');
 var db = require('../../models/index.js');
 var render = require('../../instances/render.js');
 var debug = require('../../instances/debug');
+var sequelize = require('sequelize');
 
 module.exports = (router) => {
 
     var Goods = db.models.Goods;
     var GoodsType = db.models.GoodsType;
+    var OrderItem = db.models.OrderItem;
 
     router.get('/adminer/goods/save',  saveView);
     router.get('/adminer/goods/save/:id',  saveView);
@@ -158,5 +160,58 @@ module.exports = (router) => {
             console.log(error);
         }
     });
+
+
+    ///商品详情
+    router.get('/adminer/goods/detail',function *(){
+
+        var id = this.query.id;
+        var good= yield Goods.findById(id);
+
+        var dates=[];
+        var count=[];
+        for(var i=0;i<10;i++)
+        {
+            var n=new Date;
+
+            n.setDate(n.getDate() - i);
+
+            dates.push(n.getMonth()+1+"-"+n.getDate());
+
+
+            var items= yield OrderItem.findAll({
+                where: {
+                    GoodId: id,
+                    createdAt: {
+                        $gte: new Date(n.getFullYear(), n.getMonth(), n.getDate()),
+                        $lt: new Date(n.getFullYear(), n.getMonth(), n.getDate() + 1)
+                    }
+                }
+            });
+
+            var len = items.length,
+                i1 = 0;
+            var c=0;
+            for (; i1 < len; ++i1) {
+               c+=items[i1].num;
+            }
+
+            count.push(c);
+        }
+        debug(dates);
+        debug(count);
+
+
+
+        var imgs=eval(good.imgs);
+
+        this.body = yield render('goods/detail.html', {
+           good,imgs,count,dates
+        });
+
+    });
+
+
+
 
 };
