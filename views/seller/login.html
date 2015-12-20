@@ -9,10 +9,10 @@
             <span>输入您的手机号和密码</span>
         </div>
         <div class="form-group">
-            <label class="control-label visible-ie8 visible-ie9">手机号</label>
+            <label class="control-label visible-ie8 visible-ie9">用户名</label>
             <div class="input-icon">
                 <i class="fa fa-user"></i>
-                <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="手机号" name="phone"/>
+                <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="用户名" name="nickname"/>
             </div>
         </div>
         <div class="form-group">
@@ -23,30 +23,16 @@
             </div>
         </div>
         <div class="form-actions">
-            <label class="checkbox">
-                <input type="checkbox" name="remember" value="1"/>记住我
-            </label>
+            <!--<label class="checkbox">-->
+                <!--<input type="checkbox" name="remember" value="1"/>记住我-->
+            <!--</label>-->
             <button type="submit" class="btn green pull-right">
                 登录 <i class="m-icon-swapright m-icon-white"></i>
             </button>
         </div>
-        <!--<div class="forget-password">-->
-            <!--<h4>忘记密码?</h4>-->
-            <!--<p>-->
-                <!--不要担心 点击<a href="javascript:;"  id="forget-password">这里</a>-->
-                <!--来重置您的密码-->
-            <!--</p>-->
-        <!--</div>-->
-        <!--<div class="create-account">-->
-            <!--<p>-->
-                <!--还没有账户 ?&nbsp;-->
-                <!--<a href="javascript:;" id="register-btn" >创建账户</a>-->
-            <!--</p>-->
-        <!--</div>-->
+
     </form>
-    <!-- END LOGIN FORM -->
-    <% include './seller/forgetpwd' %>
-    <!--<% include './seller/register' %>-->
+ 
 </div>
 <% block 'scripts': %>
 <script src="/dist/seller-login.js"></script>
