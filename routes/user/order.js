@@ -12,7 +12,8 @@ var co = require('co');
 var sequelizex = require('../../lib/sequelizex.js');
 
 
-var GoodsType = db.models.GoodsType;
+var Container = db.models.Container;
+var Area = db.models.Area;
 var Goods = db.models.Goods;
 var ShoppingCart = db.models.ShoppingCart;
 var DeliverAddress = db.models.DeliverAddress;
@@ -44,12 +45,19 @@ module.exports = function (router) {
             }]
         });
 
-        var addresses = yield DeliverAddress.my(auth.user(this).id);
+        var addresses = yield DeliverAddress.findAll({
+            where: {
+                UserId: auth.user(this).id
+            },
+            include: [Area]
+        });
 
+        var fare = yield Container.fare();
         this.body = yield render('phone/order-comfirm.html', {
             title: '订单确认',
             order: JSON.stringify(order),
-            addresses: JSON.stringify(addresses)
+            addresses: JSON.stringify(addresses),
+            fare: JSON.stringify(fare)
         });
     });
 
@@ -73,6 +81,8 @@ module.exports = function (router) {
                 UserId: auth.user(this).id
             }
         });
+
+        var fare = yield Container.fare();
 
         if (!address) {
             this.body = 'invalid address';
@@ -137,8 +147,16 @@ module.exports = function (router) {
                         num: buyItem.num,
                         GoodId: shoppingCartItem.Good.id
                     }));
+                    shoppingCartItem.Good.capacity --;
+                    shoppingCartItem.Good.soldNum ++;
+                    yield shoppingCartItem.Good.save({transaction: t});
                 };
 
+                var orderFare = 0;
+                if (price < fare.freeLine) {
+                    orderFare = fare.basicFare;
+                    price += orderFare;
+                }
                 var order = yield Order.create({
                     recieverName: address.recieverName,
                     phone: address.phone,
@@ -149,6 +167,7 @@ module.exports = function (router) {
                     price,
                     num: orderItems.length,
                     status: 0,
+                    fare: orderFare,
                     message: body.msg ? body.msg : '',
                     UserId: userId
                 }, {transaction: t});
@@ -190,6 +209,7 @@ module.exports = function (router) {
 
     router.get('/user/order-list/:status/:page', function *() {
         this.checkParams('status').notEmpty().isInt().toInt();
+        this.checkParams('page').notEmpty().isInt().toInt();
         if (this.errors) {
             this.body = this.errors;
             return;
@@ -199,12 +219,37 @@ module.exports = function (router) {
             where: {
                 UserId: userId,
                 status: this.params.status
-            }
+            },
+            include: [OrderItem],
+            offset: ( this.params.page - 1) * 4,
+            limit: 4
         });
 
+        this.body = yield order;
+    });
+
+    router.get('/user/order-list', function *() {
         this.body = yield render('phone/order-list', {
             title: '订单',
+        });
+    });
 
+    router.post('/user/order/action', function *() {
+        this.checkBody('id').notEmpty();
+        this.checkBody('status').notEmpty().isInt().toInt();
+        if (this.errors) {
+            this.body = this.errors;
+            return;
+        }
+
+        this.body = yield Order.update({
+            status: 3,
+            recieveTime: Date.now(),
+        }, {
+            where: {
+                id: this.request.body.id,
+                UserId: auth.user(this).id
+            }
         });
     });
 

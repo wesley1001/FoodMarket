@@ -21,7 +21,7 @@ module.exports = function (sequelize, DataTypes) {
         timestamps: false,
         associate: function (models) {
             models.Area.hasMany(models.Area);
-            models.Area.belongsTo(models.Area);
+            models.Area.belongsTo(models.Area, { as: 'TopArea', foreignKey: 'TopAreaId', constraints: false});
         },
         instanceMethods: {
         },

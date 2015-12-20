@@ -20,8 +20,7 @@ module.exports = (router) => {
         var ctx = this;
         var body = this.request.body;
         console.log(body);
-        this.checkBody('phone').notEmpty();
-        this.checkBody('phone').match(/^1[3-8]+\d{9}$/);
+        this.checkBody('nickname').notEmpty();
         this.checkBody('password').notEmpty();
         if (this.errors) {
             console.log(this.errors);
@@ -31,7 +30,7 @@ module.exports = (router) => {
 
             var c = yield Admins.findOne({
                 where: {
-                    phone: body.phone,
+                    nickname: body.nickname,
                     password: body.password,
                     status:0
                 }

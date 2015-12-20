@@ -133,6 +133,16 @@ module.exports = (router) => {
                 id: body.id
             }
         });
+
+        if (body.status != 0 ){
+            // 购物车清理
+            yield db.models.ShoppingCart.destory({
+                where: {
+                    GoodId:  body.id
+                }
+            });
+        }
+
         this.body = {
             status: true
         };

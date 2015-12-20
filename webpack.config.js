@@ -14,6 +14,7 @@ module.exports = {
         //'user-addaddress':['./src/js/user/user.addaddress.js'],
         //'phone-index': ['./src/js/phone/index.js'],
         //'phone-shoppingcart': ['./src/js/phone/shoppingCart.js'],
+        'phone-order-list': ['./src/js/phone/order-list.js'],
         //'admin-goodstype': ['./src/js/admin/goodstype.js'],
         //'admin-orders':['./src/js/admin/orders.js'],
         //'admin-fare':['./src/js/admin/fare.js'],
@@ -27,6 +28,9 @@ module.exports = {
         //'phone-evaluation':['./src/js/phone/evaluation.js'],
         //'admin-evaluations':['./src/js/admin/evaluations.js'],
 
+        //'admin-account':['./src/js/admin/account.js'],
+        //'admin-area':['./src/js/admin/Area.js'],
+        //'admin-order-list':['./src/js/order/list.js']
     },
     output: {
         path: path.resolve(__dirname, 'public/dist'),
