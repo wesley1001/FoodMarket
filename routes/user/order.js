@@ -209,6 +209,7 @@ module.exports = function (router) {
 
     router.get('/user/order-list/:status/:page', function *() {
         this.checkParams('status').notEmpty().isInt().toInt();
+        this.checkParams('page').notEmpty().isInt().toInt();
         if (this.errors) {
             this.body = this.errors;
             return;
@@ -218,12 +219,37 @@ module.exports = function (router) {
             where: {
                 UserId: userId,
                 status: this.params.status
-            }
+            },
+            include: [OrderItem],
+            offset: ( this.params.page - 1) * 4,
+            limit: 4
         });
 
+        this.body = yield order;
+    });
+
+    router.get('/user/order-list', function *() {
         this.body = yield render('phone/order-list', {
             title: '订单',
+        });
+    });
 
+    router.post('/user/order/action', function *() {
+        this.checkBody('id').notEmpty();
+        this.checkBody('status').notEmpty().isInt().toInt();
+        if (this.errors) {
+            this.body = this.errors;
+            return;
+        }
+
+        this.body = yield Order.update({
+            status: 3,
+            recieveTime: Date.now(),
+        }, {
+            where: {
+                id: this.request.body.id,
+                UserId: auth.user(this).id
+            }
         });
     });
 
