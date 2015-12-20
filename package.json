@@ -43,6 +43,7 @@
     "sequelize": "^3.15.0",
     "superagent": "^1.6.1",
     "tedious": "^1.13.1",
+    "thunkify": "^2.1.2",
     "wechat": "^2.0.3",
     "wechat-oauth": "git+https://github.com/node-webot/wechat-oauth.git"
   },

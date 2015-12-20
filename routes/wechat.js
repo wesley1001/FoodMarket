@@ -10,6 +10,7 @@ var wechatConfig = require('./../instances/config.js').wechat;
 var log = require('./../instances/log.js');
 var auth = require('./../helpers/auth.js');
 var util = require('util');
+var thunkify = require('thunkify');
 
 
 var WechatAuthClient = function () {
@@ -56,8 +57,8 @@ module.exports = (router) => {
     router.get('/wechat/auth', function *(next) {
         var client = WechatAuthClient();
         console.log(this.request.query);
-        var result = yield client.getAccessToken(this.request.query.code, function (err, result) {
-        });
+        var getAccessToken = thunkify(client.getAccessToken);
+        var result = yield client.getAccessToken(this.request.query.code);
 
         log.info(result);
         console.log(result);
