@@ -5,7 +5,7 @@ module.exports = {
         //'admin-index': ['./src/js/admin/index.js'],
         //'goods-save': ['./src/js/goods/save.js'],
         //'goodsType': ['./src/js/goodsType/goodsType.js'],
-        'seller-login': ['./src/js/seller/login.js'],
+        //'seller-login': ['./src/js/seller/login.js'],
         //'seller-goods-list':['./src/js/seller/goods.js'],
  	    //'seller-order-list': ['./src/js/order/seller-order-list.js'],
  	  	//'phone-goods': ['./src/js/phone/goods.js'],
@@ -14,7 +14,7 @@ module.exports = {
         //'user-addaddress':['./src/js/user/user.addaddress.js'],
         //'phone-index': ['./src/js/phone/index.js'],
         //'phone-shoppingcart': ['./src/js/phone/shoppingCart.js'],
-        'phone-order-list': ['./src/js/phone/order-list.js'],
+        //'phone-order-list': ['./src/js/phone/order-list.js'],
         //'admin-goodstype': ['./src/js/admin/goodstype.js'],
         //'admin-orders':['./src/js/admin/orders.js'],
         //'admin-fare':['./src/js/admin/fare.js'],
@@ -27,10 +27,10 @@ module.exports = {
         //'admin-gooddetail':['./src/js/goods/detail.js'],
         //'phone-evaluation':['./src/js/phone/evaluation.js'],
         //'admin-evaluations':['./src/js/admin/evaluations.js'],
-
         //'admin-account':['./src/js/admin/account.js'],
         //'admin-area':['./src/js/admin/Area.js'],
         //'admin-order-list':['./src/js/order/list.js']
+        'admin-user-assign':['./src/js/admin/user-assign.js']
     },
     output: {
         path: path.resolve(__dirname, 'public/dist'),
