@@ -31,10 +31,11 @@ module.exports = (router) => {
         }
     };
 
-    router.get('/check', function *() {
+    router.get('/wechat-gate', function *() {
         console.log(this.request.query);
         if (wechatRobot.checkSignature(this.request.query, wechatConfig.token)) {
-            this.body = this.request.query.echoStr;
+            console.log(this.request.query.echostr);
+            this.body = this.request.query.echostr;
         }else {
             this.body = "fail";
         }
