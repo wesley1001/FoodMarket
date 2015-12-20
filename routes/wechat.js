@@ -32,6 +32,7 @@ module.exports = (router) => {
     };
 
     router.get('/check', function *() {
+        console.log(this.request.query);
         if (wechatRobot.checkSignature(this.request.query, wechatConfig.token)) {
             this.body = this.request.query.echoStr;
         }else {
