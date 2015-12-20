@@ -1,12 +1,16 @@
 /**
  * Created by me on 15-12-1.
  */
-var wechatClient = require('./../instances/wechat.js');
 var wechatRobot = require('wechat');
+var OAuth = require('wechat-auth');
+
+
+var wechatClient = require('./../instances/wechat.js');
 var wechatConfig = require('./../instances/config.js').wechat;
 var log = require('./../instances/log.js');
 var auth = require('./../helpers/auth.js');
 var util = require('util');
+
 
 var WechatAuthClient = function () {
     return new OAuth(wechatConfig.appId, wechatConfig.secret);
