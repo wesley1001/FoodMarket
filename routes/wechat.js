@@ -66,7 +66,7 @@ module.exports = (router) => {
             client.getUser(openid, function (err, userInfo) {
                 log.info(userInfo);
                 console.log(userInfo);
-                ctx.body = 'hello';
+                ctx.body = userInfo;
             });
         });
     });
