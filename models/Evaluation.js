@@ -12,6 +12,8 @@ module.exports = function (sequelize, DataTypes) {
         associate: function (models) {
             models.Order.hasMany(models.Evaluation);
             models.Evaluation.belongsTo(models.Order);
+            models.User.hasMany(models.Evaluation);
+            models.Evaluation.belongsTo(models.User);
         },
         instanceMethods: {
         },
