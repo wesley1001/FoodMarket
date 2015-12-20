@@ -52,11 +52,13 @@ module.exports = (router) => {
         });
 
         log.info(result);
+        console.log(result);
         var accessToken = result.data.access_token;
         var openid = result.data.openid;
 
-        var userInfo = yield client.getUser('openid');
+        var userInfo = yield client.getUser(openid);
         log.info(userInfo);
+        console.log(userInfo);
     });
 
     router.get('/ttt', function *() {
@@ -79,7 +81,8 @@ module.exports = (router) => {
             accessToken = result.access_token;
             openid = result.opnid;
             user = yield client.getUser(result.openid);
-            log,info(JSON.stringify(user));
+            log.info(JSON.stringify(user));
+            console.log(user);
             auth.login(this, user);
         }
         this.redirect('/user/index');
