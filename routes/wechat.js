@@ -48,19 +48,15 @@ module.exports = (router) => {
 
     router.get('/wechat/redirect', function *() {
         var client = WechatAuthClient();
-        var url = client.getAuthorizeURL('http://139.129.18.214/wechat/auth', 'state', 'snsapi_base');
+        var url = client.getAuthorizeURL('http://139.129.18.214/wechat/auth', 'foodmarket', 'snsapi_userinfo');
         this.redirect(url);
-        console.log(url);
-        log.info('wechat/redirect');
     });
 
     router.get('/wechat/auth', function *(next) {
         var client = WechatAuthClient();
-        console.log(this.request.query);
         var ctx = this;
         var p = new Promise(function (resolve) {
             client.getAccessToken(ctx.request.query.code, function (err, result) {
-                console.log(result, err);
                 var accessToken = result.data.access_token;
                 var openid = result.data.openid;
                 client.getUser(openid, function (err, userInfo) {
@@ -70,6 +66,7 @@ module.exports = (router) => {
         });
 
         this.body = yield p;
+        console.log(this.body);
 
     });
 
