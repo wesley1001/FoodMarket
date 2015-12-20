@@ -2,7 +2,7 @@
  * Created by me on 15-12-1.
  */
 var wechatRobot = require('wechat');
-var OAuth = require('wechat-auth');
+var OAuth = require('wechat-oauth');
 
 
 var wechatClient = require('./../instances/wechat.js');
