@@ -56,7 +56,8 @@ module.exports = (router) => {
         }
         var data = yield User.findAll({
             where: {
-                status: this.params.status
+                status: this.params.status,
+                AdminerId:auth.user(this).id
             },
             attributes: ['id', 'name', 'nickname', 'phone', 'joinTime', 'status']
         });

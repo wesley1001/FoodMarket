@@ -19,7 +19,7 @@ module.exports = {
         //'admin-fare':['./src/js/admin/fare.js'],
         //'seller-register': ['./src/js/seller/register.js'],
         //'seller-list': ['./src/js/admin/seller.js'],
-        //'user-list': ['./src/js/admin/user.js'],
+        'user-list': ['./src/js/admin/user.js'],
         //'admin-form' : ['./src/js/admin/admin.js'],
         //'admin-account':['./src/js/admin/account.js'],
         //'admin-area':['./src/js/admin/Area.js'],

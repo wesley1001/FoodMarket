@@ -175,7 +175,7 @@ function * init() {
 }
 
 co(function * () {
-    yield db.sync({force: true});
+    //yield db.sync({force: true});
     yield init();
     console.log('finished ...');
 }).catch(function () {
