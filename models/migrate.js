@@ -2,6 +2,18 @@ var db = require('./index.js');
 var co = require('co');
 
 
+function * adminerSeed(){
+    for(var i = 0; i < 40; i ++) {
+        yield db.models.Adminer.create({
+            name: '用户' + i,
+            password: '123456',
+            phone: '18840823910',
+            nickname: '用户' + i,
+            type: i % 2 + 1
+        })
+    }
+}
+
 function * userSeed(){
     for(var i = 0; i < 40; i ++) {
         yield db.models.User.create({
@@ -13,7 +25,7 @@ function * userSeed(){
             sex: 0,
             unionid: 'unionid',
             openid: 'openid',
-            joinTime: Date.now(),
+            joinTime: Date.now()
         })
     }
 }
@@ -220,15 +232,16 @@ function * orderSeed() {
 
 function * init() {
     yield db.sync({force: true});
-    yield goodsTypeSeed();
+    yield adminerSeed();
+    //yield goodsTypeSeed();
     yield areaSeed();
     yield userSeed();
-    yield goodsSeed();
-    yield msgSeed();
+    //yield goodsSeed();
+    //yield msgSeed();
     yield addressSeed();
-    yield containerSeed();
-    yield shoppingCartSeed();
-    yield orderSeed();
+    //yield containerSeed();
+    //yield shoppingCartSeed();
+    //yield orderSeed();
 }
 
 co(function * () {
