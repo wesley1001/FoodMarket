@@ -6,7 +6,8 @@ var verifyCode = require('../../helpers/verifyCode');
 var debug = require('../../instances/debug');
 var render = require('../../instances/render');
 var db = require('../../models/index');
-var Seller = db.models.Seller;
+var auth = require('../../helpers/auth.js');
+var Admins = db.models.Adminer;
 
 module.exports = (router) => {
     router.get('/seller/login', function *() {
@@ -27,20 +28,30 @@ module.exports = (router) => {
             return;
         }
         try {
-            var c = yield Seller.count({
+
+            var c = yield Admins.findOne({
                 where: {
                     phone: body.phone,
-                    password: body.password
+                    password: body.password,
+                    status:0
                 }
             });
-            if (c) {
+
+            debug(c);
+            if (c!=null) {
                 ctx.body = '1';
+                ///登陆
+                auth.login(this,c);
+
             } else {
                 ctx.body = '0';
             }
         } catch (err) {
             ctx.body = '0';
         }
+
+
+
     });
 
     router.get('/verifyCode/:phone', function *() {

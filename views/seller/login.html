@@ -30,24 +30,24 @@
                 登录 <i class="m-icon-swapright m-icon-white"></i>
             </button>
         </div>
-        <div class="forget-password">
-            <h4>忘记密码?</h4>
-            <p>
-                不要担心 点击<a href="javascript:;"  id="forget-password">这里</a>
-                来重置您的密码
-            </p>
-        </div>
-        <div class="create-account">
-            <p>
-                还没有账户 ?&nbsp;
-                <a href="javascript:;" id="register-btn" >创建账户</a>
-            </p>
-        </div>
+        <!--<div class="forget-password">-->
+            <!--<h4>忘记密码?</h4>-->
+            <!--<p>-->
+                <!--不要担心 点击<a href="javascript:;"  id="forget-password">这里</a>-->
+                <!--来重置您的密码-->
+            <!--</p>-->
+        <!--</div>-->
+        <!--<div class="create-account">-->
+            <!--<p>-->
+                <!--还没有账户 ?&nbsp;-->
+                <!--<a href="javascript:;" id="register-btn" >创建账户</a>-->
+            <!--</p>-->
+        <!--</div>-->
     </form>
     <!-- END LOGIN FORM -->
     <% include './seller/forgetpwd' %>
-    <% include './seller/register' %>
+    <!--<% include './seller/register' %>-->
 </div>
 <% block 'scripts': %>
-<script src="/js/seller-login.js"></script>
+<script src="/dist/seller-login.js"></script>
 <% end %>

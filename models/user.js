@@ -24,7 +24,8 @@ module.exports = function (sequelize, DataTypes) {
 	}, {
         timestamps: false,
 		associate: function (models) {
-
+			models.Adminer.hasMany(models.User);
+			models.User.belongsTo(models.Adminer);
 		},
 		instanceMethods: {
 		},

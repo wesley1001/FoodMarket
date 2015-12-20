@@ -17,6 +17,7 @@ module.exports = (router) => {
 
 
 
+
     router.get('/adminer/accountlist',  function *() {
         var admin=yield Admins.findAll();
         this.body = yield render('admin/AccountList', {

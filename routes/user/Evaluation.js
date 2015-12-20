@@ -14,6 +14,7 @@ var sequelize = require('sequelize');
 module.exports = (router) => {
     var Evaluation = db.models.Evaluation;
     var User= db.models.User;
+    var Orders = db.models.Order;
     router.get('/user/evaluation',  function *() {
         var id= this.query.id;
         var save=0;
@@ -30,6 +31,10 @@ module.exports = (router) => {
             this.body = this.errors;
             return;
         }
+
+        var order=yield  Orders.findById(this.query.id);
+        order.status=5;
+        yield order.save();
 
         yield Evaluation.create({
             text: this.query.text,
@@ -51,11 +56,12 @@ module.exports = (router) => {
         });
         debug(list);
         ////一页5个
+        var pre=10;
         var preurl="#";
         var nexturl="#";
         if(page==null) {
             page=0;
-        }else{
+        }else if(page>0){
             var prepage=Number(page)-1;
             if(this.url.toString().indexOf("?")>0){
                 if(this.url.toString().indexOf("page")>0){
@@ -70,8 +76,8 @@ module.exports = (router) => {
         }
         var l=list.length;
         var next;
-        if(page*5+5<l){
-            list=list.slice(page*5,page*5+5);
+        if(page*pre+pre<l){
+            list=list.slice(page*pre,page*pre+pre);
             next= Number(page)+1;
             if(this.url.toString().indexOf("?")>0){
                 if(this.url.toString().indexOf("page")>0){
@@ -82,14 +88,15 @@ module.exports = (router) => {
             }else{
                 nexturl=this.url+"?page="+next;
             }
-        }else if(page*5+5==l) {
-            list=list.slice(page*5,page*5+5);
+        }else if(page*pre+pre==l) {
+            list=list.slice(page*pre,page*pre+pre);
             next=0;
         }else{
-            list=list.slice(page*5);
+            list=list.slice(page*pre);
             next=0;
         }
-        this.body = yield render('phone/Evaluations', {
+
+        this.body = yield render('admin/Evaluations', {
             preurl,nexturl,list,page,next
         });
     });

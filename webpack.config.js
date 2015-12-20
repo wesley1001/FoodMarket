@@ -5,7 +5,7 @@ module.exports = {
         //'admin-index': ['./src/js/admin/index.js'],
         //'goods-save': ['./src/js/goods/save.js'],
         //'goodsType': ['./src/js/goodsType/goodsType.js'],
-        //'seller-login': ['./src/js/seller/login.js'],
+        'seller-login': ['./src/js/seller/login.js'],
         //'seller-goods-list':['./src/js/seller/goods.js'],
  	    //'seller-order-list': ['./src/js/order/seller-order-list.js'],
  	  	//'phone-goods': ['./src/js/phone/goods.js'],
@@ -23,8 +23,10 @@ module.exports = {
         //'admin-form' : ['./src/js/admin/admin.js'],
         //'admin-account':['./src/js/admin/account.js'],
         //'admin-area':['./src/js/admin/Area.js'],
-        'admin-gooddetail':['./src/js/goods/detail.js'],
-        'phone-evaluation':['./src/js/phone/evaluation.js']
+        //'admin-gooddetail':['./src/js/goods/detail.js'],
+        //'phone-evaluation':['./src/js/phone/evaluation.js'],
+        //'admin-evaluations':['./src/js/admin/evaluations.js'],
+
     },
     output: {
         path: path.resolve(__dirname, 'public/dist'),
