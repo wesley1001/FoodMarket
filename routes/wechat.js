@@ -3,7 +3,7 @@
  */
 var wechatRobot = require('wechat');
 var OAuth = require('wechat-oauth');
-
+var Promise = require('bluebird');
 
 var wechatClient = require('./../instances/wechat.js');
 var wechatConfig = require('./../instances/config.js').wechat;
@@ -54,21 +54,23 @@ module.exports = (router) => {
         log.info('wechat/redirect');
     });
 
-    router.get('/wechat/auth', function (next) {
+    router.get('/wechat/auth', function *(next) {
         var client = WechatAuthClient();
         console.log(this.request.query);
         var ctx = this;
-        client.getAccessToken(this.request.query.code, function (err, result) {
-            log.info(result);
-            console.log(result);
-            var accessToken = result.data.access_token;
-            var openid = result.data.openid;
-            client.getUser(openid, function (err, userInfo) {
-                log.info(userInfo);
-                console.log(userInfo);
-                ctx.body = userInfo;
+        var p = new Promise(function (resolve) {
+            client.getAccessToken(ctx.request.query.code, function (err, result) {
+                console.log(result, err);
+                var accessToken = result.data.access_token;
+                var openid = result.data.openid;
+                client.getUser(openid, function (err, userInfo) {
+                    resolve(userInfo);
+                });
             });
         });
+
+        this.body = yield p;
+
     });
 
     router.get('/ttt', function *() {
