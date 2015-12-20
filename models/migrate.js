@@ -110,12 +110,15 @@ function * areaSeed() {
         })).id);
     }
 
-    for(var i = 0; i < 320; i ++) {
-        ids.push((yield db.models.Area.create({
-            title: '二级区域' + i,
-            type: 2,
-            AreaId: ids[i % ids.length]
-        })).id);
+    for(var i = 0; i < ids.length; i ++) {
+        for(var j = 0; j < 40; j ++) {
+            yield db.models.Area.create({
+                title: '二级区域' + j,
+                type: 2,
+                AreaId: ids[i % ids.length],
+                TopAreaId: ids[i % ids.length]
+            });
+        }
     }
 }
 
@@ -167,6 +170,11 @@ function * shoppingCartSeed() {
 function * orderSeed() {
     var fare = yield db.models.Container.fare();
     var users = yield db.models.User.findAll({});
+    var areas = yield db.models.Area.findAll({
+        where: {
+            type: 2
+        }
+    });
     var goods = yield db.models.Goods.findAll({});
     for(var i = 0; i < users.length; i ++) {
         for(var j = 0 ; j < 80; j ++) {
@@ -196,14 +204,15 @@ function * orderSeed() {
                 address: '大连理工大学软件学院',
                 price,
                 num: items.length,
-                status: 0,
+                status: 1,
                 fare: orderFare,
                 message: '留言啊',
-                UserId: users[i].id
+                UserId: users[i].id,
+                AreaId: areas[i % areas.length].id,
             });
             for(var k = 0 ; k < items.length; k ++ ){
-                items[i].OrderId = order.id;
-                yield items[i].save();
+                items[k].OrderId = order.id;
+                yield items[k].save();
             }
         }
     }
@@ -223,6 +232,7 @@ function * init() {
 }
 
 co(function * () {
+    yield init;
     console.log('finished ...');
 }).catch(function () {
     console.log(arguments);
