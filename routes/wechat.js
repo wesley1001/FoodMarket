@@ -47,14 +47,15 @@ module.exports = (router) => {
 
     router.get('/wechat/redirect', function *() {
         var client = WechatAuthClient();
-        var url = client.getAuthorizeURL('http://139.129.18.214/wechat/auth', 'state', 'snsapi_userinfo');
+        var url = client.getAuthorizeURL('http://139.129.18.214/wechat/auth', 'state', 'snsapi_base');
         this.redirect(url);
         log.info('wechat/redirect');
     });
 
     router.get('/wechat/auth', function *(next) {
         var client = WechatAuthClient();
-        var result = yield client.getAccessToken('code', function (err, result) {
+        console.log(this.request.query);
+        var result = yield client.getAccessToken(this.request.query.code, function (err, result) {
         });
 
         log.info(result);
