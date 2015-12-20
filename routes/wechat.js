@@ -54,20 +54,21 @@ module.exports = (router) => {
         log.info('wechat/redirect');
     });
 
-    router.get('/wechat/auth', function *(next) {
+    router.get('/wechat/auth', function (next) {
         var client = WechatAuthClient();
         console.log(this.request.query);
-        var getAccessToken = thunkify(client.getAccessToken);
-        var result = yield client.getAccessToken(this.request.query.code);
-
-        log.info(result);
-        console.log(result);
-        var accessToken = result.data.access_token;
-        var openid = result.data.openid;
-
-        var userInfo = yield client.getUser(openid);
-        log.info(userInfo);
-        console.log(userInfo);
+        var ctx = this;
+        client.getAccessToken(this.request.query.code, function (err, result) {
+            log.info(result);
+            console.log(result);
+            var accessToken = result.data.access_token;
+            var openid = result.data.openid;
+            client.getUser(openid, function (err, userInfo) {
+                log.info(userInfo);
+                console.log(userInfo);
+                ctx.body = 'hello';
+            });
+        });
     });
 
     router.get('/ttt', function *() {
