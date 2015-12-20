@@ -21,17 +21,17 @@ var router = new Router();
 router.use(function *(next) {
 
     // todo: for test
-    var req = this.req;
+    var req = this.request;
     var data;
-    if (/\/user\/.*/.test(req.url)) {
-        data = yield db.models.User.findOne();
-    }
-    //if (/\/adminer\/*/.test(req.url)) {
-    //    data = yield db.models.Adminer.findOne();
+    //if (/\/user\/.*/.test(req.url)) {
+    //    data = yield db.models.User.findOne();
     //}
-    if (data) {
-        auth.login(this, data);
-    }
+    ////if (/\/adminer\/*/.test(req.url)) {
+    ////    data = yield db.models.Adminer.findOne();
+    ////}
+    //if (data) {
+    //    auth.login(this, data);
+    //}
     var user = auth.user(this);
     if (/\/user\/.*/.test(req.url) && (util.isNullOrUndefined(user) || user.flag !== 1)) {
         this.redirect('/user-login');

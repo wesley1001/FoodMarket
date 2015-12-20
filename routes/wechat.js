@@ -5,25 +5,49 @@ var wechatClient = require('./../instances/wechat.js');
 var wechatRobot = require('wechat');
 var wechatConfig = require('./../instances/config.js').wechat;
 var log = require('./../instances/log.js');
+var auth = require('./../helpers/auth.js');
+var util = require('util');
 
-var client = new OAuth(wechatConfig.appId, wechatConfig.secret);
+var WechatAuthClient = function () {
+    return new OAuth(wechatConfig.appId, wechatConfig.secret);
+};
+
 module.exports = (router) => {
 
+
+    var wechatCookieAccessToken = 'FoodMarketWechatAccessToken',
+        wechatCookieRefreshToken = 'FoodMarketWechatRefreshToken';
+
+    var refresh = function *(ctx, client) {
+        try{
+            var result = yield client.refreshAccessToken(refreshToken);
+            ctx.cookies.set(wechatCookieRefreshToken, result.refresh_token);
+            ctx.cookies.set(wechatCookieAccessToken, result.access_token);
+            return result;
+        } catch(ex) {
+            console.log(ex);
+            log.error(ex);
+            return false;
+        }
+    };
+
     router.get('/check', function *() {
-        if (wechatRobot.checkSignature(this.req.query, wechatConfig.token)) {
-            this.body = this.req.query.echoStr;
+        if (wechatRobot.checkSignature(this.request.query, wechatConfig.token)) {
+            this.body = this.request.query.echoStr;
         }else {
             this.body = "fail";
         }
     });
 
     router.get('wechat/redirect', function *() {
-        var url = client.getAuthorizeURL('http://139.129.18.214/wechat/auth', 'state', 'scope');
+        var client = WechatAuthClient();
+        var url = client.getAuthorizeURL('http://139.129.18.214/wechat/auth', 'state', 'snsapi_userinfo');
         this.redirect(url);
         log.info('wechat/redirect');
     });
 
     router.get('/wechat/auth', function *(next) {
+        var client = WechatAuthClient();
         var result = yield client.getAccessToken('code', function (err, result) {
         });
 
@@ -33,6 +57,32 @@ module.exports = (router) => {
 
         var userInfo = yield client.getUser('openid');
         log.info(userInfo);
+    });
+
+    router.get('/ttt', function *() {
+        this.body = this.url + '-----' +  this.host;
+    });
+
+    router.get('/wechat/login', function *() {
+        var client = WechatAuthClient();
+        var user = auth.user(this);
+        var accessToken;
+        var ctx = this;
+        var openid;
+        if (util.isNullOrUndefined(user)) {
+            var refreshToken = this.cookies.get(wechatCookieRefreshToken);
+            if (util.isNullOrUndefined(refreshToken)) {
+                this.redirect('/wechat/redirect');
+                return;
+            }
+            var result = yield refresh(this, client);
+            accessToken = result.access_token;
+            openid = result.opnid;
+            user = yield client.getUser(result.openid);
+            log,info(JSON.stringify(user));
+            auth.login(this, user);
+        }
+        this.redirect('/user/index');
     });
 
 };
