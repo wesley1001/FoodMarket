@@ -16,7 +16,17 @@ app.controller('AppCtrl', ['$scope', '$http', function (scope, $http) {
 
     scope.shoppingCart = src;
 
-    scope.totalPrice = cal();
+    var totalPrice = cal();
+
+
+    scope.fareData = JSON.parse(angular.element('#fare').html());
+
+    if (totalPrice >  scope.fareData.fireLine) {
+        scope.fare = 0;
+    } else {
+        scope.fare = scope.fareData.basicFare;
+        scope.totalPrice = totalPrice + scope.fare;
+    }
 
     function cal() {
         var fee = 0;

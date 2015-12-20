@@ -34,7 +34,8 @@ module.exports = (router) => {
         yield Area.create({
             title: this.query.title,
             type: this.query.type,
-            AreaId: this.query.fid
+            AreaId: this.query.fid,
+            TopAreaId: this.query.fid
         });
 
         this.body = this.query.title;

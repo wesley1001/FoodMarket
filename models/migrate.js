@@ -110,12 +110,15 @@ function * areaSeed() {
         })).id);
     }
 
-    for(var i = 0; i < 320; i ++) {
-        ids.push((yield db.models.Area.create({
-            title: '二级区域' + i,
-            type: 2,
-            AreaId: ids[i % ids.length]
-        })).id);
+    for(var i = 0; i < ids.length; i ++) {
+        for(var j = 0; j < 40; j ++) {
+            yield db.models.Area.create({
+                title: '二级区域' + j,
+                type: 2,
+                AreaId: ids[i % ids.length],
+                TopAreaId: ids[i % ids.length]
+            });
+        }
     }
 }
 
@@ -152,13 +155,66 @@ function * containerSeed() {
 
 function * shoppingCartSeed() {
     var users = yield db.models.User.findAll({});
-    var goods = yield db.models.Goods.findAll();
-    for(var i = 0; i < 1280; i ++) {
-        yield db.models.ShoppingCart.create({
-            num: i,
-            UserId: users[i % users.length].id,
-            AreaId: goods[i % goods.length].id
-        })
+    var goods = yield db.models.Goods.findAll({});
+    for(var i = 0; i < users.length; i ++) {
+        for(var j = 0 ; j < goods.length; j ++) {
+            s = yield db.models.ShoppingCart.create({
+                num: i + j + 1,
+                UserId: users[i % users.length].id,
+                GoodId: goods[j % goods.length].id
+            });
+        }
+    }
+}
+
+function * orderSeed() {
+    var fare = yield db.models.Container.fare();
+    var users = yield db.models.User.findAll({});
+    var areas = yield db.models.Area.findAll({
+        where: {
+            type: 2
+        }
+    });
+    var goods = yield db.models.Goods.findAll({});
+    for(var i = 0; i < users.length; i ++) {
+        for(var j = 0 ; j < 80; j ++) {
+            var items = [];
+            var price = 0;
+            for(var k = 0 ; k < (i + j % 10) + 1; k ++ ){
+                var goodsItem = goods[(i+j+k) % goods.length];
+                price += (i+j+k) * goodsItem.price;
+                items.push(db.models.OrderItem.build({
+                    goods: JSON.stringify(goodsItem),
+                    price: ((i + j % 10) + 1) * goodsItem.price,
+                    num: (i + j % 10) + 1,
+                    GoodId: goodsItem.id
+                }));
+            }
+            var orderFare = 0;
+            if (price < fare.freeLine) {
+                orderFare = fare.basicFare;
+                price += orderFare;
+            }
+            var order = yield db.models.Order.create({
+                recieverName: '收货人' + i,
+                phone: "1884082391" + i % 10,
+                province: '辽宁省',
+                city: '大连市',
+                area: '开发区',
+                address: '大连理工大学软件学院',
+                price,
+                num: items.length,
+                status: 1,
+                fare: orderFare,
+                message: '留言啊',
+                UserId: users[i].id,
+                AreaId: areas[i % areas.length].id,
+            });
+            for(var k = 0 ; k < items.length; k ++ ){
+                items[k].OrderId = order.id;
+                yield items[k].save();
+            }
+        }
     }
 }
 
@@ -172,11 +228,11 @@ function * init() {
     yield addressSeed();
     yield containerSeed();
     yield shoppingCartSeed();
+    yield orderSeed();
 }
 
 co(function * () {
-    yield db.sync({force: true});
-    yield init();
+    yield init;
     console.log('finished ...');
 }).catch(function () {
     console.log(arguments);
