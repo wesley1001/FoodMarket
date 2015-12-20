@@ -41,7 +41,7 @@ module.exports = (router) => {
         }
     });
 
-    router.get('wechat/redirect', function *() {
+    router.get('/wechat/redirect', function *() {
         var client = WechatAuthClient();
         var url = client.getAuthorizeURL('http://139.129.18.214/wechat/auth', 'state', 'snsapi_userinfo');
         this.redirect(url);
