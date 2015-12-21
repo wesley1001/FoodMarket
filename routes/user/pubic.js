@@ -10,6 +10,7 @@ var sequelizex = require('../../lib/sequelizex.js');
 
 var User = db.models.User;
 var Area = db.models.Area;
+var DeliverAddress = db.models.DeliverAddress;
 
 
 module.exports = (router) => {
