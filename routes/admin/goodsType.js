@@ -8,7 +8,7 @@ var debug = require('../../instances/debug.js');
 module.exports = (router) => {
 
     var GoodsType = db.models.GoodsType;
-
+    var Goods = db.models.Goods;
     router.get('/adminer/goodstype',  function *() {
         var types = yield GoodsType.all();
         debug(types);
@@ -63,18 +63,27 @@ module.exports = (router) => {
 
     router.get('/adminer/deltype',  function *() {
 
-        var type= yield GoodsType.findById(this.query.id);
-
+        var type= yield GoodsType.findOne({
+            where:{
+                id:this.query.id
+            },
+            include:Goods
+        });
+        debug(type);
         if(type.type==2){
             var count=type.Goods.length;
-            if(count>0){
+            if(count==0){
                 type.destroy();
             }
 
         }
         else{
-            var count=type.GoodsType.length;
-            if(count>0){
+            var count=yield GoodsType.count({
+                where:{
+                    GoodsTypeId:this.query.id
+                }
+            });
+            if(count==0){
                 type.destroy();
             }
         }
