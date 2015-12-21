@@ -119,8 +119,8 @@ yes.click(function(){
             data:data,
             success:function(data){
                 if(data)
-                    alert('添加成功');
-                window.location.href = location.href;
+                { alert('添加成功');
+                window.location.href = '/user/address';}
             }
         })
     }

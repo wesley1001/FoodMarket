@@ -4,3 +4,4 @@
 require('imports?$=jquery!amazeui/dist/css/amazeui.css');
 
 require('../../scss/evaluation.scss');
+require('./base.js');
