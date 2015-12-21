@@ -21,7 +21,7 @@ module.exports = (router) => {
 
         var counterman = yield Adminer.findAll({
             where: {
-                type: 2,
+                type: 3,
                 status: 0
             }
         });
@@ -122,6 +122,19 @@ module.exports = (router) => {
             where: {
                 id: {
                     in: body.ids
+                },
+                status: -1
+            }
+        });
+        yield User.update({
+            AdminerId: body.adminerId
+        },{
+            where: {
+                id: {
+                    in: body.ids
+                },
+                status: {
+                    $ne: -1
                 }
             }
         });

@@ -7,14 +7,14 @@ require('../angular.simple-datatables.js');
 var app = angular.module('app', ['simpleDatatable', 'ngRoute']);
 
 var getUserData = function ($http, scope, status) {
-    if (status === -1 ? !scope.data.uncheck : !scope.data.checked) {
+    if (status === 0 ? !scope.data.uncheck : !scope.data.checked) {
         $http
             .get('/adminer/user-admin/' + status)
             .success(function (data) {
                 for(var i in data){
                     data[i].joinTime = (new Date(data[i].joinTime)).toLocaleString();
                 }
-                if (status === -1) {
+                if (status === 0) {
                     scope.data.uncheck = data;
                     scope.list = scope.data.uncheck;
                 } else {
@@ -24,7 +24,7 @@ var getUserData = function ($http, scope, status) {
                 scope.$applyAsync();
             })
     } else {
-        scope.list = status === -1 ? scope.data.uncheck : scope.data.checked;
+        scope.list = status === 0 ? scope.data.uncheck : scope.data.checked;
         scope.$applyAsync();
     }
 };
@@ -66,9 +66,9 @@ app.controller('AppCtrl', ['$scope', '$http', function (scope, $http) {
         var status = 0;
         var remover = extraParams[1];
         if (extraParams[0] === 'pass') {
-            status = 0;
+            status = 1;
         } else if (extraParams[0] === 'reject') {
-            status = -2;
+            status = -3;
         }
         $http
             .post('/adminer/user-admin-action', {
@@ -97,11 +97,11 @@ app.controller('AppCtrl', ['$scope', '$http', function (scope, $http) {
 }]);
 
 app.controller('UncheckCtrl', ['$scope', function (scope) {
-    scope.$parent.tab = -1;
+    scope.$parent.tab = 0;
 }]);
 
 app.controller('CheckedCtrl', ['$scope', function (scope) {
-    scope.$parent.tab = 0;
+    scope.$parent.tab = 1;
 }]);
 
 angular.bootstrap(document.documentElement, ['app']);

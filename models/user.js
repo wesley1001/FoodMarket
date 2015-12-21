@@ -12,6 +12,7 @@ module.exports = function (sequelize, DataTypes) {
         openid: shortDataTypes.String(),
         joinTime: shortDataTypes.Date(),
 		/**
+		 * - 3 deleted
 		 * -2 information needed to be updated
 		 * -1 unassigned
 		 * 0 assigned
