@@ -39,7 +39,7 @@ module.exports = (router) => {
         yield Evaluation.create({
             text: this.query.text,
             OrderId: this.query.id,
-            UserId:yield auth.user(this).id
+            UserId:yield (auth.user(this)).id
         });
 
         var save=1;
