@@ -49,6 +49,7 @@ module.exports = (router) => {
 
         user = yield User.findById(user.id);
 
+
         user.name= body.name;
         user.phone= body.phone;
         user.name= body.name;
