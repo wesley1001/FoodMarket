@@ -9,16 +9,11 @@ var render = require('../../instances/render.js');
 var debug = require('../../instances/debug.js');
 
 
-
 module.exports = (router) => {
 
     var Admins = db.models.Adminer;
 
-
-
-
-
-    router.get('/adminer/accountlist',  function *() {
+    router.get('/adminer-super/accountlist',  function *() {
         var admin=yield Admins.findAll();
         this.body = yield render('admin/AccountList', {
             admin
@@ -112,11 +107,5 @@ module.exports = (router) => {
         yield is.save();
         this.body=1;
     });
-
-
-
-
-
-
 
 };

@@ -5,6 +5,7 @@ var cache = require('../instances/cache.js');
 var utilx = require('../lib/util.js');
 var util = require('util');
 var co = require('co');
+var debug = require('../instances/debug.js');
 
 var cookieName = 'FoodMarketUser';
 
@@ -19,6 +20,7 @@ module.exports = {
         ctx.current.user = user;
         var token = utilx.md5(`${user.id}#${Date.now()}`);
         ctx.cookies.set(cookieName, token);
+        debug('auth login', token);
         cache.jsetex(token, 60 * 60 * 24, user);
     },
     /**
@@ -26,7 +28,7 @@ module.exports = {
      * @param ctx
      * @returns {user || null}
      */
-    user: (ctx) => {
+    user: function *(ctx)  {
         var user;
         ctx.current = ctx.current || {};
         user = ctx.current.user;
@@ -35,7 +37,7 @@ module.exports = {
             if (util.isNullOrUndefined(token)) {
                 return null;
             }
-            user = cache.jget(token);
+            user = yield cache.jget(token);
         }
         ctx.current.user = user;
         return user;

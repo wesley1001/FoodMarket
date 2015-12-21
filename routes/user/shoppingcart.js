@@ -19,7 +19,7 @@ module.exports = (router) => {
         }
         var shoppingCart = yield ShoppingCart.findOne({
             where:{
-                UserId: auth.user(this).id,
+                UserId: yield auth.user(this).id,
                 GoodId: this.params.id
             }
         });
@@ -32,7 +32,7 @@ module.exports = (router) => {
             }
         } else if (this.params.num >= 0){
             yield ShoppingCart.create({
-                UserId: auth.user(this).id,
+                UserId: yield auth.user(this).id,
                 GoodId: this.params.id,
                 num: this.params.num
             });
@@ -43,7 +43,7 @@ module.exports = (router) => {
     router.get('/user/shoppingcart', function *() {
         this.body = sequelizex.Func.val(yield ShoppingCart.findAll({
             where: {
-                UserId: auth.user(this).id
+                UserId: yield auth.user(this).id
             },
             attributes: ['id', 'num', 'GoodId']
         }));
@@ -53,7 +53,7 @@ module.exports = (router) => {
 
         var shoppingCart = yield sequelizex.Func.val(yield ShoppingCart.findAll({
             where: {
-                UserId: auth.user(this).id
+                UserId: yield auth.user(this).id
             },
             attributes: ['id', 'num', 'GoodId'],
             include: [{

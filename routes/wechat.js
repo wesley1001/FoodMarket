@@ -78,9 +78,11 @@ module.exports = (router) => {
         });
         if (util.isNullOrUndefined(dbUser)) {
             dbUser = yield User.create({
+                name: '用户',
                 nickname: user.nickname,
                 headimage: user.headimgurl,
-                sex: user.sex
+                sex: user.sex,
+                openid: user.openid
             });
         }
         auth.login(this, user);
@@ -95,7 +97,7 @@ module.exports = (router) => {
 
     router.get('/wechat/login', function *() {
         var client = WechatAuthClient();
-        var user = auth.user(this);
+        var user = yield auth.user(this);
         var accessToken;
         var ctx = this;
         var openid;

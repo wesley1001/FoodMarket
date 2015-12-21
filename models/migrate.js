@@ -244,8 +244,19 @@ function * init() {
     //yield orderSeed();
 }
 
+function *addSuperAdminer() {
+    yield db.models.Adminer.create({
+        nickname: 'super',
+        name: '超级管理员',
+        phone: '18840823910',
+        password: '123456',
+        status: 0,
+        type: 100
+    });
+}
+
 co(function * () {
-    yield init;
+    yield addSuperAdminer;
     console.log('finished ...');
 }).catch(function () {
     console.log(arguments);

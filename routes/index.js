@@ -17,14 +17,12 @@ var router = new Router();
 /****************************
  登录过滤
  ***************************/
-
 // todo: for test
 router.use(function *(next) {
 
     context.set(this);
     // todo: for test
     var req = this.request;
-    var data;
     //if (/\/user\/.*/.test(req.url)) {
     //    data = yield db.models.User.findOne();
     //}
@@ -34,10 +32,10 @@ router.use(function *(next) {
     //if (data) {
     //    auth.login(this, data);
     //}
-    var user = auth.user(this);
+    var user = yield auth.user(this);
     if (/\/user\/.*/.test(req.url)) {
         if (!user) {
-            this.redirect('/wchat/login');
+            this.redirect('/wechat/login');
             return;
         } else if (user.status == -1) {
             this.redirect('/user-wait');
@@ -47,10 +45,26 @@ router.use(function *(next) {
             return;
         }
     }
-    //if (/\/adminer\/*/.test(req.url) && (util.isNullOrUndefined(user) || user.flag !== 0)) {
-    //    this.redirect('/user-login');
-    //    return;
-    //}
+    if (/\/adminer\/*/.test(req.url) && (util.isNullOrUndefined(user) ||  typeof user.type === 'undefined')) {
+        this.redirect('/admin-login');
+        return;
+    }
+    if (/\/adminer-(\w*)\/*/.exec(req.url)) {
+        var type = /\/adminer-(\w*)\/*/.exec(req.url)[1];
+        if ((util.isNullOrUndefined(user) ||  typeof user.type === 'undefined')) {
+            this.redirect('/admin-login');
+            return;
+        }
+        switch (type) {
+            case 'super':
+                if (user.type != 100) {
+                    this.redirect('/admin-login');
+                    return;
+                }
+                break;
+        }
+    }
+    debug('next');
     yield next;
 });
 

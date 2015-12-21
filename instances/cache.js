@@ -32,15 +32,15 @@ commands.forEach( function (cmd)  {
 });
 
 client.jsetex = (key, expire, val, callback) => {
-    return client.set(key, expire, JSON.stringify(val), callback);
+    return client.setex(key, expire, JSON.stringify(val), callback);
 };
 
 
 
 var redisCo = redisCoWrapper(client);
 // json get
-redisCo.jget = function *(key, arg) {
-    var val = yield redisCo.get(key, arg);
+redisCo.jget = function *(key) {
+    var val = yield redisCo.get(key);
     return util.isNullOrUndefined(val) ? val : JSON.parse(val);
 };
 

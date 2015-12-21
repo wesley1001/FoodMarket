@@ -14,7 +14,7 @@ var Msg = db.models.Msg;
 module.exports = (router) => {
 
     router.get('/user/msgCount',  function *() {
-        this.body = yield Msg.myCount(auth.user(this).id);
+        this.body = yield Msg.myCount(yield auth.user(this).id);
     });
 
     router.get('/user/msg', function *() {

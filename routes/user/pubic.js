@@ -41,7 +41,7 @@ module.exports = (router) => {
             return;
         }
 
-        var user = auth.user(this);
+        var user = yield auth.user(this);
         if (!user) {
             this.redirect('/wechat/login');
             return;
