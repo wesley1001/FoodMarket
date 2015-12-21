@@ -48,17 +48,24 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-md-3">会员折扣</label>
+                            <label class="control-label col-md-3">规格</label>
 
                             <div class="col-md-3">
-                                <div class="input-group">
-                                    <input type="number" class="form-control" name="vipDiscount" min="0" max="10" value="<%= @data?.vipDiscount %>" >
-                                    <div class="input-group-btn">
-                                        <a class="btn default">折</a>
-                                    </div>
-                                </div>
+                                <input type="text" class="form-control" name="per" maxlength="10" value="<%= @data?.per %>" >
                             </div>
                         </div>
+                        <!--<div class="form-group">-->
+                            <!--<label class="control-label col-md-3">会员折扣</label>-->
+
+                            <!--<div class="col-md-3">-->
+                                <!--<div class="input-group">-->
+                                    <!--<input type="number" class="form-control" name="vipDiscount" min="0" max="10" value="<%= @data?.vipDiscount %>" >-->
+                                    <!--<div class="input-group-btn">-->
+                                        <!--<a class="btn default">折</a>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
                         <div class="form-group">
                             <label class="control-label col-md-3">剩余量<span class="required">*</span></label>
                             <div class="col-md-3">
@@ -106,6 +113,12 @@
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            <label class="control-label col-md-3">简要介绍<span class="required">*</span></label>
+                            <div class="col-md-3">
+                                <input name="brief" type="text" class="form-control" maxlength="100" value="<%= @data?.brief %>" />
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label class="control-label  col-md-3">商品详情</label>
                             <div class="col-md-8">

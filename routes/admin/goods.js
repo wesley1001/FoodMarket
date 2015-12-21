@@ -49,6 +49,8 @@ module.exports = (router) => {
         this.checkBody('oldPrice').notEmpty().isFloat().gt(0).toFloat();
         this.checkBody('capacity').notEmpty().isInt().gt(0).toInt();
         this.checkBody('GoodsTypeId').notEmpty().isInt().toInt();
+        this.checkBody('per').notEmpty();
+        this.checkBody('brief').notEmpty();
 
         var body = this.request.body;
 
@@ -67,15 +69,14 @@ module.exports = (router) => {
                 goods.price = body.price;
                 goods.oldPrice = body.oldPrice;
                 goods.capacity = body.capacity;
-                goods.discount = Boolean(body.discount);
                 goods.GoodsTypeId = body.GoodsTypeId;
+                goods.brief = body.brief;
                 goods.content = body.content;
                 yield goods.save();
                 isCreate = false;
             }
         }
 
-        console.log('create');
         if (isCreate) {
             yield Goods.create({
                 title: body.title,
@@ -84,14 +85,13 @@ module.exports = (router) => {
                 price: body.price,
                 oldPrice: body.oldPrice,
                 capacity: body.capacity,
-                discount: typeof body.discount === 'undefined',
-                SellerId: (yield auth.user(this)).id,
                 GoodsTypeId: body.GoodsTypeId,
+                brief: body.brief,
                 soldNum: 0,
-                content: body.content
+                content: body.content,
+                per: body.per,
             });
         }
-        console.log('created');
 
         this.body = 'ok';
     }

@@ -28,7 +28,7 @@ module.exports = {
         //'admin-evaluations':['./src/js/admin/evaluations.js'],
         //'admin-order-list':['./src/js/order/list.js'],
         //'admin-user-assign':['./src/js/admin/user-assign.js'],
-        'admin-goods-list':['./src/js/goods/list.js'],
+        //'admin-goods-list':['./src/js/goods/list.js'],
         'admin-goods-save': ['./src/js/goods/save.js'],
     },
     output: {
