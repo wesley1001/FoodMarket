@@ -60,6 +60,10 @@ module.exports = (router) => {
         var ctx = this;
         var p = new Promise(function (resolve) {
             client.getAccessToken(ctx.request.query.code, function (err, result) {
+                if (err) {
+                    console.log(err);
+                    ctx.redirect('/wechat/redirect');
+                }
                 var accessToken = result.data.access_token;
                 var openid = result.data.openid;
                 ctx.cookies.set(wechatCookieRefreshToken, result.data.refresh_token);
@@ -85,7 +89,7 @@ module.exports = (router) => {
                 openid: user.openid
             });
         }
-        auth.login(this, dbUser);
+        auth.login(this, user);
         if (dbUser.status === 1) {
             this.redirect('/user/index');
         } else if (dbUser.status === -2){
