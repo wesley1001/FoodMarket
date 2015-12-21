@@ -23,6 +23,13 @@ module.exports = (router) => {
         });
     });
 
+    router.get('/user/center',  function *() {
+
+        this.body = yield render('user/user.html', {
+            user: yield auth.user(this)
+        });
+    });
+
     //router.get('/all-ltype', function *() {
     //    var types = yield GoodsType.allLtype();
     //    this.body = types;

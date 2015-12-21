@@ -29,7 +29,8 @@ module.exports = {
         //'admin-order-list':['./src/js/order/list.js'],
         //'admin-user-assign':['./src/js/admin/user-assign.js'],
         //'admin-goods-list':['./src/js/goods/list.js'],
-        'admin-goods-save': ['./src/js/goods/save.js'],
+        //'admin-goods-save': ['./src/js/goods/save.js'],
+        'user-center': ['./src/js/user/user.js'],
     },
     output: {
         path: path.resolve(__dirname, 'public/dist'),
