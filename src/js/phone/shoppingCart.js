@@ -2,7 +2,7 @@ require('imports?$=jquery!amazeui/dist/css/amazeui.css');
 require('../../css/phone/shoppingCart.scss');
 
 require('exports?window.angular!angular');
-require('./base.js').bottomBar(2);
+require('./base.js').bottomBar(1);
 
 var $ = jQuery;
 

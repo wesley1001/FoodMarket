@@ -1,14 +1,18 @@
 <% extend 'phone/base.html' %>
-<div class="am-g">
-    <div class="am-u-sm-12 info">
-        <div class="user name">用户名: <%= @user.nickname %></div>
-        <div class="am-text-right">
-            <div class="am-btn-group">
-                <a href="/user/order-list" class="am-success">我的订单</a>
-                <a href="/user/order-list" class="am-warning">收货地址</a>
-            </div>
-        </div>
 
+<div style="background-color: #eee;">
+    <div class="am-cf am-padding">
+        <div class="am-fl">
+            <img src="<%= @user.headimage %>" style="width: 48px; height: 48px;">
+        </div>
+        <div class="am-fr" style="line-height: 48px;">用户名: <%= @user.nickname %></div>
+    </div>
+</div>
+
+<div class="am-text-right">
+    <div class="am-btn-group">
+        <a href="/user/order-list" class="am-success"></a>
+        <a href="/user/order-list" class="am-warning"></a>
     </div>
 </div>
 <!--<div class="am-g">-->
@@ -28,12 +32,12 @@
     <!--</div>-->
 <!--</div>-->
 <div class="am-g">
-    <div class="margin-top-40">
-        <a href="#">
-            <div class="am-u-sm-12 option">我的信息<span class="icon"><i class="am-icon-angle-right"></i></span></div>
+    <div class="">
+        <a href="/user/order-list">
+            <div class="am-u-sm-12 option">我的订单<span class="icon"><i class="am-icon-angle-right"></i></span></div>
         </a>
-        <a href="#">
-            <div class="am-u-sm-12 option">设置<span class="icon"><i class="am-icon-angle-right"></i></span></div>
+        <a href="/user/order-list">
+            <div class="am-u-sm-12 option">收货地址<span class="icon"><i class="am-icon-angle-right"></i></span></div>
         </a>
     </div>
 </div>
