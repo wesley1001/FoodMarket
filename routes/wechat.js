@@ -66,7 +66,6 @@ module.exports = (router) => {
                     resolve(null);
                     return;
                 }
-                console.log('result --------------', result);
                 var accessToken = result.data.access_token;
                 var openid = result.data.openid;
                 ctx.cookies.set(wechatCookieRefreshToken, result.data.refresh_token);
@@ -78,6 +77,7 @@ module.exports = (router) => {
         });
 
         var user = yield p;
+        console.log('user------------', user);
         if (user == null) {
             ctx.redirect('/wechat/redirect');
             return;
@@ -87,6 +87,7 @@ module.exports = (router) => {
                 openid: user.openid
             }
         });
+        console.log('db---user------------', dbUser);
         if (util.isNullOrUndefined(dbUser)) {
             dbUser = yield User.create({
                 name: '用户',
