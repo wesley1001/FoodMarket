@@ -10,6 +10,7 @@ var render = require('./../instances/render.js');
 var db = require('./../models/index.js');
 var debug = require('./../instances/debug.js');
 var auth = require('../helpers/auth.js');
+var context = require('../instances/context.js');
 
 var router = new Router();
 
@@ -20,6 +21,7 @@ var router = new Router();
 // todo: for test
 router.use(function *(next) {
 
+    context.set(this);
     // todo: for test
     var req = this.request;
     var data;
@@ -33,9 +35,17 @@ router.use(function *(next) {
     //    auth.login(this, data);
     //}
     var user = auth.user(this);
-    if (/\/user\/.*/.test(req.url) && (util.isNullOrUndefined(user) || user.flag !== 1)) {
-        this.redirect('/user-login');
-        return;
+    if (/\/user\/.*/.test(req.url)) {
+        if (!user) {
+            this.redirect('/wchat/login');
+            return;
+        } else if (user.status == -1) {
+            this.redirect('/user-wait');
+            return;
+        } else if (user.status == -2) {
+            this.redirect('/user-register');
+            return;
+        }
     }
     //if (/\/adminer\/*/.test(req.url) && (util.isNullOrUndefined(user) || user.flag !== 0)) {
     //    this.redirect('/user-login');

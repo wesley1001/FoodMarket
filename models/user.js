@@ -8,19 +8,19 @@ module.exports = function (sequelize, DataTypes) {
         nickname: shortDataTypes.String(),
         headimage: shortDataTypes.Url(),
 		sex: shortDataTypes.Int(),
-		password: shortDataTypes.String(),
-        phone: shortDataTypes.Phone(),
-        unionid: shortDataTypes.String(),
+        phone: shortDataTypes.Phone(true),
         openid: shortDataTypes.String(),
         joinTime: shortDataTypes.Date(),
+		/**
+		 * -2 information needed to be updated
+		 * -1 unassigned
+		 * 0 assigned
+		 * 1 checked
+		 */
         status: {
 			type: DataTypes.INTEGER,
-			defaultValue: -1
-		},
-        flag: {
-            type: DataTypes.INTEGER,
-            defaultValue: 1
-        }
+			defaultValue: -2
+		}
 	}, {
         timestamps: false,
 		associate: function (models) {

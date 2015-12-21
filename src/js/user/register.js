@@ -3,7 +3,7 @@
  */
 require('imports?$=jquery!amazeui/dist/css/amazeui.css');
 
-require('../../css/seller/register.scss');
+require('../../css/user/register.scss');
 
 require('distpicker/dist/distpicker.data.js');
 require('imports?$=jquery, ChineseDostricts=distpicker/dist/distpicker.data.js, define=>false, exports=>false!distpicker/dist/distpicker.js');

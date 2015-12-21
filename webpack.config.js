@@ -18,7 +18,7 @@ module.exports = {
         //'admin-goodstype': ['./src/js/admin/goodstype.js'],
         //'admin-orders':['./src/js/admin/orders.js'],
         //'admin-fare':['./src/js/admin/fare.js'],
-        //'seller-register': ['./src/js/seller/register.js'],
+        //'user-register': ['./src/js/user/register.js'],
         //'seller-list': ['./src/js/admin/seller.js'],
         //'user-list': ['./src/js/admin/user.js'],
         //'admin-form' : ['./src/js/admin/admin.js'],

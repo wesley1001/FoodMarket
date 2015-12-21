@@ -12,6 +12,9 @@ var auth = require('./../helpers/auth.js');
 var util = require('util');
 var thunkify = require('thunkify');
 
+var db = require('./../models/index.js');
+
+
 
 var WechatAuthClient = function () {
     return new OAuth(wechatConfig.appId, wechatConfig.secret);
@@ -19,6 +22,8 @@ var WechatAuthClient = function () {
 
 module.exports = (router) => {
 
+
+    var User = db.models.User;
 
     var wechatCookieAccessToken = 'FoodMarketWechatAccessToken',
         wechatCookieRefreshToken = 'FoodMarketWechatRefreshToken';
@@ -37,9 +42,7 @@ module.exports = (router) => {
     };
 
     router.get('/wechat-gate', function *() {
-        console.log(this.request.query);
         if (wechatRobot.checkSignature(this.request.query, wechatConfig.token)) {
-            console.log(this.request.query.echostr);
             this.body = this.request.query.echostr;
         }else {
             this.body = "fail";
@@ -59,19 +62,35 @@ module.exports = (router) => {
             client.getAccessToken(ctx.request.query.code, function (err, result) {
                 var accessToken = result.data.access_token;
                 var openid = result.data.openid;
+                ctx.cookies.set(wechatCookieRefreshToken, result.data.refresh_token);
+                ctx.cookies.set(wechatCookieAccessToken, result.data.access_token);
                 client.getUser(openid, function (err, userInfo) {
                     resolve(userInfo);
                 });
             });
         });
 
-        this.body = yield p;
-        console.log(this.body);
-
-    });
-
-    router.get('/ttt', function *() {
-        this.body = this.url + '-----' +  this.host;
+        var user = yield p;
+        var dbUser = yield User.findOne({
+            where: {
+                openid: user.openid
+            }
+        });
+        if (util.isNullOrUndefined(dbUser)) {
+            dbUser = yield User.create({
+                nickname: user.nickname,
+                headimage: user.headimgurl,
+                sex: user.sex
+            });
+        }
+        auth.login(this, user);
+        if (dbUser.status === 1) {
+            this.redirect('/user/index');
+        } else if (dbUser.status === -2){
+            this.redirect('/user-register');
+        } else {
+            this.redirect('/user-wait');
+        }
     });
 
     router.get('/wechat/login', function *() {
@@ -89,12 +108,23 @@ module.exports = (router) => {
             var result = yield refresh(this, client);
             accessToken = result.access_token;
             openid = result.opnid;
-            user = yield client.getUser(result.openid);
-            log.info(JSON.stringify(user));
-            console.log(user);
-            auth.login(this, user);
+            user = yield User.findOne({
+                where: {
+                    openid
+                }
+            });
+            if (util.isNullOrUndefined(user)) {
+                this.redirect('/wechat/redirect');
+                return;
+            }
         }
-        this.redirect('/user/index');
+        if (user.status === 1) {
+            this.redirect('/user/index');
+        } else if (user.status === -2){
+            this.redirect('/user-register');
+        } else {
+            this.redirect('/user-wait');
+        }
     });
 
 };

@@ -7,26 +7,32 @@
 
 <div class="">
     <form class="am-form am-form-horizontal" method="post">
-        <h3 class="am-text-center">店铺入驻</h3>
+        <h3 class="am-text-center">完善用户信息</h3>
         <div class="am-form-group">
-            <label class="am-u-sm-3 am-form-label am-text-sm">店铺名称</label>
+            <label class="am-u-sm-3 am-form-label am-text-sm">姓名</label>
+
             <div class="am-u-sm-9">
-                <input type="text" placeholder="填写您的店铺名称" required name="shopName">
-                <div class="am-alert am-alert-secondary am-hide">请填写店铺名称</div>
+                <input type="text" placeholder="填写姓名" required name="name">
+                <div class="am-alert am-alert-secondary am-hide">填写姓名</div>
+            </div>
+        </div>
+
+        <div class="am-form-group">
+            <label class="am-u-sm-3 am-form-label am-text-sm">区域</label>
+            <div class="am-u-sm-9">
+                <select name="area" id="area">
+                    <% for a in @area : %>
+                    <option value="<%= a.id %>"><%= a.title %></option>
+                    <% end %>
+                </select>
+                <div class="am-alert am-alert-secondary am-hide">请选择区域</div>
             </div>
         </div>
         <div class="am-form-group">
-            <label class="am-u-sm-3 am-form-label am-text-sm">店长姓名</label>
+            <label class="am-u-sm-3 am-form-label am-text-sm">您的地址</label>
 
             <div class="am-u-sm-9">
-                <input type="text" placeholder="填写店长姓名" required name="name">
-                <div class="am-alert am-alert-secondary am-hide">填写店长姓名</div>
-            </div>
-        </div>
-        <div class="am-form-group">
-            <label class="am-u-sm-3 am-form-label am-text-sm">店铺位置</label>
 
-            <div class="am-u-sm-9">
                 <div class="am-g" id="distpicker">
                     <div class="am-u-sm-6">
                         <select class="am-margin-vertical-xs" name="province" required></select>
@@ -37,7 +43,7 @@
                     <select class="am-margin-vertical-xs" name="country" required></select>
                 </div>
                 <input name="address" type="text" placeholder="请输入具体地址" required>
-                <div class="am-alert am-alert-secondary am-hide">请填写店铺位置</div>
+                <div class="am-alert am-alert-secondary am-hide">请输入具体地址</div>
             </div>
 
         </div>
@@ -81,6 +87,6 @@
 
 <script src="/jquery.min.js"></script>
 <script src="/amazeui.min.js"></script>
-<script src="/dist/seller-register.js"></script>
+<script src="/dist/user-register.js"></script>
 </body>
 </html>
