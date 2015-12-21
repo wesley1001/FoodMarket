@@ -34,11 +34,9 @@ module.exports = {
     user: function *(ctx)  {
         var user;
         ctx.current = ctx.current || {};
-        console.log('--------------------', ctx.current);
         user = ctx.current.user;
         if (util.isNullOrUndefined(user)) {
             var token = ctx.cookies.get(cookieName);
-            console.log('cookie -------', token);
             if (util.isNullOrUndefined(token)) {
                 return null;
             }
