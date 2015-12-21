@@ -85,7 +85,7 @@ module.exports = (router) => {
                 oldPrice: body.oldPrice,
                 capacity: body.capacity,
                 discount: typeof body.discount === 'undefined',
-                SellerId: yield auth.user(this).id,
+                SellerId: (yield auth.user(this)).id,
                 GoodsTypeId: body.GoodsTypeId,
                 soldNum: 0,
                 content: body.content
