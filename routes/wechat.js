@@ -63,7 +63,10 @@ module.exports = (router) => {
                 if (err) {
                     console.log(err);
                     ctx.redirect('/wechat/redirect');
+                    resolve(null);
+                    return;
                 }
+                console.log('result', result);
                 var accessToken = result.data.access_token;
                 var openid = result.data.openid;
                 ctx.cookies.set(wechatCookieRefreshToken, result.data.refresh_token);
@@ -75,6 +78,10 @@ module.exports = (router) => {
         });
 
         var user = yield p;
+        if (user == null) {
+            ctx.redirect('/wechat/redirect');
+            return;
+        }
         var dbUser = yield User.findOne({
             where: {
                 openid: user.openid
@@ -89,7 +96,7 @@ module.exports = (router) => {
                 openid: user.openid
             });
         }
-        auth.login(this, user);
+        auth.login(this, dbUser);
         if (dbUser.status === 1) {
             this.redirect('/user/index');
         } else if (dbUser.status === -2){

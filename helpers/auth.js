@@ -42,7 +42,6 @@ module.exports = {
                 return null;
             }
             user = yield cache.jget(token);
-            console.log('user', user);
         }
         ctx.current.user = user;
         return user;

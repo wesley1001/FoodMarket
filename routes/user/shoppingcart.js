@@ -17,7 +17,6 @@ module.exports = (router) => {
             this.body = this.errors;
             return;
         }
-        console.log((yield auth.user(this)).id, yield auth.user(this));
         var shoppingCart = yield ShoppingCart.findOne({
             where:{
                 UserId: (yield auth.user(this)).id,
