@@ -66,7 +66,7 @@ module.exports = (router) => {
                     resolve(null);
                     return;
                 }
-                console.log('result', result);
+                console.log('result --------------', result);
                 var accessToken = result.data.access_token;
                 var openid = result.data.openid;
                 ctx.cookies.set(wechatCookieRefreshToken, result.data.refresh_token);

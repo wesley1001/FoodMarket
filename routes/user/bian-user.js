@@ -10,8 +10,8 @@ var auth = require('../../helpers/auth');
 
 module.exports = (router) => {
     router.get('/user/address',function *(){
-        var iser = (yield auth.user(this));
-        console.log(user);
+        var user = (yield auth.user(this));
+        console.log(user.name);
         //todo: get current user ID
         var data = yield deliverAddress.findAll({
             where:{
