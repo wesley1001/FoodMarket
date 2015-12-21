@@ -77,7 +77,6 @@ module.exports = (router) => {
         });
 
         var user = yield p;
-        console.log('user------------', user);
         if (user == null) {
             ctx.redirect('/wechat/redirect');
             return;
@@ -87,7 +86,6 @@ module.exports = (router) => {
                 openid: user.openid
             }
         });
-        console.log('db---user------------', dbUser);
         if (util.isNullOrUndefined(dbUser)) {
             dbUser = yield User.create({
                 name: '用户',
