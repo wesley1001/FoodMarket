@@ -64,14 +64,15 @@ module.exports = (router) => {
             TopAreaId: body.area,
             isDefault: true,
             recieverName: body.name,
-            phone: body.phone
+            phone: body.phone,
+            UserId: user.id
         });
         auth.login(this, user);
-        this.redirect('/user/index');
+        this.redirect('/user-wait');
     });
 
-    router.get('/user/msg', function *() {
-        this.body = 'hello';
+    router.get('/user-wait', function *() {
+        this.body = '正在审核，请等候';
     });
 
 };
