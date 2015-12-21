@@ -146,13 +146,14 @@ module.exports = (router) => {
         debug(body);
 
         this.body = yield Order.update({
-            status: body.status,
+            status: 2,
             sendTime: Date.now()
         },{
             where: {
                 id: {
                     in: body.ids
-                }
+                },
+                status: 1
             }
         });
     });

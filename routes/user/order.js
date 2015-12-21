@@ -104,6 +104,7 @@ module.exports = function (router) {
             include: [Goods]
         });
 
+        var order;
         yield db.transaction(function (t) {
 
             return co(function *() {
@@ -157,7 +158,7 @@ module.exports = function (router) {
                     orderFare = fare.basicFare;
                     price += orderFare;
                 }
-                var order = yield Order.create({
+                order = yield Order.create({
                     recieverName: address.recieverName,
                     phone: address.phone,
                     province: address.province,
@@ -169,7 +170,8 @@ module.exports = function (router) {
                     status: 0,
                     fare: orderFare,
                     message: body.msg ? body.msg : '',
-                    UserId: userId
+                    UserId: userId,
+                    AreaId: address.AreaId
                 }, {transaction: t});
 
                 for(var i in orderItems) {
@@ -204,7 +206,7 @@ module.exports = function (router) {
         });
 
         // todo: pay
-        this.body = 'finished';
+        this.redirect('/user/order/pay?id=' + order.id);
     });
 
     router.get('/user/order-list/:status/:page', function *() {
@@ -251,6 +253,10 @@ module.exports = function (router) {
                 UserId: (yield auth.user(this)).id
             }
         });
+    });
+
+    router.get('/user/order/pay', function *() {
+        this.body = '待绑定';
     });
 
 };

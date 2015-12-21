@@ -37,7 +37,6 @@ module.exports = {
         user = ctx.current.user;
         if (util.isNullOrUndefined(user)) {
             var token = ctx.cookies.get(cookieName);
-
             if (util.isNullOrUndefined(token)) {
                 return null;
             }
