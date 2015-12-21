@@ -43,9 +43,7 @@ module.exports = (router) => {
         });
 
         var save=1;
-        this.body = yield render('phone/Evaluation', {
-            save
-        });
+        this.redirect('/user/order-list');
     });
 
 

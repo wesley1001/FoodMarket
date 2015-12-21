@@ -220,7 +220,9 @@ module.exports = function (router) {
         var order = yield Order.findAll({
             where: {
                 UserId: userId,
-                status: this.params.status
+                status: this.params.status >= 3 ? {
+                    $gt: 2
+                } : this.params.status
             },
             include: [OrderItem],
             offset: ( this.params.page - 1) * 4,
