@@ -6,13 +6,14 @@ var render = require('../../instances/render');
 var db = require('../../models/index');
 var deliverAddress = db.models.DeliverAddress;
 var Area = db.models.Area;
+var auth = require('../../helpers/auth');
 
 module.exports = (router) => {
     router.get('/user/address',function *(){
         //todo: get current user ID
         var data = yield deliverAddress.findAll({
             where:{
-                UserID:1
+                UserId: (yield auth.user(this)).id
             }
         });
         console.log(data);
@@ -45,7 +46,7 @@ module.exports = (router) => {
         console.log(data);
 
         //todo: get current user ID
-        var id = require('../../helpers/auth').id;
+        var id = (yield auth.user(this)).id;
 
         data.UserId = id;
         console.log(data);
