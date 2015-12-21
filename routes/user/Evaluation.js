@@ -49,7 +49,7 @@ module.exports = (router) => {
     });
 
 
-    router.get('/user/evaluations',  function *() {
+    router.get('/adminer/evaluations',  function *() {
         var page=this.query.page;
         var list= yield Evaluation.findAll({
             include:[User]

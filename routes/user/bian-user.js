@@ -10,13 +10,14 @@ var auth = require('../../helpers/auth');
 
 module.exports = (router) => {
     router.get('/user/address',function *(){
+        var iser = (yield auth.user(this));
+        console.log(user);
         //todo: get current user ID
         var data = yield deliverAddress.findAll({
             where:{
-                UserId: (yield auth.user(this)).id
+                UserId: user.id
             }
         });
-        console.log(data);
         this.body = yield render('user/address.html',{datas:data});
     });
 
@@ -49,7 +50,7 @@ module.exports = (router) => {
         var id = (yield auth.user(this)).id;
 
         data.UserId = id;
-        console.log(data);
+        data.isDefault = false;
         yield deliverAddress.create(data);
         this.body = '1';
     });
