@@ -23,15 +23,16 @@ router.use(function *(next) {
     context.set(this);
     // todo: for test
     var req = this.request;
+    var data  = yield db.models.User.findOne();
     //if (/\/user\/.*/.test(req.url)) {
     //    data = yield db.models.User.findOne();
     //}
     ////if (/\/adminer\/*/.test(req.url)) {
     ////    data = yield db.models.Adminer.findOne();
     ////}
-    //if (data) {
-    //    auth.login(this, data);
-    //}
+    if (data) {
+        auth.login(this, data);
+    }
     var user = yield auth.user(this);
     if (/\/user\/.*/.test(req.url)) {
         if (!user) {

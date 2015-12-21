@@ -45,9 +45,9 @@ module.exports = (router) => {
         console.log(data);
 
         //todo: get current user ID
-        //var id = require('../../helpers/auth').id;
+        var id = require('../../helpers/auth').id;
 
-        data.UserId = 1;
+        data.UserId = id;
         console.log(data);
         yield deliverAddress.create(data);
         this.body = '1';
