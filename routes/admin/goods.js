@@ -136,9 +136,9 @@ module.exports = (router) => {
             }
         });
 
-        if (body.status != 0 ){
+        if (body.status == 0 ){
             // 购物车清理
-            yield db.models.ShoppingCart.destory({
+            yield db.models.ShoppingCart.destroy({
                 where: {
                     GoodId:  body.id
                 }
