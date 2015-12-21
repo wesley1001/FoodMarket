@@ -75,6 +75,7 @@ module.exports = (router) => {
             }
         }
 
+        console.log('create');
         if (isCreate) {
             yield Goods.create({
                 title: body.title,
@@ -90,6 +91,7 @@ module.exports = (router) => {
                 content: body.content
             });
         }
+        console.log('created');
 
         this.body = 'ok';
     }
