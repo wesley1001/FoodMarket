@@ -33,7 +33,7 @@ module.exports = function (router) {
         var ids = JSON.parse(body.ids);
         var order = yield ShoppingCart.findAll({
             where: {
-                UserId: yield auth.user(this).id,
+                UserId: (yield auth.user(this)).id,
                 id: {
                     $in: ids
                 }
@@ -47,7 +47,7 @@ module.exports = function (router) {
 
         var addresses = yield DeliverAddress.findAll({
             where: {
-                UserId: yield auth.user(this).id
+                UserId: (yield auth.user(this)).id
             },
             include: [Area]
         });
@@ -73,12 +73,12 @@ module.exports = function (router) {
         var body = this.request.body;
         var orderInfo = JSON.parse(body.order);
         var addressId = body.address;
-        var userId = yield auth.user(this).id;
+        var userId = (yield auth.user(this)).id;
 
         var address = yield DeliverAddress.findOne({
             where: {
                 id: addressId,
-                UserId: yield auth.user(this).id
+                UserId: (yield auth.user(this)).id
             }
         });
 
@@ -95,7 +95,7 @@ module.exports = function (router) {
         debug(ids);
         var shoppingCart = yield ShoppingCart.findAll({
             where: {
-                UserId: yield auth.user(this).id,
+                UserId: (yield auth.user(this)).id,
                 id: {
                     $in: ids
                 }
@@ -214,7 +214,7 @@ module.exports = function (router) {
             this.body = this.errors;
             return;
         }
-        var userId = yield auth.user(this).id;
+        var userId = (yield auth.user(this)).id;
         var order = yield Order.findAll({
             where: {
                 UserId: userId,
@@ -248,7 +248,7 @@ module.exports = function (router) {
         }, {
             where: {
                 id: this.request.body.id,
-                UserId: yield auth.user(this).id
+                UserId: (yield auth.user(this)).id
             }
         });
     });

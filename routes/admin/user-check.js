@@ -25,15 +25,15 @@ module.exports = (router) => {
         }
 
         var status = body.status;
-        if (status == 0) {
+        if (status == 1) {
             yield User.update({
-                status: 0
+                status: 1
             }, {
                 where: {
                     id: body.id
                 }
             });
-        } else if (status == -2) {
+        } else if (status == -3) {
             yield User.destroy({
                 where: {
                     id: body.id

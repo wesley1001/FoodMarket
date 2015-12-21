@@ -19,8 +19,11 @@ module.exports = {
         ctx.current = ctx.current || {};
         ctx.current.user = user;
         var token = utilx.md5(`${user.id}#${Date.now()}`);
-        ctx.cookies.set(cookieName, token);
-        debug('auth login', token);
+        var nextMonth = new Date();
+        nextMonth.setMonth(nextMonth.getMonth() + 1);
+        ctx.cookies.set(cookieName, token, {
+            expires: nextMonth
+        });
         cache.jsetex(token, 60 * 60 * 24, user);
     },
     /**
@@ -34,6 +37,7 @@ module.exports = {
         user = ctx.current.user;
         if (util.isNullOrUndefined(user)) {
             var token = ctx.cookies.get(cookieName);
+
             if (util.isNullOrUndefined(token)) {
                 return null;
             }

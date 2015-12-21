@@ -226,8 +226,10 @@ app.controller('ListCtrl', ['$scope', '$http', function (scope, $http) {
                         scope.data[user.key].Adminer = data;
                     }
                     user = find(scope.list, submitIds[i], 'id');
-                    if (user) {
-                        scope.list[user.key].status = 0;
+                    if (user ) {
+                        if (user.status == -1) {
+                            scope.list[user.key].status = 0;
+                        }
                         scope.data[user.key].Adminer = data;
                     }
                 }

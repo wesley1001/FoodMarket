@@ -10,6 +10,7 @@ var sequelizex = require('../../lib/sequelizex.js');
 
 var User = db.models.User;
 var Area = db.models.Area;
+var DeliverAddress = db.models.DeliverAddress;
 
 
 module.exports = (router) => {
@@ -49,6 +50,7 @@ module.exports = (router) => {
 
         user = yield User.findById(user.id);
 
+
         user.name= body.name;
         user.phone= body.phone;
         user.name= body.name;
@@ -62,14 +64,15 @@ module.exports = (router) => {
             TopAreaId: body.area,
             isDefault: true,
             recieverName: body.name,
-            phone: body.phone
+            phone: body.phone,
+            UserId: user.id
         });
         auth.login(this, user);
-        this.redirect('/user/index');
+        this.redirect('/user-wait');
     });
 
-    router.get('/user/msg', function *() {
-        this.body = 'hello';
+    router.get('/user-wait', function *() {
+        this.body = '正在审核，请等候';
     });
 
 };

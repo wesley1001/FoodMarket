@@ -148,6 +148,14 @@ $(function () {
                     required: true,
                     number: true
                 },
+                brief: {
+                    required: true,
+                    maxlength: 100
+                },
+                per: {
+                    required: true,
+                    maxlength: 10
+                },
                 capacity: {
                     required: true,
                     number: true
@@ -167,6 +175,14 @@ $(function () {
                 price: {
                     required: '请填写价格',
                     number: '请填写数字'
+                },
+                per: {
+                    required: '请填写价格',
+                    maxlength: '文字过长'
+                },
+                brief: {
+                    required: '请填写价格',
+                    maxlength: '文字过长'
                 },
                 oldPrice: {
                     required: '请填写原价',

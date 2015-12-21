@@ -64,7 +64,7 @@ module.exports = (router) => {
         goods.imgs = JSON.parse(goods.imgs);
         var shoppingCart = yield ShoppingCart.findOne({
             where:{
-                UserId: yield auth.user(this).id,
+                UserId: (yield auth.user(this)).id,
                 GoodId: this.params.id
             }
         });
@@ -72,7 +72,7 @@ module.exports = (router) => {
         goods.isCollected = (yield GoodsCollection.count({
             where: {
                 GoodId: goods.id,
-                UserId: yield auth.user(this).id
+                UserId: (yield auth.user(this)).id
             }
         })) != 0;
         this.body = yield render('phone/goods.html', {
@@ -84,7 +84,7 @@ module.exports = (router) => {
     router.get('/user/goods-collection', function *() {
         this.body = (yield GoodsCollection.findAll({
             where: {
-                UserId: yield auth.user(this).id
+                UserId: (yield auth.user(this)).id
             },
             include: [Goods]
         })).map(function (item) {
@@ -101,14 +101,14 @@ module.exports = (router) => {
         var id = this.params.id;
         var item = yield GoodsCollection.findOne({
             where: {
-                UserId: yield auth.user(this).id,
+                UserId: (yield auth.user(this)).id,
                 GoodId: id
             }
         });
         if (item) {
             yield item.destroy();
         } else {
-            yield GoodsCollection.collect(yield auth.user(this).id, id);
+            yield GoodsCollection.collect((yield auth.user(this)).id, id);
         }
         this.body = 'ok';
     });
