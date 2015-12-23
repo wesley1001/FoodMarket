@@ -62,6 +62,22 @@ module.exports = (router) => {
 
         area.status = -1;
         yield area.save();
+        // 删除相应的地址
+        yield db.models.DeliverAddress.destroy({
+           where: {
+               AreaId: id,
+               isDefault: false
+           }
+        });
+
+        yield db.models.DeliverAddress.update({
+            AreaId: null
+        }, {
+            where: {
+                AreaId: id,
+                isDefault: true
+            }
+        });
         this.body = this.query.title;
 
     });

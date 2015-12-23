@@ -1,12 +1,14 @@
 <% extend 'shared/admin-base' %>
-
-
+<% block 'head': %>
+<link rel="stylesheet" href="/dist/admin-goodstype.css">
+<% end %>
 
 <div class="row">
     <div class="col-md-12">
         <!-- BEGIN PAGE TITLE & BREADCRUMB-->
         <h3 class="page-title">
-            类别管理 <small></small>
+            类别管理
+            <small></small>
         </h3>
         <ul class="page-breadcrumb breadcrumb">
             <li>
@@ -15,8 +17,8 @@
                 <i class="fa fa-angle-right"></i>
             </li>
             <li class="btn-group">
-                <ul class="pull-right" >
-                    <a href="#addmodal"  data-toggle="modal"  class="btn green"><i class="fa fa-plus"></i> 添加</a>
+                <ul class="pull-right">
+                    <a href="#addmodal" data-toggle="modal" class="btn green"><i class="fa fa-plus"></i> 添加</a>
 
                 </ul>
             </li>
@@ -36,26 +38,30 @@
 
                 <div class="tools">
                     <a href="" class="collapse"></a>
-                    <a href="" data="<%= type.dataValues.id %>" count="<%= type.dataValues.GoodsTypes.length %>" class="remove"></a>
+                    <a href="" data="<%= type.dataValues.id %>" count="<%= type.dataValues.GoodsTypes.length %>"
+                       class="remove"></a>
                 </div>
                 <div class="actions">
-                    <a href="#addmodal2"  data-toggle="modal"  data="<%= type.dataValues.id %>"  class="btn add2 green"><i class="fa fa-plus"></i> 添加</a>
-                    <a href="#editmodal"  data-toggle="modal"  data="<%= type.dataValues.id %>" value="<%= type.dataValues.title %>" class="btn edit1 yellow"><i class="fa fa-edit"></i> 修改</a>
+                    <a href="#addmodal2" data-toggle="modal" data="<%= type.dataValues.id %>" class="btn add2 green"><i
+                            class="fa fa-plus"></i> 添加</a>
+                    <a href="#editmodal" data-toggle="modal" data="<%= type.dataValues.id %>"
+                       value="<%= type.dataValues.title %>" class="btn edit1 yellow"><i class="fa fa-edit"></i> 修改</a>
                 </div>
             </div>
             <div class="portlet-body">
                 <div class="table-responsive">
 
-                        <% for type2 in type.dataValues.GoodsTypes : %>
-                        <div style="height: 30px">
-                            <span class="title2"><%= type2.title %></span>
-                            <button data="<%= type2.id %>"  class="btn red btn-sm del del2 remove">删除</button>
-                            <a href="#editmodal2" data="<%= type2.id %>" value="<%= type2.title %>" data-toggle="modal"  class="btn default btn-sm edit2 edit"><i class="fa fa-edit"></i> 修改</a>
+                    <% for type2 in type.dataValues.GoodsTypes : %>
+                    <div style="height: 30px">
+                        <span class="title2"><%= type2.title %></span>
+                        <button data="<%= type2.id %>" class="btn red btn-sm del del2 remove">删除</button>
+                        <a href="#editmodal2" data="<%= type2.id %>" value="<%= type2.title %>" data-toggle="modal"
+                           class="btn default btn-sm edit2 edit"><i class="fa fa-edit"></i> 修改</a>
 
-                        </div>
-                        <hr>
+                    </div>
+                    <hr>
 
-                        <% end %>
+                    <% end %>
 
                 </div>
             </div>
@@ -75,13 +81,13 @@
             </div>
             <div class="modal-body" style="height: 150px !important">
 
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h4>标题</h4>
-                            <p><input id="add1" type="text" class="col-md-12 form-control"></p>
-                        </div>
-
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4>标题</h4>
+                        <p><input id="add1" type="text" class="col-md-12 form-control"></p>
                     </div>
+
+                </div>
 
             </div>
             <div class="modal-footer">
@@ -101,14 +107,14 @@
             </div>
             <div class="modal-body" style="height: 150px !important">
 
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h4>标题</h4>
-                            <p><input id="edit1" type="text" class="col-md-12 form-control"></p>
-                            <input id="editid" value="" type="hidden">
-                        </div>
-
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4>标题</h4>
+                        <p><input id="edit1" type="text" class="col-md-12 form-control"></p>
+                        <input id="editid" value="" type="hidden">
                     </div>
+
+                </div>
 
             </div>
             <div class="modal-footer">
@@ -128,14 +134,14 @@
             </div>
             <div class="modal-body" style="height: 150px !important">
 
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h4>标题</h4>
-                            <p><input id="add2" type="text" class="col-md-12 form-control"></p>
-                            <input id="add2fid" value="" type="hidden">
-                        </div>
-
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4>标题</h4>
+                        <p><input id="add2" type="text" class="col-md-12 form-control"></p>
+                        <input id="add2fid" value="" type="hidden">
                     </div>
+
+                </div>
 
             </div>
             <div class="modal-footer">
@@ -155,19 +161,19 @@
             </div>
             <div class="modal-body" style="height: 150px !important">
 
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h4>标题</h4>
-                            <p><input id="edit2" type="text" class="col-md-12 form-control"></p>
-                            <input id="edit2id" value="" type="hidden">
-                        </div>
-
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4>标题</h4>
+                        <p><input id="edit2" type="text" class="col-md-12 form-control"></p>
+                        <input id="edit2id" value="" type="hidden">
                     </div>
+
+                </div>
 
             </div>
             <div class="modal-footer">
                 <button type="button" data-dismiss="modal" class="btn default">关闭</button>
-                <button type="button" id="edit2btn"  class="btn green">保存</button>
+                <button type="button" id="edit2btn" class="btn green">保存</button>
             </div>
         </div>
     </div>

@@ -24,6 +24,10 @@
             </div>
             <div class="portlet-body">
                 <div ng-view></div>
+                <div class="alert alert-sm alert-info alert-dismissible ">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    可搜索用户名、手机号。点击表格头中的列项，可对该项进行升序降序切换排序。
+                </div>
 
                 <div simple-datatable ng-model="list" sdt-action-col="actionColFactory" sdt-on="sdtOn">
                     <div class="row" style="margin-top: 20px; margin-bottom: 20px;">

@@ -54,7 +54,7 @@ app.controller('AppCtrl', ['$scope', '$http', '$sce', function (scope, $http, $s
     scope.list = [];
 
     scope.$watch('tab', function (newVal, oldVal){
-        if (newVal == oldVal && typeof newVal !== 'undefined') {
+        if (newVal === oldVal || typeof newVal === 'undefined') {
             return;
         }
         getGoodsData($http, scope, newVal);

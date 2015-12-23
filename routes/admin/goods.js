@@ -51,7 +51,6 @@ module.exports = (router) => {
         this.checkBody('perNum').notEmpty().isInt().gt(0).toInt();
         this.checkBody('perStr').notEmpty();
         this.checkBody('GoodsTypeId').notEmpty().isInt().toInt();
-        this.checkBody('per').notEmpty();
         this.checkBody('brief').notEmpty();
 
         var body = this.request.body;
@@ -98,7 +97,7 @@ module.exports = (router) => {
             });
         }
 
-        this.body = 'ok';
+        this.redirect('/adminer/goods');
     }
 
     router.get('/adminer/goods',function *(){
@@ -117,9 +116,12 @@ module.exports = (router) => {
                 status: this.params.status
             },
             attributes: [
-                'id', 'price', 'mainImg', 'soldNum', 'capacity', 'title', 'status',
-                'oldPrice',
-                'vipDiscount',
+                'id',
+                'mainImg',
+                'soldNum', 'capacity',
+                'title',
+                'status',
+                'oldPrice', 'price',
                 'perNum', 'perStr'
             ],
             include: [GoodsType]

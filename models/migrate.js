@@ -256,7 +256,7 @@ function *addSuperAdminer() {
 }
 
 co(function * () {
-    yield db.models.Goods.sync({force: true});
+    yield db.sync();
     //yield addSuperAdminer;
     //yield function *() {
     //    yield db.models.User.create({
