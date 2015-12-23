@@ -24,9 +24,13 @@ module.exports = function (sequelize, DataTypes) {
          */
         oldPrice: shortDataTypes.Double(),
         /**
-         * 规格
+         * 每份的量
          */
-        per: shortDataTypes.String(100),
+        perNum: shortDataTypes.Double(),
+        /**
+         * 每份的单位
+         */
+        perStr: shortDataTypes.String(100),
         /**
          * 已售数量
          */
@@ -38,7 +42,7 @@ module.exports = function (sequelize, DataTypes) {
         /**
          *
          */
-        vipDiscount: shortDataTypes.Double(10),
+        //vipDiscount: shortDataTypes.Double(10),
         /**
          * 剩余量
          */

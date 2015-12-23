@@ -18,14 +18,12 @@ module.exports = (router) => {
                 type: 1
             }
         });
-
         var counterman = yield Adminer.findAll({
             where: {
                 type: 3,
                 status: 0
             }
         });
-
         this.body = yield render('admin/user-assign', {
             areas,
             counterman
@@ -57,7 +55,13 @@ module.exports = (router) => {
                 where: {
                     isDefault: true
                 },
-                required: false
+                include: [{
+                    model: Area,
+                    include: [{
+                        model: Area,
+                        as: 'TopArea'
+                    }]
+                }]
             }],
             offset: (body.page - 1) * body.limit,
             limit: body.limit
@@ -65,9 +69,10 @@ module.exports = (router) => {
 
 
         if (body.startDate) {
+
             conditions.where.joinTime = {
                 between: [new Date(Date.parse(body.startDate)), body.endDate ? new Date(Date.parse(body.endDate)) : new Date(Date.now())]
-            }
+            };
         }
 
         if (body.name) {
@@ -78,9 +83,11 @@ module.exports = (router) => {
             conditions.where.phone = body.phone;
         }
 
-        if (body.areas) {
-            conditions.include[0].where.AreaId= {
+        if (body.areas && body.areas.length !== 0) {
+            conditions.include[0].include[0].where = {
+                AreaId: {
                     in: body.areas
+                }
             };
         }
 
@@ -89,9 +96,6 @@ module.exports = (router) => {
             num= yield User.count(conditions);
         }
 
-        conditions.include[0].include =[{
-            model: Area
-        }];
 
         conditions.include.push(Adminer);
 
@@ -140,7 +144,5 @@ module.exports = (router) => {
         });
         this.body = yield Adminer.findById(body.adminerId);
     });
-
-
 
 };

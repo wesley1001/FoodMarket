@@ -1,6 +1,8 @@
 <% extend 'shared/admin-base' %>
 
-
+<% block 'head': %>
+<script src="/dist/admin-account.css"></script>
+<% end %>
 
 <div class="row">
     <div class="col-md-12">
@@ -51,7 +53,8 @@
                         <% end %>
 
                         <td>
-                            <a data="<%= user.id %>" href="#addmodal" data-toggle="modal" class="btn blue btn-xs editbtn"><i class="fa fa-edit"></i>修改</a>
+                            <a data="<%= user.id %>" href="#addmodal" data-toggle="modal"
+                               class="btn blue btn-xs editbtn"><i class="fa fa-edit"></i>修改</a>
                             <butten class="btn delbtn btn-warning btn-xs"><i class="fa fa-times"></i>删除</butten>
                         </td>
                     </tr>
@@ -104,7 +107,7 @@
                             <div class="col-md-12">
                                 <h4>权限</h4>
                                 <select name="type" id="type" class="form-control">
-                                    <option >请选择</option>
+                                    <option>请选择</option>
                                     <option value="1">普通管理员</option>
                                     <option value="2">运营员</option>
                                     <option value="3">业务员</option>
@@ -117,7 +120,7 @@
                             <div class="col-md-12">
                                 <h4>密码</h4>
 
-                                <input type="password" id="password" name="password" class="form-control" >
+                                <input type="password" id="password" name="password" class="form-control">
 
                             </div>
                         </div>
@@ -125,17 +128,16 @@
                             <div class="col-md-12">
                                 <h4>确认密码</h4>
 
-                                <input type="password" id="password2"  name="password2" class="form-control" >
+                                <input type="password" id="password2" name="password2" class="form-control">
                             </div>
 
                         </div>
                         <span class="span"></span>
 
-                        <div class="" >
+                        <div class="">
                             <div class="col-md-12" style="margin-top: 10px">
                                 <button style="float: right" type="submit" id="add1btn" class="btn green">保存</button>
                             </div>
-
 
 
                         </div>
@@ -154,9 +156,4 @@
 
 <% block 'scripts': %>
 <script src="/dist/admin-account.js"></script>
-
-
-<script>
-
-</script>
 <% end %>

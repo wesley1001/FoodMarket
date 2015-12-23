@@ -35,7 +35,8 @@ module.exports = function (sequelize, DataTypes) {
                         model: this,
                         where: {
                             status: 0
-                        }
+                        },
+                        required: false
                     }]
                 });
             }

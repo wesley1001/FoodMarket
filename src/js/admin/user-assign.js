@@ -1,12 +1,12 @@
-require('../../../src/css/admin-base/common.js');
+require('../../css/admin-base/common.js');
 
 /* js */
 require('../admin/index');
 /* webuplader */
 
-require('exports?window.angular!imports?$=jquery!angular');
+require('angular');
 var moment = require('moment');
-require('imports?$=jquery!jquery-validation');
+require('jquery-validation');
 require('eonasdan-bootstrap-datetimepicker');
 
 var $ = jQuery;
@@ -38,7 +38,7 @@ var find = function (arr, funcOrVal, key) {
 
 $(function () {
     $('.date-picker').find('input').datetimepicker({
-        //locale: 'zh'
+        //locale: 'zh-cn'
     });
 });
 
@@ -56,7 +56,6 @@ app.filter('statusStr', function () {
 });
 
 app.controller('AppCtrl', ['$scope', function (scope) {
-
 }]);
 
 app.controller('ListCtrl', ['$scope', '$http', function (scope, $http) {

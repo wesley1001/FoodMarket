@@ -6,7 +6,7 @@ var render = require('../../instances/render.js');
 
 module.exports = (router) => {
 
-    var Seller = db.models.Seller;
+    var DeliverAddress = db.models.DeliverAddress;
     var User = db.models.User;
 
     router.get('/adminer/user-list',  function *() {
@@ -34,6 +34,11 @@ module.exports = (router) => {
                 }
             });
         } else if (status == -3) {
+            yield DeliverAddress.destroy({
+                where: {
+                    UserId: body.id
+                }
+            });
             yield User.destroy({
                 where: {
                     id: body.id
@@ -54,13 +59,23 @@ module.exports = (router) => {
             this.body = this.errors;
             return;
         }
-        var data = yield User.findAll({
+        var conditions = {
             where: {
                 status: this.params.status
             },
             attributes: ['id', 'name', 'nickname', 'phone', 'joinTime', 'status']
-        });
-        this.body = data;
+        };
+        var user = yield auth.user(this);
+        // 业务员
+        if (user.type != 100 && user.type != 1 && user.type != 3) {
+            this.body = [];
+            return;
+        }
+        if (user.type == 3) {
+            conditions.where.AdminerId = user.id;
+        }
+        this.body = yield User.findAll(conditions);
+
     });
 
 };

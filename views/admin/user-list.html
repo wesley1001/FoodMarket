@@ -1,5 +1,7 @@
 <% extend './shared/admin-base' %>
-
+<% block 'head': %>
+<!--<link rel="stylesheet" href="/dist/admin-user-list.css">-->
+<% end %>
 <div class="row" ng-controller="AppCtrl">
     <div class="col-md-12">
         <div class="portlet ">
@@ -35,7 +37,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <table class="table table-striped table-hover table-bordered">
+                            <table class="table table-striped table-hover table-bordered center-table">
                                 <thead>
                                 <tr>
                                     <th  data-sdt-col="name">真实姓名</th>
@@ -68,13 +70,13 @@
         <div class="btn-group dropup">
             <button type="button" class="btn btn-primary" sdt-row-click="remove, pass" ng-show="row.status == 0">通过</button>
             <button type="button" class="btn btn-warning" sdt-row-click="remove, reject" ng-show="row.status == 0">不通过</button>
-            <button type="button" class="btn btn-warning" ng-show="row.status == 1">查看</button>
+            <!--<button type="button" class="btn btn-warning" ng-show="row.status == 1">查看</button>-->
         </div>
     </td>
 </script>
 
 <% block 'scripts': %>
-<script src="/dist/user-list.js"></script>
+<script src="/dist/admin-user-list.js"></script>
 <% end %>
 
 

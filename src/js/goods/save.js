@@ -1,12 +1,12 @@
 /* css */
-require('../../../src/css/admin-base/common.js');
+require('../admin-base/common.js');
 require('fex-webuploader/dist/webuploader.css');
-require('../../../src/css/lib/webuploader.scss');
-require('../../../src/css/img-upload-thumbnail.scss');
+require('../../css/lib/webuploader.scss');
+require('../../css/img-upload-thumbnail.scss');
 require('simditor/styles/simditor.css');
 
 /* js */
-require('../admin/index');
+//require('../admin/index');
 /* webuplader */
 
 var WebUploader = require('fex-webuploader');
@@ -14,9 +14,8 @@ require('imports?$=jquery!simple-module');
 require('imports?$=jquery!simple-hotkeys');
 require('imports?$=jquery!simple-uploader');
 var Simditor = require('imports?$=jquery!simditor/lib/simditor.js');
-require('exports?window.angular!angular');
+require('angular');
 require('imports?$=jquery!jquery-validation');
-
 
 
 var $ = jQuery;
@@ -152,9 +151,13 @@ $(function () {
                     required: true,
                     maxlength: 100
                 },
-                per: {
+                perStr: {
                     required: true,
                     maxlength: 10
+                },
+                perNum: {
+                    required: true,
+                    number: true
                 },
                 capacity: {
                     required: true,
@@ -176,12 +179,16 @@ $(function () {
                     required: '请填写价格',
                     number: '请填写数字'
                 },
-                per: {
-                    required: '请填写价格',
+                perStr: {
+                    required: '请填写单位',
                     maxlength: '文字过长'
                 },
+                perNum: {
+                    required: '请填写每份的量',
+                    number: '请填写数字'
+                },
                 brief: {
-                    required: '请填写价格',
+                    required: '请填写简介',
                     maxlength: '文字过长'
                 },
                 oldPrice: {
@@ -189,7 +196,7 @@ $(function () {
                     number: '请填写数字'
                 },
                 capacity: {
-                    required: '请填写价格',
+                    required: '请填写剩余量',
                     number: '请填写整数'
                 },
                 GoodsTypeId : {

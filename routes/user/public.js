@@ -21,7 +21,7 @@ module.exports = (router) => {
                 status: 0
             }
         });
-        this.body = yield render('user/register', {
+        this.body = yield render('phone/register', {
             area
         });
     });
@@ -30,7 +30,7 @@ module.exports = (router) => {
         var body = this.request.body;
         var ctx = this;
         this.checkBody('name').notEmpty();
-        this.checkBody('phone').notEmpty().match(/^1[3-8]+\d{9}$/);;
+        this.checkBody('phone').notEmpty().match(/^1[3-8]+\d{9}$/);
         this.checkBody('address').notEmpty();
         this.checkBody('province').notEmpty();
         this.checkBody('city').notEmpty();
@@ -49,7 +49,6 @@ module.exports = (router) => {
 
         user = yield User.findById(user.id);
 
-
         user.name= body.name;
         user.phone= body.phone;
         user.name= body.name;
@@ -60,7 +59,7 @@ module.exports = (router) => {
             province: body.province,
             city: body.city,
             area: body.country,
-            TopAreaId: body.area,
+            AreaId: body.area,
             isDefault: true,
             recieverName: body.name,
             phone: body.phone,
@@ -71,7 +70,9 @@ module.exports = (router) => {
     });
 
     router.get('/user-wait', function *() {
-        this.body = '正在审核，请等候';
+        this.body = yield render('/phone/alert', {
+            content: '正在等待后台审核，请等候...'
+        });
     });
 
 };

@@ -14,7 +14,11 @@ module.exports = (router) => {
     var Admins = db.models.Adminer;
 
     router.get('/adminer-super/accountlist',  function *() {
-        var admin=yield Admins.findAll();
+        var admin=yield Admins.findAll({
+            where: {
+                status: 0
+            }
+        });
         this.body = yield render('admin/AccountList', {
             admin
         });

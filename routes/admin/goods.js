@@ -48,6 +48,8 @@ module.exports = (router) => {
         this.checkBody('price').notEmpty().isFloat().gt(0).toFloat();
         this.checkBody('oldPrice').notEmpty().isFloat().gt(0).toFloat();
         this.checkBody('capacity').notEmpty().isInt().gt(0).toInt();
+        this.checkBody('perNum').notEmpty().isInt().gt(0).toInt();
+        this.checkBody('perStr').notEmpty();
         this.checkBody('GoodsTypeId').notEmpty().isInt().toInt();
         this.checkBody('per').notEmpty();
         this.checkBody('brief').notEmpty();
@@ -69,6 +71,8 @@ module.exports = (router) => {
                 goods.price = body.price;
                 goods.oldPrice = body.oldPrice;
                 goods.capacity = body.capacity;
+                goods.perNum = body.perNum;
+                goods.perStr = body.perStr;
                 goods.GoodsTypeId = body.GoodsTypeId;
                 goods.brief = body.brief;
                 goods.content = body.content;
@@ -85,11 +89,12 @@ module.exports = (router) => {
                 price: body.price,
                 oldPrice: body.oldPrice,
                 capacity: body.capacity,
+                perNum: body.perNum,
+                perStr: body.perStr,
                 GoodsTypeId: body.GoodsTypeId,
                 brief: body.brief,
                 soldNum: 0,
-                content: body.content,
-                per: body.per,
+                content: body.content
             });
         }
 
@@ -114,7 +119,8 @@ module.exports = (router) => {
             attributes: [
                 'id', 'price', 'mainImg', 'soldNum', 'capacity', 'title', 'status',
                 'oldPrice',
-                'vipDiscount'
+                'vipDiscount',
+                'perNum', 'perStr'
             ],
             include: [GoodsType]
         });
@@ -173,7 +179,6 @@ module.exports = (router) => {
         }
     });
 
-
     ///商品详情
     router.get('/adminer/goods/detail',function *(){
 
@@ -210,9 +215,6 @@ module.exports = (router) => {
 
             count.push(c);
         }
-        debug(dates);
-        debug(count);
-
 
 
         var imgs=eval(good.imgs);

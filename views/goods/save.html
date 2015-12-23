@@ -1,9 +1,11 @@
 <% extend './shared/admin-base' %>
 <% block 'head': %>
+<link rel="stylesheet" href="/dist/admin-goods-save.css">
 <style>
     .simditor {overflow: auto;}
 </style>
 <% end %>
+
 
 <div class="row">
     <div class="col-md-12">
@@ -48,10 +50,17 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-md-3">规格</label>
+                            <label class="control-label col-md-3">每份的量</label>
 
                             <div class="col-md-3">
-                                <input type="text" class="form-control" name="per" maxlength="10" value="<%= @data?.per %>" >
+                                <input type="number" class="form-control" name="perNum" min="0" value="<%= @data?.perNum %>" >
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">单位</label>
+
+                            <div class="col-md-3">
+                                <input type="text" class="form-control" name="perStr" maxlength="10" value="<%= @data?.perStr %>" >
                             </div>
                         </div>
                         <!--<div class="form-group">-->

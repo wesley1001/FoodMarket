@@ -10,16 +10,17 @@ var adminEnties = {
     'admin-login': ['./src/js/admin/login.js'],
     //'admin-evaluations':['./src/js/admin/evaluations.js'],
     //'admin-order-list':['./src/js/order/list.js'],
-    //'admin-user-assign':['./src/js/admin/user-assign.js'],
+    'admin-user-assign':['./src/js/admin/user-assign.js'],
     //'admin-goods-list':['./src/js/goods/list.js'],
-    //'admin-goods-save': ['./src/js/goods/save.js'],
+    'admin-goods-save': ['./src/js/goods/save.js'],
     //'admin-goodstype': ['./src/js/admin/goodstype.js'],
     //'admin-orders':['./src/js/admin/orders.js'],
     //'admin-fare':['./src/js/admin/fare.js'],
     //'admin-form' : ['./src/js/admin/admin.js'],
-    //'admin-account':['./src/js/admin/account.js'],
+    'admin-account':['./src/js/admin/account.js'],
     'admin-area':['./src/js/admin/Area.js'],
     //'admin-gooddetail':['./src/js/goods/detail.js'],
+    'admin-user-list': ['./src/js/admin/user.js'],
 };
 
 var phoneEntries = {
@@ -31,9 +32,9 @@ var phoneEntries = {
     //'phone-index': ['./src/js/phone/index.js'],
     //'phone-shoppingcart': ['./src/js/phone/shoppingCart.js'],
     //'phone-order-list': ['./src/js/phone/order-list.js'],
-    //'user-register': ['./src/js/user/register.js'],
+    'phone-register': ['./src/js/phone/register.js'],
     //'seller-list': ['./src/js/admin/seller.js'],
-    //'user-list': ['./src/js/admin/user.js'],
+
     //'phone-evaluation':['./src/js/phone/evaluation.js'],
     //'user-center': ['./src/js/user/user.js'],
 };

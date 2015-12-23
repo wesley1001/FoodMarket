@@ -325,7 +325,7 @@
 
                 pageBtn = element.find('[sdt-prev-btn]');
                 pageBtn.attr('ng-click', 'goto(page - 1)');
-                pageBtn.attr('ng-show', 'page != 1');
+                pageBtn.attr('ng-show', 'page != 1 && totalPage != 0');
                 $compile(pageBtn)(scope);
 
                 pageBtn = element.find('[sdt-next-btn]');

@@ -1,18 +1,20 @@
 /**
  * Created by me on 15-12-10.
  */
-require('imports?$=jquery!amazeui/dist/css/amazeui.css');
+require('./base.js');
 
 require('../../css/user/register.scss');
 
-require('distpicker/dist/distpicker.data.js');
-require('imports?$=jquery, ChineseDostricts=distpicker/dist/distpicker.data.js, define=>false, exports=>false!distpicker/dist/distpicker.js');
-
+require('imports?$=jquery, define=>false, exports=>false, ChineseDistricts=distpicker/dist/distpicker.data.js!distpicker/dist/distpicker.js');
 
 var $ = jQuery;
 
 $(function () {
-    $("#distpicker").distpicker();
+    var $dist = $("#distpicker");
+    $dist.distpicker();
+    var $selects = $dist.find('select');
+    $selects.eq(0).val('辽宁省').trigger('change');
+    $selects.eq(1).val('大连市').trigger('change');
 
     var phoneVerified = false;
     var $phone = $('#phone'),
@@ -46,7 +48,6 @@ $(function () {
                     success: function (ret) {
                         if(ret) {
                             submit = true;
-                            debugger
                             $('form').submit();
                         }
                     }
@@ -79,6 +80,4 @@ $(function () {
             }
         }, 1000);
     });
-
-
 });

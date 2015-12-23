@@ -1,7 +1,6 @@
 require('./../admin-base/common.js');
 require('angular');
 require('angular-route');
-require('../../../src/css/admin/checkList.scss');
 require('../angular.simple-datatables.js');
 
 var app = angular.module('app', ['simpleDatatable', 'ngRoute']);
@@ -78,7 +77,7 @@ app.controller('AppCtrl', ['$scope', '$http', function (scope, $http) {
             .success(function (ret) {
                 if (ret.status) {
                     remover();
-                    if (status === 0 && scope.data.checked) {
+                    if (status === 1 && scope.data.checked) {
                         row.status = status;
                         scope.data.checked.push(row);
                         scope.$applyAsync();
@@ -92,7 +91,7 @@ app.controller('AppCtrl', ['$scope', '$http', function (scope, $http) {
 
     scope.actionColFactory =  angular.element('#row-btn').html();
 
-    window.s = scope;
+    //window.s = scope;
 
 }]);
 
