@@ -4,8 +4,6 @@
 var cache = require('../instances/cache.js');
 var utilx = require('../lib/util.js');
 var util = require('util');
-var co = require('co');
-var debug = require('../instances/debug.js');
 
 var cookieName = 'FoodMarketUser';
 
@@ -31,7 +29,7 @@ module.exports = {
      * @param ctx
      * @returns {user || null}
      */
-    user: function *(ctx)  {
+    user: function *(ctx) {
         var user;
         ctx.current = ctx.current || {};
         user = ctx.current.user;

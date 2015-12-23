@@ -35,7 +35,6 @@ var logger = bunyan.createLogger({
 
 logger._error = logger.error;
 logger.error = function () {
-    // todo: email inform
     logger._error.apply(this, arguments);
 };
 

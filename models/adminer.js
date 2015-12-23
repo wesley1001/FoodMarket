@@ -3,7 +3,7 @@ var shortDataTypes = sequelizex.DataTypes;
 
 module.exports = function (sequelize, DataTypes) {
 
-    var Adminer = sequelize.define('Adminer', {
+    return sequelize.define('Adminer', {
         /**
          * 登录名，不可重复
          */
@@ -26,14 +26,9 @@ module.exports = function (sequelize, DataTypes) {
     }, {
         timestamps: false,
         associate: function (models) {
-
         },
-        instanceMethods: {
-        },
-        classMethods: {
-        }
+        instanceMethods: {},
+        classMethods: {}
     });
-
-    return Adminer;
 };
 

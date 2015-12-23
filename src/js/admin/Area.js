@@ -5,9 +5,6 @@ require('../admin-base/common.js');
 
 require('../../css/admin/goodstype.scss');
 
-
-
-
 var $ = jQuery;
 
 $('#add1btn').click(function(){
@@ -148,6 +145,5 @@ $('.remove').click(function(e){
 
         });
     }
-
 });
 

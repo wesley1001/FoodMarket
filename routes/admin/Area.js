@@ -57,22 +57,11 @@ module.exports = (router) => {
 
     router.get('/adminer/delArea', function *() {
 
-        var type = yield Area.findById(this.query.id);
+        var id = this.query.id;
+        var area = yield Area.findById(id);
 
-        if (type.type == 2) {
-            var count = type.Goods.length;
-            if (count > 0) {
-                type.status = -1;
-            }
-
-        }
-        else {
-            var count = type.Area.length;
-            if (count > 0) {
-                type.status = -1;
-            }
-        }
-        yield type.save();
+        area.status = -1;
+        yield area.save();
         this.body = this.query.title;
 
     });

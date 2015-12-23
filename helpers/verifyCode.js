@@ -27,7 +27,6 @@ module.exports = {
         return code;
     },
     verify: function *(phone, code){
-        var data;
         var data = yield cache.get(`verifyCode/${phone}`);
         return code == data;
     }

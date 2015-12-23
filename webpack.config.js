@@ -1,37 +1,53 @@
 var path = require('path');
 var webpack = require('webpack');
+var extend = require('util')._extend;
+
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
+var CommonsChunkPlugin = require("webpack/lib/optimize/CommonsChunkPlugin");
+
+var adminEnties = {
+    //'admin-index': ['./src/js/admin/index.js'],
+    'admin-login': ['./src/js/admin/login.js'],
+    //'admin-evaluations':['./src/js/admin/evaluations.js'],
+    //'admin-order-list':['./src/js/order/list.js'],
+    //'admin-user-assign':['./src/js/admin/user-assign.js'],
+    //'admin-goods-list':['./src/js/goods/list.js'],
+    //'admin-goods-save': ['./src/js/goods/save.js'],
+    //'admin-goodstype': ['./src/js/admin/goodstype.js'],
+    //'admin-orders':['./src/js/admin/orders.js'],
+    //'admin-fare':['./src/js/admin/fare.js'],
+    //'admin-form' : ['./src/js/admin/admin.js'],
+    //'admin-account':['./src/js/admin/account.js'],
+    'admin-area':['./src/js/admin/Area.js'],
+    //'admin-gooddetail':['./src/js/goods/detail.js'],
+};
+
+var phoneEntries = {
+    //'goodsType': ['./src/js/goodsType/goodsType.js'],
+    //'phone-goods': ['./src/js/phone/goods.js'],
+    //'phone-order-comfirm': ['./src/js/phone/order-comfirm.js'],
+    //'user-address-list':['./src/js/user/user.address.js'],
+    //'user-addaddress':['./src/js/user/user.addaddress.js'],
+    //'phone-index': ['./src/js/phone/index.js'],
+    //'phone-shoppingcart': ['./src/js/phone/shoppingCart.js'],
+    //'phone-order-list': ['./src/js/phone/order-list.js'],
+    //'user-register': ['./src/js/user/register.js'],
+    //'seller-list': ['./src/js/admin/seller.js'],
+    //'user-list': ['./src/js/admin/user.js'],
+    //'phone-evaluation':['./src/js/phone/evaluation.js'],
+    //'user-center': ['./src/js/user/user.js'],
+};
+
+var extraEntries = {
+
+};
+
+var entry = extend({}, adminEnties);
+entry = extend(entry, phoneEntries);
+
+
 module.exports = {
-    entry: {
-        'admin-index': ['./src/js/admin/index.js'],
-        'goodsType': ['./src/js/goodsType/goodsType.js'],
-        'admin-login': ['./src/js/admin/login.js'],
-        //'seller-goods-list':['./src/js/seller/goods.js'],
- 	    //'seller-order-list': ['./src/js/order/seller-order-list.js'],
- 	  	'phone-goods': ['./src/js/phone/goods.js'],
- 	  	'phone-order-comfirm': ['./src/js/phone/order-comfirm.js'],
-        'user-address-list':['./src/js/user/user.address.js'],
-        'user-addaddress':['./src/js/user/user.addaddress.js'],
-        'phone-index': ['./src/js/phone/index.js'],
-        'phone-shoppingcart': ['./src/js/phone/shoppingCart.js'],
-        'phone-order-list': ['./src/js/phone/order-list.js'],
-        'admin-goodstype': ['./src/js/admin/goodstype.js'],
-        'admin-orders':['./src/js/admin/orders.js'],
-        'admin-fare':['./src/js/admin/fare.js'],
-        'user-register': ['./src/js/user/register.js'],
-        'seller-list': ['./src/js/admin/seller.js'],
-        'user-list': ['./src/js/admin/user.js'],
-        'admin-form' : ['./src/js/admin/admin.js'],
-        'admin-account':['./src/js/admin/account.js'],
-        'admin-area':['./src/js/admin/Area.js'],
-        'admin-gooddetail':['./src/js/goods/detail.js'],
-        'phone-evaluation':['./src/js/phone/evaluation.js'],
-        'admin-evaluations':['./src/js/admin/evaluations.js'],
-        'admin-order-list':['./src/js/order/list.js'],
-        'admin-user-assign':['./src/js/admin/user-assign.js'],
-        'admin-goods-list':['./src/js/goods/list.js'],
-        'admin-goods-save': ['./src/js/goods/save.js'],
-        'user-center': ['./src/js/user/user.js'],
-    },
+    entry,
     output: {
         path: path.resolve(__dirname, 'public/dist'),
         filename: '[name].js',
@@ -43,9 +59,14 @@ module.exports = {
     },
     module: {
         loaders: [
-            { test: /\.js$/, loader: "babel" },
-            { test: /\.css$/, loader: "style-loader!css-loader" },
-            { test: /\.scss$/, loaders: ['style', 'css', 'sass'] },
+            {
+                test: /\.css$/,
+                loader: ExtractTextPlugin.extract("style-loader", "css-loader")
+            },
+            {
+                test: /\.scss$/,
+                loader: ExtractTextPlugin.extract("style-loader", "css-loader!sass-loader")
+            },
             { test : /\.(ttf|eot|svg|woff(2)?)(\?[a-z=0-9\.]+)?$/, loader : 'url-loader?limit=8192'},
             { test : /\.(png|gif|svg|jpg)$/, loader : 'url-loader?limit=8192'}
         ]
@@ -53,7 +74,10 @@ module.exports = {
     plugins: [
         new webpack.ResolverPlugin(
             new webpack.ResolverPlugin.DirectoryDescriptionFilePlugin("bower.json", ["main"])
-        )
+        ),
+        new ExtractTextPlugin("[name].css"),
+        new CommonsChunkPlugin("admin-commons.js", Object.keys(adminEnties)),
+        new CommonsChunkPlugin("phone-commons.js", Object.keys(phoneEntries)),
     ],
-    devtool: 'source-map'
+    //devtool: 'source-map'
 };

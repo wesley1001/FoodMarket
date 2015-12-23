@@ -1,10 +1,8 @@
 /* css */
-require('../../css/admin-base/global');
-require('../../template_content/assets/plugins/select2/select2_metro.css');
-require('../../css/admin-base/theme');
+require('../../css/admin-base/common');
 
 /* js */
-require('./../admin-base/core.js');
+require('./core.js');
 var $ = jQuery;
 /**
  Core script to handle the entire theme and core functions
@@ -44,7 +42,7 @@ var App = function () {
             width: e[a + 'Width'],
             height: e[a + 'Height']
         }
-    }
+    };
 
     // initializes main settings
     var handleInit = function () {

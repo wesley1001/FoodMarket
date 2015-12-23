@@ -5,16 +5,12 @@ var wechatRobot = require('wechat');
 var OAuth = require('wechat-oauth');
 var Promise = require('bluebird');
 
-var wechatClient = require('./../instances/wechat.js');
 var wechatConfig = require('./../instances/config.js').wechat;
 var log = require('./../instances/log.js');
 var auth = require('./../helpers/auth.js');
 var util = require('util');
-var thunkify = require('thunkify');
 
 var db = require('./../models/index.js');
-
-
 
 var WechatAuthClient = function () {
     return new OAuth(wechatConfig.appId, wechatConfig.secret);

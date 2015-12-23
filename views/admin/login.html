@@ -1,5 +1,19 @@
-<% extend './shared/login-base.html' %>
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content="" name="description" />
+    <meta content="" name="author" />
+    <meta name="MobileOptimized" content="320">
+    <title>小地主卖家管理平台</title>
+    <link rel="stylesheet" href="/dist/admin-commons.js.css">
+    <link rel="stylesheet" href="/dist/admin-login.css">
+</head>
+<body class="login">
+<div class="logo">
+    小地主
+</div>
 <div class="content">
     <!-- BEGIN LOGIN FORM -->
     <form class="login-form" action="/admin-login" method="post">
@@ -24,7 +38,7 @@
         </div>
         <div class="form-actions">
             <!--<label class="checkbox">-->
-                <!--<input type="checkbox" name="remember" value="1"/>记住我-->
+            <!--<input type="checkbox" name="remember" value="1"/>记住我-->
             <!--</label>-->
             <button type="submit" class="btn green pull-right">
                 登录 <i class="m-icon-swapright m-icon-white"></i>
@@ -32,8 +46,11 @@
         </div>
 
     </form>
- 
+
 </div>
-<% block 'scripts': %>
+<script src="/dist/admin-commons.js"></script>
 <script src="/dist/admin-login.js"></script>
-<% end %>
+</body>
+</html>
+
+

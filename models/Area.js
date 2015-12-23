@@ -6,7 +6,7 @@ var shortDataTypes = sequelizex.DataTypes;
 
 module.exports = function (sequelize, DataTypes) {
 
-    var Area = sequelize.define('Area', {
+    return sequelize.define('Area', {
         title: shortDataTypes.String(),
         /**
          * 一级类别，二级类别
@@ -16,15 +16,14 @@ module.exports = function (sequelize, DataTypes) {
          * 0 => 正常
          * -1 => 已删除
          */
-        status: shortDataTypes.Int(),
+        status: shortDataTypes.Int()
     }, {
         timestamps: false,
         associate: function (models) {
             models.Area.hasMany(models.Area);
-            models.Area.belongsTo(models.Area, { as: 'TopArea', foreignKey: 'TopAreaId', constraints: false});
+            models.Area.belongsTo(models.Area, {as: 'TopArea', foreignKey: 'TopAreaId', constraints: false});
         },
-        instanceMethods: {
-        },
+        instanceMethods: {},
         classMethods: {
             all: function * () {
                 return yield this.findAll({
@@ -32,11 +31,14 @@ module.exports = function (sequelize, DataTypes) {
                         type: 1,
                         status: 0
                     },
-                    include: [this]
+                    include: [{
+                        model: this,
+                        where: {
+                            status: 0
+                        }
+                    }]
                 });
             }
         }
     });
-
-    return Area;
 };

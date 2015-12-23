@@ -256,7 +256,19 @@ function *addSuperAdminer() {
 }
 
 co(function * () {
-    yield addSuperAdminer;
+    yield function *() {
+        yield db.models.User.create({
+            name: '用户',
+            password: '123456',
+            phone: '18840823910',
+            nickname: '用户',
+            headimage: 'http://www.baidu.com',
+            sex: 0,
+            unionid: 'unionid',
+            openid: 'openid',
+            joinTime: Date.now()
+        })
+    };
     console.log('finished ...');
 }).catch(function () {
     console.log(arguments);

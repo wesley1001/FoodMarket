@@ -5,7 +5,7 @@ var util = require('util');
 module.exports = function (sequelize, DataTypes) {
 
     var Evaluation = sequelize.define('Evaluation', {
-        text: shortDataTypes.String(),
+        text: shortDataTypes.String()
     }, {
         timestamps: true,
         paranoid: true,

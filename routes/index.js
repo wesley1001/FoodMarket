@@ -21,9 +21,8 @@ var router = new Router();
 router.use(function *(next) {
 
     context.set(this);
-    // todo: for test
     var req = this.request;
-    auth.login(this, yield db.models.User.findOne());
+    //auth.login(this, yield db.models.User.findOne());
     var user = yield auth.user(this);
     if (/\/user\/.*/.test(req.url)) {
         if (!user) {
@@ -56,7 +55,6 @@ router.use(function *(next) {
                 break;
         }
     }
-    debug('next');
     yield next;
 });
 
@@ -77,19 +75,5 @@ var loadDir = (dir) => {
 };
 
 loadDir(__dirname);
-
-
-// todo: for test
-router.get('/view', function *() {
-    debug('start render views');
-    this.body = yield render('admin/index.html');
-});
-
-
-//todo: for validate and test and redirect
-router.get('/seller/login',function *(){
-   debug('start render seller login');
-    this.body = yield render('seller/login.html');
-});
 
 module.exports = router.middleware();

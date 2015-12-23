@@ -1,6 +1,5 @@
 var redis = require('redis');
 var redisCoWrapper = require('co-redis');
-var co = require('co');
 
 var log = require('./log');
 var globalConfig = require('./config');
@@ -15,7 +14,6 @@ var client = redis.createClient(
 );
 
 client.on('error', function (err) {
-    // todo: error handle
     log.error('Error', err, new Date());
 });
 
@@ -34,8 +32,6 @@ commands.forEach( function (cmd)  {
 client.jsetex = (key, expire, val, callback) => {
     return client.setex(key, expire, JSON.stringify(val), callback);
 };
-
-
 
 var redisCo = redisCoWrapper(client);
 // json get
