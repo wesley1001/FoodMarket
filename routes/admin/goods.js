@@ -24,9 +24,6 @@ module.exports = (router) => {
             attributes: ['title', 'type', 'id'],
             include: [GoodsType]
         });
-        types = types.map(function (item) {
-            return item.dataValues;
-        });
 
         var data;
         if (this.params.id ){

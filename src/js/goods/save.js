@@ -11,6 +11,7 @@ require('simditor/styles/simditor.css');
 
 var WebUploader = require('fex-webuploader');
 require('imports?$=jquery!simple-module');
+//require('imports?$=jquery!simple-hotkeys');
 require('imports?$=jquery!simple-hotkeys');
 require('imports?$=jquery!simple-uploader');
 var Simditor = require('imports?$=jquery!simditor/lib/simditor.js');

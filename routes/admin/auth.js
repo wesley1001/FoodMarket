@@ -7,6 +7,7 @@ var db = require('../../models/index');
 var auth = require('../../helpers/auth.js');
 var Admins = db.models.Adminer;
 
+
 module.exports = (router) => {
 
     router.get('/adminer/index', function *() {
