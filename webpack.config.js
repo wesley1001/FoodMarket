@@ -25,7 +25,7 @@ var adminEnties = {
 
 var phoneEntries = {
     //'goodsType': ['./src/js/goodsType/goodsType.js'],
-    //'phone-goods': ['./src/js/phone/goods.js'],
+    'phone-goods': ['./src/js/phone/goods.js'],
     //'phone-order-comfirm': ['./src/js/phone/order-comfirm.js'],
     //'user-address-list':['./src/js/user/user.address.js'],
     //'user-addaddress':['./src/js/user/user.addaddress.js'],

@@ -45,6 +45,8 @@ module.exports = (router) => {
                 GoodsTypeId: body.stype
             };
         }
+
+        where.status = 0;
         this.body = yield Goods.findAll({
             where: where,
             offset: (body.page - 1) * goodsPerPage,

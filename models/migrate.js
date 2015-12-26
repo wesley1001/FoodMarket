@@ -9,7 +9,7 @@ function * adminerSeed(){
             password: '123456',
             phone: '18840823910',
             nickname: '用户' + i,
-            type: i % 2 + 1
+            type: i % 3 + 1
         })
     }
 }
@@ -33,7 +33,8 @@ function * userSeed(){
 function * goodsSeed() {
     var goodsTypes = yield db.models.GoodsType.findAll({
         where: {
-            type: 2
+            type: 2,
+            //status: 0
         }
     });
     for(var i = 0; i < 40; i ++) {
@@ -46,8 +47,9 @@ function * goodsSeed() {
             capacity: 20 + i,
             content: '内容' + i,
             GoodsTypeId: goodsTypes[i % goodsTypes.length].id,
-            per:  i % 2 ? '每斤' : '每个',
-            brief: '简介'
+            perStr:  i % 2 ? '每斤' : '每个',
+            brief: '简介',
+            perNum: i % 6
         })
     }
 }
@@ -256,7 +258,9 @@ function *addSuperAdminer() {
 }
 
 co(function * () {
-    yield db.sync();
+    yield goodsSeed;
+    //yield adminerSeed;
+    //yield db.sync();
     //yield addSuperAdminer;
     //yield function *() {
     //    yield db.models.User.create({

@@ -1,9 +1,10 @@
-require('imports?$=jquery!amazeui/dist/css/amazeui.css');
+var phoneBase = require('./base.js');
 require('../../css/phone/goods.scss');
 
 require('Swiper/dist/css/swiper.css');
-
 require('Swiper/dist/js/swiper.js');
+
+var $ = jQuery;
 
 $(function () {
     var windowWidth = $(window).width();
