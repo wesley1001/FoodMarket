@@ -29,7 +29,7 @@ var phoneEntries = {
     //'phone-order-comfirm': ['./src/js/phone/order-comfirm.js'],
     //'user-address-list':['./src/js/user/user.address.js'],
     //'user-addaddress':['./src/js/user/user.addaddress.js'],
-    //'phone-index': ['./src/js/phone/index.js'],
+    'phone-index': ['./src/js/phone/index.js'],
     //'phone-shoppingcart': ['./src/js/phone/shoppingCart.js'],
     //'phone-order-list': ['./src/js/phone/order-list.js'],
     'phone-register': ['./src/js/phone/register.js'],

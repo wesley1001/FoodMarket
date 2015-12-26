@@ -1,9 +1,10 @@
-require('imports?$=jquery!amazeui/dist/css/amazeui.css');
 require('../../css/phone/index.scss');
-require('Swiper/dist/css/swiper.css');
 
+//require('Swiper');
+require('Swiper/dist/css/swiper.css');
 require('Swiper/dist/js/swiper.js');
-require('exports?window.angular!angular');
+
+require('angular');
 require('ngInfiniteScroll');
 var phoneBase = require('./base.js');
 
