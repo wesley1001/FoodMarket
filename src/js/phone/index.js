@@ -1,4 +1,4 @@
-var phoneBase = require('./base.js');
+require('./base.js').bottomBar(0);
 
 require('../../css/phone/index.scss');
 //require('Swiper');
@@ -9,9 +9,6 @@ require('angular');
 require('ngInfiniteScroll');
 
 var $ = jQuery;
-$(function (){
-    phoneBase.bottomBar(0);
-});
 
 var $header = $('.fixed-header');
 var $form = $('form', $header);

@@ -1,13 +1,9 @@
-var phoneBase = require('./base.js');
+require('./base.js').bottomBar(1);
 require('../../css/phone/shoppingCart.scss');
 
 require('angular');
 
 var $ = jQuery;
-
-$(function (){
-    phoneBase.bottomBar(1);
-});
 
 var app = angular.module('app', []);
 

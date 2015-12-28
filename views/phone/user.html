@@ -1,6 +1,11 @@
 <% extend 'phone/base.html' %>
 
-<div style="background-color: #eee;">
+
+<% block 'head' : %>
+<link rel="stylesheet" href="/dist/phone-user.css">
+<% end %>
+
+<div class="user-panel">
     <div class="am-cf am-padding">
         <div class="am-fl">
             <img src="<%= @user.headimage %>" style="width: 48px; height: 48px;">
@@ -43,5 +48,5 @@
 </div>
 
 <% block 'scripts': %>
-<script src="/dist/user-center.js"></script>
+<script src="/dist/phone-user.js"></script>
 <% end %>

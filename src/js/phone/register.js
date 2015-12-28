@@ -3,7 +3,7 @@
  */
 require('./base.js');
 
-require('../../css/user/register.scss');
+require('../../css/phone/register.scss');
 
 require('imports?$=jquery, define=>false, exports=>false, ChineseDistricts=distpicker/dist/distpicker.data.js!distpicker/dist/distpicker.js');
 

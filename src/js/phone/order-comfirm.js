@@ -1,4 +1,4 @@
-var phoneBase = require('./base.js');
+require('./base.js');
 
 require('../../css/phone/order-comfirm.scss');
 

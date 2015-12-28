@@ -1,15 +1,10 @@
-/**
- * Created by bian on 15-12-6.
- */
-//css
-require('../../css/user/user.address.js');
+require('./base.js');
+require('../../css/phone/address.scss');
 
-var $ = require('expose?jQuery!jquery');
-jQuery = $;
+var $  = jQuery;
 
 $('.del').each(function(){
    $(this).click(function(){
-       console.log('hello');
        var $this = $(this);
        var id = $this.attr('id');
        var contentID = '#'+id;
@@ -20,7 +15,6 @@ $('.del').each(function(){
            url:url,
            type:'GET',
            success:function(data){
-               console.log(data + "success");
            }
        })
    });

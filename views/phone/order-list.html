@@ -1,5 +1,10 @@
 <% extend 'phone/base.html' %>
-<div ng-controller="AppCtrl">
+
+<% block 'head' : %>
+<link rel="stylesheet" href="/dist/phone-order-list.css">
+<% end %>
+
+<div ng-controller="AppCtrl" ng-cloak>
 
     <div class="am-tabs" data-am-tabs>
         <ul class="am-tabs-nav am-nav am-nav-tabs">
@@ -36,12 +41,15 @@
                     </div>
 
                 </div>
-                <p class="am-paading-horizontal-sm">
-                    <span>共{{order.num}}件</span>
-                    <span>运费:{{order.fare}}元</span>
-                </p>
-                <p class="am-paading-horizontal-sm">留言: {{order.message}}</p>
-                <p class="am-paading-horizontal-sm" ng-show="">评价</p>
+                <div class="am-padding-sm am-text-sm">
+                    <p>
+                        <span>共{{order.num}}件</span>
+                        <span>运费:{{order.fare}}元</span>
+                    </p>
+                    <p class="am-paading-horizontal-sm">留言: {{order.message}}</p>
+                    <p class="am-paading-horizontal-sm" ng-show="">评价</p>
+                </div>
+
             </div>
             <div class="am-panel-footer am-text-right">
                 <div class="am-btn-group-sm">

@@ -4,6 +4,8 @@ require('amazeui/dist/js/amazeui.js');
 
 module.exports = {
     bottomBar: function (active) {
-        jQuery('#navbar').find('li').eq(active).addClass('active');
+        jQuery(function () {
+            jQuery('#navbar').find('li').eq(active).addClass('active');
+        });
     }
 };

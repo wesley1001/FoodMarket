@@ -8,8 +8,8 @@ var CommonsChunkPlugin = require("webpack/lib/optimize/CommonsChunkPlugin");
 var adminEnties = {
     //'admin-index': ['./src/js/admin/index.js'],
     'admin-login': ['./src/js/admin/login.js'],
-    //'admin-evaluations':['./src/js/admin/evaluations.js'],
-    //'admin-order-list':['./src/js/order/list.js'],
+    'admin-evaluations':['./src/js/admin/evaluations.js'],
+    'admin-order-list':['./src/js/order/list.js'],
     'admin-user-assign':['./src/js/admin/user-assign.js'],
     'admin-goods-list':['./src/js/goods/list.js'],
     'admin-goods-save': ['./src/js/goods/save.js'],
@@ -27,16 +27,14 @@ var phoneEntries = {
     //'goodsType': ['./src/js/goodsType/goodsType.js'],
     'phone-goods': ['./src/js/phone/goods.js'],
     'phone-order-comfirm': ['./src/js/phone/order-comfirm.js'],
-    //'user-address-list':['./src/js/user/user.address.js'],
-    //'user-addaddress':['./src/js/user/user.addaddress.js'],
+    'phone-address':['./src/js/phone/user.address.js'],
+    'phone-addaddress':['./src/js/phone/user.addaddress.js'],
     'phone-index': ['./src/js/phone/index.js'],
     'phone-shoppingcart': ['./src/js/phone/shoppingCart.js'],
-    //'phone-order-list': ['./src/js/phone/order-list.js'],
+    'phone-order-list': ['./src/js/phone/order-list.js'],
     'phone-register': ['./src/js/phone/register.js'],
-    //'seller-list': ['./src/js/admin/seller.js'],
-
-    //'phone-evaluation':['./src/js/phone/evaluation.js'],
-    //'user-center': ['./src/js/user/user.js'],
+    'phone-evaluation':['./src/js/phone/evaluation.js'],
+    'phone-user': ['./src/js/phone/user.js']
 };
 
 var extraEntries = {

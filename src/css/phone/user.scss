@@ -1,8 +1,9 @@
+@import "base";
 $info_height : 130px;
 $info_bgcolor : #FE4542;
 $font:13px;
 $font-color:white;
-@import "../phone/base";
+
 body{
   box-sizing: border-box;
 }
@@ -13,6 +14,10 @@ body{
   font-size:$font+5px;
   color:black;
   position:relative;
+}
+
+.user-panel {
+  background-color: $main-color;
 }
 
 .user{

@@ -11,14 +11,17 @@ var auth = require('../../helpers/auth');
 module.exports = (router) => {
     router.get('/user/address',function *(){
         var user = (yield auth.user(this));
-        console.log(user.name);
-        //todo: get current user ID
+
         var data = yield deliverAddress.findAll({
             where:{
                 UserId: user.id
-            }
+            },
+            include: [Area]
         });
-        this.body = yield render('user/address.html',{datas:data});
+        this.body = yield render('phone/address.html',{
+            datas:data,
+            title: '收货地址'
+        });
     });
 
     router.get('/user/addaddress',function *(){
@@ -27,8 +30,9 @@ module.exports = (router) => {
                 type:2
             }
         });
-        this.body = yield render('user/addaddress.html',{
-            area
+        this.body = yield render('phone/addaddress.html',{
+            area,
+            title: '添加收货地址'
         });
     });
 
@@ -46,10 +50,8 @@ module.exports = (router) => {
         var data = this.request.body;
         console.log(data);
 
-        //todo: get current user ID
-        var id = (yield auth.user(this)).id;
 
-        data.UserId = id;
+        data.UserId = (yield auth.user(this)).id;
         data.isDefault = false;
         yield deliverAddress.create(data);
         this.body = '1';

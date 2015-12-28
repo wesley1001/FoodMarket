@@ -1,16 +1,10 @@
-require('imports?$=jquery!amazeui/dist/css/amazeui.css');
+require('./base.js');
 require('../../css/phone/order-list.scss');
 
-var phoneBase = require('./base.js');
 require('angular');
 require('angular-route');
 
-
 var $ = jQuery;
-
-$(function () {
-    phoneBase.bottomBar(0);
-});
 
 var ajaxErrorCb = function () {
     alert('操作失败，请刷新重试');
