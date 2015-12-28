@@ -1,7 +1,8 @@
-require('imports?$=jquery!amazeui/dist/css/amazeui.css');
+var phoneBase = require('./base.js');
+
 require('../../css/phone/order-comfirm.scss');
 
-require('exports?window.angular!angular');
+require('angular');
 
 var $ = jQuery;
 
@@ -21,7 +22,7 @@ app.controller('AppCtrl', ['$scope', '$http', function (scope, $http) {
 
     scope.fareData = JSON.parse(angular.element('#fare').html());
 
-    if (totalPrice >  scope.fareData.fireLine) {
+    if (totalPrice >  parseFloat(scope.fareData.fireLine)) {
         scope.fare = 0;
     } else {
         scope.fare = scope.fareData.basicFare;
@@ -32,7 +33,7 @@ app.controller('AppCtrl', ['$scope', '$http', function (scope, $http) {
         var fee = 0;
         for(var i in scope.shoppingCart) {
             var goods = scope.shoppingCart[i];
-            fee += goods.Good.price * goods.num;
+            fee += goods.Good.price * goods.num * goods.Good.perNum;
         }
         return fee;
     }

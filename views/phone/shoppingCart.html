@@ -1,6 +1,10 @@
 <% extend "phone/base.html" %>
 
-<div ng-controller="AppCtrl">
+<% block 'head' : %>
+<link rel="stylesheet" href="/dist/phone-shoppingcart.css">
+<% end %>
+
+<div ng-controller="AppCtrl" ng-cloak>
     <div class="am-padding-sm" >
         <div class="am-panel am-panel-default shoppingcart">
             <div class="am-panel-hd shoppingcart-shop-title">
@@ -22,7 +26,7 @@
                             <small>{{goods.Good.brief}}</small>
                         </a>
 
-                        <p class="am-text-sm">￥ {{goods.Good.price}} / <del>{{goods.Good.oldPrice}}</del> <span class="am-text-danger">会员{{goods.Good.vipDiscount}}折</span></p>
+                        <p class="am-text-sm">￥ {{goods.Good.price * goods.Good.perNum}}/{{goods.Good.perStr}} <del>{{goods.Good.oldPrice * goods.Good.perNum}}</del></p>
                         <div class="am-cf">
                             <div class="goods-counter am-fl">
                                 <div class="btn minus am-text-warning" ng-click="goods.num = goods.num - 1">

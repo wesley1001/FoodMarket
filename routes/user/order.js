@@ -41,7 +41,9 @@ module.exports = function (router) {
             attributes: ['id', 'num', 'GoodId'],
             include: [{
                 model: db.models.Goods,
-                attributes: ['price', 'title', 'mainImg', 'oldPrice', 'brief', 'vipDiscount']
+                attributes: {
+                    exclude: ['content']
+                }
             }]
         });
 

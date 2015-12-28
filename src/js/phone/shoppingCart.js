@@ -36,7 +36,7 @@ app.controller('AppCtrl', ['$scope', '$http', function (scope, $http) {
         for(var i in scope.shoppingCart) {
             var goods = scope.shoppingCart[i];
             if (goods.selected) {
-                fee += goods.Good.price * goods.num;
+                fee += goods.Good.price * goods.num * goods.Good.perNum;
             }
         }
         return fee;
