@@ -22,8 +22,9 @@ app.controller('AppCtrl', ['$scope', '$http', function (scope, $http) {
 
     scope.fareData = JSON.parse(angular.element('#fare').html());
 
-    if (totalPrice >  parseFloat(scope.fareData.fireLine)) {
+    if (totalPrice >  parseFloat(scope.fareData.freeLine)) {
         scope.fare = 0;
+        scope.totalPrice = totalPrice;
     } else {
         scope.fare = scope.fareData.basicFare;
         scope.totalPrice = totalPrice + scope.fare;
@@ -70,7 +71,7 @@ app.controller('AppCtrl', ['$scope', '$http', function (scope, $http) {
         form.submit();
     };
 
-    window.s = scope;
+    //window.s = scope;
 
     scope.changeAddress = function () {
         scope.$broadcast('address-modal');

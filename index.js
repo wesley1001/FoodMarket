@@ -1,7 +1,7 @@
 // parties
 var koa = require('koa');
 var session = require('koa-generic-session');
-var redistore = require('koa-redis');
+//var redistore = require('koa-redis');
 var koaBody = require('koa-body');
 var mount = require('koa-mount');
 var staticServer = require('koa-static');
