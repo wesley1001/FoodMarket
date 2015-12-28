@@ -51,30 +51,39 @@ module.exports = (router) => {
             where: where,
             offset: (body.page - 1) * goodsPerPage,
             limit: goodsPerPage,
-            order: [['soldNum', 'DESC'], 'title']
+            order: [['soldNum', 'DESC'], 'title'],
+            attributes: {
+                exclude: ['content']
+            }
         });
     }
 
     router.get('/user/goods-page/:id', function *() {
+
+
         this.checkParams('id').notEmpty().isInt().toInt();
         if (this.errors) {
             this.body = this.errors;
             return;
         }
         var goods = yield Goods.findById(this.params.id);
+        if (goods.status !== 0 ){
+            this.body = "错误访问";
+            return;
+        }
         goods.GoodsType = yield goods.getGoodsType();
         goods.imgs = JSON.parse(goods.imgs);
         var shoppingCart = yield ShoppingCart.findOne({
             where:{
                 UserId: (yield auth.user(this)).id,
-                GoodId: this.params.id
+                GoodId: this.params.id,
             }
         });
         goods.num = shoppingCart ? shoppingCart.num : 0;
         goods.isCollected = (yield GoodsCollection.count({
             where: {
                 GoodId: goods.id,
-                UserId: (yield auth.user(this)).id
+                UserId: (yield auth.user(this)).id,
             }
         })) != 0;
         this.body = yield render('phone/goods.html', {

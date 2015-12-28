@@ -30,7 +30,7 @@ var phoneEntries = {
     //'user-address-list':['./src/js/user/user.address.js'],
     //'user-addaddress':['./src/js/user/user.addaddress.js'],
     'phone-index': ['./src/js/phone/index.js'],
-    //'phone-shoppingcart': ['./src/js/phone/shoppingCart.js'],
+    'phone-shoppingcart': ['./src/js/phone/shoppingCart.js'],
     //'phone-order-list': ['./src/js/phone/order-list.js'],
     'phone-register': ['./src/js/phone/register.js'],
     //'seller-list': ['./src/js/admin/seller.js'],

@@ -1,14 +1,13 @@
-require('imports?$=jquery!amazeui/dist/css/amazeui.css');
+var phoneBase = require('./base.js');
 require('../../css/phone/shoppingCart.scss');
 
-require('exports?window.angular!angular');
-require('./base.js').bottomBar(1);
+require('angular');
 
 var $ = jQuery;
 
-//$(function () {
-//
-//});
+$(function (){
+    phoneBase.bottomBar(1);
+});
 
 var app = angular.module('app', []);
 
