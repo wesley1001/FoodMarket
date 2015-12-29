@@ -34,7 +34,8 @@ var phoneEntries = {
     'phone-order-list': ['./src/js/phone/order-list.js'],
     'phone-register': ['./src/js/phone/register.js'],
     'phone-evaluation':['./src/js/phone/evaluation.js'],
-    'phone-user': ['./src/js/phone/user.js']
+    'phone-user': ['./src/js/phone/user.js'],
+    'phone-pay': ['./src/js/phone/pay.js'],
 };
 
 var extraEntries = {

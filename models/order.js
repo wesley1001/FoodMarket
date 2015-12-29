@@ -30,7 +30,8 @@ module.exports = function (sequelize, DataTypes) {
         message: shortDataTypes.String(),
         payTime: shortDataTypes.Date(),
         sendTime: shortDataTypes.Date(),
-        recieveTime: shortDataTypes.Date()
+        recieveTime: shortDataTypes.Date(),
+        prepayId: shortDataTypes.String(64, true)
     }, {
         associate: function (models) {
             models.User.hasMany(models.Order);

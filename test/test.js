@@ -1,9 +1,5 @@
-var cache = require('../instances/cache.js');
-var co = require('co');
+var utilx = require('../lib/util.js');
 
-co(function *() {
-    var a = yield cache.jget('123');
-    console.log(a);
-});
-
+var res = utilx.intToFixString(32, 32);
+console.log(res, res.length);
 
