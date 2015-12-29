@@ -11,7 +11,7 @@ var Admins = db.models.Adminer;
 module.exports = (router) => {
 
     router.get('/adminer/index', function *() {
-        this.body = 'hello';
+        this.body = yield render('admin/index.html');
     });
 
     router.get('/admin-login', function *() {
