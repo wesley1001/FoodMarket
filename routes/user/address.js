@@ -18,6 +18,8 @@ module.exports = (router) => {
             },
             include: [Area]
         });
+
+        console.log(data);
         this.body = yield render('phone/address.html',{
             datas:data,
             title: '收货地址'
@@ -55,5 +57,35 @@ module.exports = (router) => {
         data.isDefault = false;
         yield deliverAddress.create(data);
         this.body = '1';
+    });
+
+    router.post('/user/address/changeDefault',function *(){
+        try {
+            var data = this.request.body;
+            var addrid = data.id;
+
+            var UserID = (yield auth.user(this)).id;
+
+            yield deliverAddress.update({
+               isDefault:false
+            },{
+                where:{
+                    UserID:UserID
+                }
+            });
+
+            yield deliverAddress.update({
+                isDefault: true
+            }, {
+                where: {
+                    id: addrid
+                }
+            });
+
+            this.body = '1';
+        }catch(err){
+            console.log(err);
+            this.body = '0';
+        }
     });
 };

@@ -127,7 +127,6 @@ yes.click(function () {
             success: function (data) {
                 if (data) {
                     alert('添加成功');
-                    window.location.href = '/user/address';
                 }
             }
         })

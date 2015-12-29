@@ -22,16 +22,23 @@
                                 </div>
                             </div>
                         </div>
-                        <div>
-                            <div class="am-margin-vertical">
-                                <span class="am-badge am-badge-default"><%- addr.Area.title %></span>
-                                <span><%- addr.province %><%- addr.city %><%- addr.address %></span>
+                        <div class="am-g">
+                            <div class="am-u-sm-8">
+                                <div class="am-margin-vertical">
+                                    <span class="am-badge am-badge-default"><%- addr.Area.title %></span>
+                                    <span><%- addr.province %><%- addr.city %><%- addr.address %></span>
+                                </div>
+                            </div>
+                            <div class="am-u-sm-4 color-red default" default="<%- addr.isDefault %>">
+                                <div class="am-margin-vertical">
+                                    <div class="am-text-right">[默认]</div>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="am-u-sm-2  edit">
                         <div class="am-text-center">
-                            <div class="am-icon-btn am-icon-btn-sm am-icon-pencil am-margin-xs"></div>
+                            <!--<div class="am-icon-btn am-icon-btn-sm am-icon-pencil am-margin-xs"></div>-->
                             <br />
                             <div class="am-icon-btn am-icon-btn-sm am-danger am-icon-trash del" id="<%- addr.id %>"></div>
                         </div>
