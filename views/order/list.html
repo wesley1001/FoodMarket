@@ -9,7 +9,7 @@
     html .dropdown-menu {
         min-width: 80px;;
     }
-    table td, table th{ text-align: center;}
+    table td, table th{ text-align: center; vertical-align: middle !important;}
 </style>
 
 <% end %>
@@ -92,6 +92,8 @@
                     </div>
                     <div class="form-actions text-center ">
                         <button type="submit" class="btn blue" ng-click="search()" ng-disabled="loading">查询</button>
+                        <button type="submit" class="btn green" ng-click="exportAll('all')" ng-disabled="loading">导出所筛选的</button>
+                        <button type="submit" class="btn green" ng-click="exportAll('small')" ng-disabled="loading">导出所筛选的（供货商版）</button>
                         <button type="button" class="btn default" ng-click="reset()">清空</button>
                     </div>
                 </div>
@@ -110,6 +112,7 @@
         <form action="/adminer/order/export" method="post" target="_blank" style="display: none;" id="export-form">
             <input name="ids">
             <input name="type">
+            <input name="exportAll">
         </form>
         <table class="table  table-bordered table-hover">
             <thead>
@@ -164,7 +167,7 @@
             </tr>
             <tr ng-repeat-end="" ng-show="order.opened" ng-controller="OrderCtrl">
                 <td></td>
-                <td colspan="11">
+                <td colspan="13">
                     <table class="table  table-bordered table-hover">
                         <thead>
                         <tr>
@@ -183,7 +186,7 @@
                             <td>{{item.goods.price}}</td>
                             <td>{{item.num}}</td>
                             <td>{{item.price}}</td>
-                            <td>{{item.goods.per}}</td>
+                            <td>{{item.goods.perNum}} {{item.goods.perStr}}</td>
                         </tr>
                         </tbody>
                     </table>

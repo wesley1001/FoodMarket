@@ -224,14 +224,30 @@ app.controller('OrderListCtrl', ['$scope', '$http', function (scope, $http) {
             }).error(ajaxErrorCb);
     };
 
+    var form = angular.element('#export-form');
+    var inputs = form.find('input');
     scope.export = function (type) {
 
-        var form = angular.element('#export-form');
-        var inputs = form.find('input');
         inputs.eq(0).val(JSON.stringify(scope.selectedIds));
         inputs.eq(1).val(type);
+        inputs.eq(2).val("false");
         form.submit();
+    };
 
+    scope.exportAll = function (type) {
+        inputs.eq(0).val(JSON.stringify({
+            page: scope.page,
+            status: scope.status,
+            startDate: daterange.eq(0).val(),
+            endDate: daterange.eq(1).val(),
+            recieverName: scope.recieverName,
+            phone: scope.phone,
+            goodsIds: scope.goodsIds,
+            areas: scope.areas
+        }));
+        inputs.eq(1).val(type);
+        inputs.eq(2).val("true");
+        form.submit();
     };
 
     scope.get();

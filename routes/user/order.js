@@ -156,7 +156,7 @@ module.exports = function (router) {
                 };
 
                 var orderFare = 0;
-                if (price < fare.freeLine) {
+                if (price < parseFloat(fare.freeLine)) {
                     orderFare = fare.basicFare;
                     price += orderFare;
                 }

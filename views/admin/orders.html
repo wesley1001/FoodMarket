@@ -1,7 +1,12 @@
 <% extend 'shared/admin-base' %>
 
-<% block 'scripts': %>
+<% block 'head': %>
 <link rel="stylesheet" href="/dist/admin-orders.css">
+<style>
+    table th, table td {
+        vertical-align: middle;
+    }
+</style>
 <% end %>
 
 <ul  class="nav nav-pills tabcon" id="">

@@ -205,7 +205,7 @@ function * orderSeed() {
                 }));
             }
             var orderFare = 0;
-            if (price < fare.freeLine) {
+            if (price < parseFloat(fare.freeLine)) {
                 orderFare = fare.basicFare;
                 price += orderFare;
             }
@@ -258,7 +258,8 @@ function *addSuperAdminer() {
 }
 
 co(function * () {
-    yield goodsSeed;
+    yield orderSeed;
+    //yield goodsSeed;
     //yield adminerSeed;
     //yield db.sync();
     //yield addSuperAdminer;

@@ -38,7 +38,7 @@ module.exports = function (sequelize, DataTypes) {
         /**
          * 简要描述
          */
-        brief: shortDataTypes.String(100),
+        brief: shortDataTypes.String(100, true),
         /**
          *
          */
