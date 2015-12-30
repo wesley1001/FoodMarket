@@ -67,7 +67,7 @@ module.exports = (router) => {
             return;
         }
         var goods = yield Goods.findById(this.params.id);
-        if (goods.status !== 0 ){
+        if (!goods || goods.status !== 1 ){
             this.body = "错误访问";
             return;
         }
