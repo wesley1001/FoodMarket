@@ -32,7 +32,7 @@ module.exports = (router) => {
             return;
         }
         var body = this.request.body;
-
+        debug(body);
         var where;
         if (body.txt) {
             where = {
@@ -46,7 +46,7 @@ module.exports = (router) => {
             };
         }
 
-        where.status = 0;
+        where.status = 1;
         this.body = yield Goods.findAll({
             where: where,
             offset: (body.page - 1) * goodsPerPage,
