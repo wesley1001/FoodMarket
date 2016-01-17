@@ -30,17 +30,22 @@ module.exports = (router) => {
     var User = db.models.User;
     var Order = db.models.Order;
 
-    router.get('/user/pay/:id', function *() {
+    var payCookieName = 'xiaodizhupaycookies';
 
-        this.checkParams('id').notEmpty().isInt().toInt();
-        if (this.errors) {
-            this.body = this.errors;
+    router.get('/user/pay/', function *() {
+
+
+
+        var id = this.cookies.get(payCookieName);
+
+        if (util.isNullOrUndefined(id)) {
+            this.body = 'invalid id';
             return;
         }
 
         var order = yield Order.findOne({
             where: {
-                id: this.params.id,
+                id: id,
                 // unpaid
                 status: 0
             }
@@ -55,6 +60,7 @@ module.exports = (router) => {
 
         var payInfo;
         if (!util.isNullOrUndefined(order.prepayId)) {
+            console.log('has prepayId');
             var queryPromise = new Promise(function (resolve, reject) {
                 wxpay.queryOrder({ out_trade_no: outerTradeId }, function(err, order){
                     if (err) {
@@ -65,7 +71,12 @@ module.exports = (router) => {
                     resolve(order);
                 });
             });
+
+
+            payInfo = yield queryPromise;
+            console.log('payInfo', payInfo);
         } else {
+            console.log('pay');
             var p = new Promise(function (resolve, reject) {
                 wxpay.createUnifiedOrder({
                     body: '小地主订单支付' + order.id,
@@ -89,6 +100,7 @@ module.exports = (router) => {
             payInfo = yield p;
 
             debug(payInfo);
+            console.log('payInfo', payInfo);
         }
 
         payInfo = JSON.stringify(payInfo);
@@ -96,6 +108,22 @@ module.exports = (router) => {
             title: '微信支付',
             payInfo
         });
+    });
+
+    router.get('/user/prepay/:id', function *() {
+
+        this.checkParams('id').notEmpty().isInt().toInt();
+        if (this.errors) {
+            this.body = this.errors;
+            return;
+        }
+        var nextTwoHour = new Date();
+        nextTwoHour.setHours(nextTwoHour.getHours() + 2);
+        ctx.cookies.set(payCookieName, this.params.id, {
+            expires: nextTwoHour
+        });
+        this.cookies.set()
+
     });
 
     router.get('/wechat/paid', function *() {
