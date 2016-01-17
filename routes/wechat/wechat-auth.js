@@ -49,7 +49,7 @@ module.exports = (router) => {
 
     router.get('/wechat/redirect', function *() {
         var client = WechatAuthClient();
-        var url = client.getAuthorizeURL('http://139.129.18.214/wechat/auth', 'foodmarket', 'snsapi_userinfo');
+        var url = client.getAuthorizeURL('http://www.lext.xyz/wechat/auth', 'foodmarket', 'snsapi_userinfo');
         this.redirect(url);
     });
 
