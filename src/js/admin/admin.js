@@ -1,113 +1,226 @@
 /**
- * Created by li_rz on 2015/12/8.
+ * Created by lxc on 15-12-17.
  */
-require('../../../src/css/admin-base/common.js');
-require('./../admin-base/core.js');
-require('../../../src/bower_components/jquery/dist/jquery.min.js');
-require('../../../src/css/admin/checkList.scss');
-// require('../../../src/bower_components/angular/angular.min.js');
 
-(jQuery)(document).on('DOMContentLoaded', function () {
-    var $show_adminer = (jQuery)('a[href="#showAdminer"]'),
-        $add_adminer = (jQuery)('#addAdminer form'),
-        $submit_button = $add_adminer.find('#submit'),
-        assembleHTML;
+require('../admin-base/common.js');
+require('jquery-validation');
+require('ajaxform/build/ajaxform-0.1.2.js');
 
-    assembleHTML = function (data, append_html) {
-        data.forEach(function (every_data) {
-            append_html += '<div class="col-md-4">' +
-                '<div class="portlet box red">' +
-                '<div class="portlet-title">' +
-                '<div class="caption"><i class="fa fa-cogs"></i>管理员</div>' +
-                '<div class="tools"></div>' +
-                '</div>' +
-                '<div class="portlet-body">' +
-                '<div class="table-responsive">' +
-                '<table class="table table-hover">' +
-                '<thead>' +
-                '<tr><th>项目</th><th>内容</th></tr>' +
-                '</thead>' +
-                '<tbody>' +
-                '<tr><th>name</th><th>'+ every_data.name +'</th></tr>' +
-                '<tr><th>password</th><th>'+ every_data.password +'</th></tr>' +
-                '<tr><th>phone</th><th>'+ every_data.phone +'</th></tr>' +
-                '<tr><th><button class="btn btn-danger" type="button">删除该管理员</button></th></tr>' +
-                '</tbody>' +
-                '</table>' +
-                '</div>' +
-                '</div>' +
-                '</div>' +
-                '</div>';
-        });
+var $ = jQuery;
 
-        return append_html;
-    };
+require('datatables/media/js/jquery.dataTables.js');
+require('datatables/media/css/dataTables.bootstrap.css');
+require('select2');
 
+require('./datetabesmy.js');
 
-    $show_adminer.on('click', function () {
-        var $show_admin_html = (jQuery)('#showAdminer');
-        (jQuery).get('/adminer/admin.json', function (data) {
-            var append_html = '';
-            append_html = assembleHTML(data, append_html);
-            $show_admin_html.html(append_html);
-        });
-    });
+var $form = $('#form');
 
-    $submit_button.on('click', function (event) {
-        event.preventDefault();
-        var user = {
-                phone : (jQuery)('#phone'),
-                username : (jQuery)('#account'),
-                password : (jQuery)('#password'),
-                confirm : (jQuery)('#confirm')
-            },
-            user_value = {
-                phone : user.phone.val(),
-                username : user.username.val(),
-                password : user.password.val(),
-                confirm : user.confirm.val()
-            },
+$form.validate({
+    errorElement: 'span', //default input error message container
+    errorClass: 'help-block', // default input error message class
+    focusInvalid: false, // do not focus the last invalid input
+    ignore: "",
+    rules: {
+        nickname: {
+            required: true
 
-            $note = (jQuery)('pre.col-md-12'),
-            LEGAL_PHONE = /\b([1-9])([0-9]){10}\b/,
-            LEGAL_USERNAME = /\w{4,16}/,
-            LEGAL_PASSWORD = /.{6,}/;
+        },
+        name: {
+            required: true,
 
-        console.log(user_value.phone, user_value.username, user_value.password);
-        if (user_value.password !== user_value.confirm) {
-            $note.removeClass('hide')
-                 .html('两次输入密码不一');
-
-            return false;
+        },
+        phone: {
+            required: true,
+            number: true,
+            maxlength: 11,
+            minlength: 11
+        },
+        password: {
+            required: true
+        },
+        password2: {
+            equalTo: "#password"
         }
+    },
 
-        if (LEGAL_PHONE.test(user_value.phone) && LEGAL_USERNAME.test(user_value.username) && LEGAL_PASSWORD.test(user_value.password)) {
-            (jQuery).post('/adminer/checkAdminForm', {
-                username : user_value.username,
-                password : user_value.password,
-                phone : user_value.phone
-            }, function (data) {
-                if (data.success) {
-                    for (var i in user) {
-                        if (user.hasOwnProperty(i)) {
-                            user[i].val('');
-                        }
-                    }
-                    $note.addClass('hide')
-                } else {
-                    $note.removeClass('hide')
-                    .html(data.error);
-                }
-            });
-        } else {
-            $note
-                .removeClass('hide')
-                .html('账号或密码或电话输入有误');
+    messages: {
+        nickname: {
+            required: '请填写登录名',
+            remote: '用户名重复'
 
-            return false;
+        },
+        name: {
+            required: '姓名',
+
+        },
+        phone: {
+            required: '请填写电话',
+            number: '请填写数字',
+            maxlength: "请输入11位手机号",
+            minlength: "请输入11位手机号"
+        },
+        type: {
+            required: '请选择权限',
+            number: '请选择权限'
+        },
+        password: {
+            required: '请设置密码'
+        },
+        password2: {
+
+            equalTo: '两次输入的密码不相同'
         }
+    },
+
+    invalidHandler: function (event, validator) {
+    },
+
+    highlight: function (element) {
+        $(element)
+            .closest('.form-group').addClass('has-error');
+    },
+
+    unhighlight: function (element) {
+        $(element)
+            .closest('.form-group').removeClass('has-error'); // set error class to the control group
+    },
+
+    success: function (label) {
+        label
+            .closest('.form-group').removeClass('has-error'); // set success class to the control group
+    },
+
+    submitHandler: function (form) {
 
 
-
-    });
+    }
 });
+
+var oTable = $('#sample_2').DataTable({
+    "aoColumnDefs": [
+        {"aTargets": [0]}
+    ],
+    "aaSorting": [[1, 'asc']],
+    "aLengthMenu": [
+        [5, 15, 20, -1],
+        [5, 15, 20, "All"] // change per page values here
+    ],
+    // set the initial value
+    "iDisplayLength": 10,
+    "language": {
+        "lengthMenu": "每页 _MENU_ 条记录",
+        "zeroRecords": "没有找到记录",
+        "info": "第 _PAGE_ 页 ( 总共 _PAGES_ 页 )",
+        "infoEmpty": "无记录",
+        "infoFiltered": "(从 _MAX_ 条记录过滤)"
+    }
+});
+
+//var $wrapper = jQuery('#sample_2_wrapper');
+//$wrapper.find('.dataTables_filter input').addClass("form-control input-small"); // modify table search input
+//$wrapper.find('.dataTables_length select').addClass("form-control input-small").select2(); // modify table per page dropdown
+//
+//$('#sample_2_column_toggler').find('input[type="checkbox"]').change(function () {
+//    /* Get the DataTables object again - this is not a recreation, just a get of the object */
+//    var iCol = parseInt($(this).attr("data-column"));
+//    var bVis = oTable.fnSettings().aoColumns[iCol].bVisible;
+//    oTable.fnSetColumnVis(iCol, (bVis ? false : true));
+//});
+var edittingData;
+$form.ajaxForm({
+    errorClass: 'error-field', // Error class applied to field if it failed validation
+    showErrorMessage: true,    // Show error messages or just highlight field
+    errorMessageFormat: '<div class="error-message">{message}</div>', // Error message markup.
+    insertMessage: 'before',   // Error message position. Accepts 2 options 'before' and 'after'
+    onSuccess: function (id) {
+        if (id == -1) {
+            alert("登录名重复")
+        }
+        else {
+            $("#addmodal").modal('hide');
+            var idnow = $('#id').val();
+            if (idnow == "") {
+                $(oTable.row.add([
+                    id,
+                    $('#nickname').val(),
+                    $('#name').val(),
+                    $('#phone').val(),
+                    $('#type').find("option:selected").text(),
+                    '<a data="' + id + '" href="#addmodal" data-toggle="modal" class="btn blue btn-xs editbtn"><i class="fa fa-edit"></i>修改</a> <butten class="btn delbtn btn-warning btn-xs"><i class="fa fa-times"></i>删除</butten>'
+                ]).draw().node()).data('id', id);
+            } else {
+                oTable.row($('tr.editing').removeClass('editing')).data([
+                    id,
+                    $('#nickname').val(),
+                    $('#name').val(),
+                    $('#phone').val(),
+                    $('#type').find("option:selected").text(),
+                    edittingData.type == 100 ?
+                    '<a data="' + id + '" href="#addmodal" data-toggle="modal" class="btn blue btn-xs editbtn"><i class="fa fa-edit"></i>修改</a> '
+                        : '<a data="' + id + '" href="#addmodal" data-toggle="modal" class="btn blue btn-xs editbtn"><i class="fa fa-edit"></i>修改</a> <butten class="btn delbtn btn-warning btn-xs"><i class="fa fa-times"></i>删除</butten>'
+
+                ]).draw();
+
+            }
+            jQuery("#form")[0].reset();
+            jQuery("#id").val("");
+        }
+    },     // Success callback. If validation passed
+    onErrors: function () {
+    },  //is callback for successfull server response with array of validation errors
+    onError: function () {
+    }  //is server error callback
+});
+
+
+$('#sample_2').click(function (event) {
+    var $t = $(event.target);
+    if ($t.is('.editbtn')) {
+        var id = $t.attr('data');
+        $('table tr.editing').each(function () {
+            $(this).removeClass('editing');
+        });
+        $t.parents('tr').addClass('editing');
+        $("#id").val(id);
+        $.ajax({
+            url: '/adminer-super/adminer-get?id=' + id,
+            dataType: 'json',
+            type: "get",
+            success: function (data) {
+                edittingData = data;
+                $('#nickname').val(data.nickname);
+                $('#name').val(data.name);
+                $('#phone').val(data.phone);
+                $('#password').val(data.password);
+                $('#password2').val(data.password);
+                $('#type').val(data.type);
+                if (data.type == 100) {
+                    $('#type').parents('.form-group').hide();
+                    $('#super-option').prop('disabled', false);
+                } else {
+                    $('#type').parents('.form-group').show();
+                    $('#super-option').prop('disabled', true);
+                }
+            }
+        })
+    } else if ($t.is('.delbtn')) {
+        var id = $t.parents('tr').data('id');
+        $.ajax({
+            url: '/adminer-super/adminer-del?id=' + id,
+            type: "get",
+            success: function (data) {
+                if (data == 1) {
+                    oTable.row($t.parents('tr')).remove().draw();
+                }
+            }
+        })
+    }
+});
+
+$('#myModal').on('hidden.bs.modal', function (e) {
+    $('#type').parents('.form-group').show();
+    $('#super-option').prop('disabled', true);
+});
+
+

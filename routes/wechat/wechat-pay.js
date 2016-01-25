@@ -10,7 +10,7 @@ var wechatConfig = require('./../../instances/config.js').wechat;
 var log = require('./../../instances/log.js');
 var auth = require('./../../helpers/auth.js');
 var util = require('util');
-var utilx = require('./../../lib/util.js')
+var utilx = require('./../../lib/util.js');
 
 var db = require('./../../models/index.js');
 

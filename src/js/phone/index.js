@@ -100,7 +100,7 @@ app.controller('AppCtrl', ['$scope', '$http', function (scope, $http) {
             scope.goodsCache[id] = [];
         }
         scope.goodsCache[id] = scope.goodsCache[id].concat(data);
-        if (data.length < 3) {
+        if (data.length < 20) {
             scope.loadStatus = 2;
         } else {
             scope.loadStatus = 0;

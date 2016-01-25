@@ -259,8 +259,8 @@ module.exports = function (router) {
         });
     });
 
-    router.get('/user/order/pay', function *() {
-        this.body = '待绑定';
-    });
+    //router.get('/user/order/pay', function *() {
+    //    this.body = '待绑定';
+    //});
 
 };

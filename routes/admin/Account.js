@@ -13,8 +13,8 @@ module.exports = (router) => {
 
     var Admins = db.models.Adminer;
 
-    router.get('/adminer-super/accountlist',  function *() {
-        var admin=yield Admins.findAll({
+    router.get('/adminer-super/accountlist', function *() {
+        var admin = yield Admins.findAll({
             where: {
                 status: 0
             }
@@ -24,92 +24,91 @@ module.exports = (router) => {
         });
     });
 
-    router.post('/adminer/accountadd',  function *() {
-        var body=this.request.body;
+    router.post('/adminer/accountadd', function *() {
+        var body = this.request.body;
         debug(body);
 
-        var nickname=body.nickname;
+        var nickname = body.nickname;
         ///修改
-        if(body.id!=""){
-            var is=yield Admins.findOne({
-                where:{
-                    nickname:nickname,
-                    id:{
+        if (body.id != "") {
+            var is = yield Admins.findOne({
+                where: {
+                    nickname: nickname,
+                    id: {
                         $ne: body.id
                     }
                 }
             });
-            if(is==null){
+            if (is == null) {
                 console.log("修改");
-                var th=yield Admins.findOne({
-                    where:{
-                        id:body.id
+                var th = yield Admins.findOne({
+                    where: {
+                        id: body.id
                     }
                 });
 
-                th.nickname=body.nickname,
-                    th.type=body.type,
-                    th.name=body.name,
-                    th.phone=body.phone,
-                    th.password=body.password,
-                    yield th.save();
+                th.nickname = body.nickname;
+                th.name = body.name;
+                th.phone = body.phone;
+                th.password = body.password;
+                if (th.type != 100 && body.type != 100) {
+                    th.type = body.type;
+                }
+                yield th.save();
                 this.body = th.id
-            }else{
+            } else {
                 console.log("不修改");
-                this.body=-1
+                this.body = -1
             }
-        }else{
+        } else {
             ///添加
-            is=yield Admins.findOne({
-                where:{
-                    nickname:nickname
+            is = yield Admins.findOne({
+                where: {
+                    nickname: nickname
                 }
             });
             debug(is);
-            if(is==null){
-                var e=yield Admins.create({
-                    nickname:body.nickname,
-                    type:body.type,
-                    name:body.name,
-                    phone:body.phone,
-                    password:body.password,
-                    status:0
+            if (is == null) {
+                var e = yield Admins.create({
+                    nickname: body.nickname,
+                    type: body.type,
+                    name: body.name,
+                    phone: body.phone,
+                    password: body.password,
+                    status: 0
                 });
                 this.body = e.id
-            }else{
-                this.body=-1;
+            } else {
+                this.body = -1;
             }
         }
 
 
-
-
     });
 
 
+    router.get('/adminer/getaccount', function *() {
 
-    router.get('/adminer/getaccount',  function *() {
-
-        var id=this.query.id;
-        var is=yield Admins.findOne({
-            where:{
-                id:id
+        var id = this.query.id;
+        var is = yield Admins.findOne({
+            where: {
+                id: id
             }
         });
-        this.body=JSON.stringify(is);
+        this.body = JSON.stringify(is);
     });
 
-    router.get('/adminer/delaccount',  function *() {
+    router.get('/adminer/delaccount', function *() {
 
-        var id=this.query.id;
-        var is=yield Admins.findOne({
-            where:{
-                id:id
+        var id = this.query.id;
+        var is = yield Admins.findOne({
+            where: {
+                id: id
             }
         });
         is.destroy();
         yield is.save();
-        this.body=1;
+        this.body = 1;
     });
 
 };
