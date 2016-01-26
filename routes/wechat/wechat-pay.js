@@ -88,6 +88,7 @@ module.exports = (router) => {
                     out_trade_no: outerTradeId,
                     total_fee: 1, //todo: for test 1分
                     spbill_create_ip: '182.92.203.172',
+                    attach: order.id,
                     notify_url: `${wechatConfig.domain}/wechat/paid`,
                 }, function(err, result){
                     if (err) {
