@@ -57,7 +57,7 @@ module.exports = (router) => {
             return;
         }
         var user = yield auth.user(this);
-        var outerTradeId = utilx.intToFixString(order.id, 32);
+        var outerTradeId = "xiaodizhu" + utilx.intToFixString(order.id, 23);
 
         var payInfo;
         if (!util.isNullOrUndefined(order.prepayId)) {
