@@ -17,6 +17,8 @@ var render = require('../../instances/render');
 var db = require('./../../models/index.js');
 
 var WXPay = require('weixin-pay');
+var WechatAPI = require('co-wechat-api');
+
 
 var wxpay = WXPay({
     appid: wechatConfig.appId,
@@ -24,6 +26,7 @@ var wxpay = WXPay({
     partner_key: wechatConfig.partnerKey, //微信商户平台API密钥
     //pfx: fs.readFileSync(wechatConfig.pfx), //微信商户平台证书
 });
+var wechatApi = new WechatAPI(wechatConfig.appId, wechatConfig.secret);
 
 
 module.exports = (router) => {
@@ -34,7 +37,18 @@ module.exports = (router) => {
 
     var payCookieName = 'xiaodizhupaycookies';
 
+
     router.get('/user/pay/', function *() {
+
+
+
+        // get js ticket
+        var wechatJsConfig = yield wechatApi.getJsConfig({
+            debug: true,
+            jsApiList: ['chooseWXPay'],
+            //url: wechatConfig.domain
+        });
+
 
         var ctx = this;
         var id = this.cookies.get(payCookieName);
@@ -127,7 +141,8 @@ module.exports = (router) => {
         payInfo = JSON.stringify(payInfo);
         this.body = yield render('phone/pay', {
             title: '微信支付',
-            payInfo
+            payInfo,
+            wechatJsConfig
         });
     });
 

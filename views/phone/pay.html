@@ -13,40 +13,77 @@
 </script>
 
 
+<script type="text/plain" id="wechatJsConfig">
+    <%- @wechatJsConfig %>
+</script>
+
 
 <% block 'scripts': %>
 <script src="/dist/phone-pay.js"></script>
-
+<script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script>
-    try {
-        document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
 
-            var $ = jQuery;
+    var $ = jQuery;
+    $(function() {
+        var  wechatJsConfigStr = $('#wechatJsConfig').html();
+        var wechatJsConfig = JSON.parse(wechatJsConfigStr);
 
-            var payInfo = JSON.parse($('#pay-info').html());
+        console.log(wechatJsConfig);
 
-            console.log(payInfo);
+        wx.config(wechatJsConfig);
 
-            //公众号支付
+        var payInfo = JSON.parse($('#pay-info').html());
+
+        console.log(payInfo);
+
+        wx.ready(function () {
             $('#pay').click(function(e) {
-                WeixinJSBridge.invoke('getBrandWCPayRequest', payInfo, function(res) {
-                    console.log(res);
-                    alert(JSON.stringify(res));
-                    if (res.err_msg == "get_brand_wcpay_request:ok") {
-
+                wx.chooseWXPay({
+                    timestamp: payInfo.timeStamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
+                    nonceStr: payInfo.nonceStr, // 支付签名随机串，不长于 32 位
+                    package: payInfo.package, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=***）
+                    signType: payInfo.signType, // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
+                    paySign: payInfo.paySign, // 支付签名
+                    success: function (res) {
+                        console.log(res);
                     }
-                    // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
-                    //因此微信团队建议，当收到ok返回时，向商户后台询问是否收到交易成功的通知，若收到通知，前端展示交易成功的界面；若此时未收到通知，商户后台主动调用查询订单接口，查询订单的当前状态，并反馈给前端展示相应的界面。
                 });
 
             });
+        });
 
-//                WeixinJSBridge.log('yo~ ready.');
+        wx.error(function () {
+            console.log(arguments);
+        })
+    });
 
-        }, false);
-    } catch (ex) {
-        alert(JSON.stringify(ex));
-    }
+//    try {
+//        document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+//
+//            var $ = jQuery;
+//
+//            var payInfo = JSON.parse($('#pay-info').html());
+//
+//            console.log(payInfo);
+//
+//            //公众号支付
+//            $('#pay').click(function(e) {
+//                WeixinJSBridge.invoke('getBrandWCPayRequest', payInfo, function(res) {
+//                    console.log(res);
+//                    alert(JSON.stringify(res));
+//                    if (res.err_msg == "get_brand_wcpay_request:ok") {
+//
+//                    }
+//                });
+//
+//            });
+//
+////                WeixinJSBridge.log('yo~ ready.');
+//
+//        }, false);
+//    } catch (ex) {
+//        alert(JSON.stringify(ex));
+//    }
 
 </script>
 <% end %>
