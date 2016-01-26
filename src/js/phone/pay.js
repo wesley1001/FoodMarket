@@ -7,7 +7,7 @@ $(function () {
     try {
         var payInfo = JSON.parse($('#pay-info').html());
 
-        alert(JSON.stringify(payInfo));
+        console.log(payInfo);
 
         $('#pay').click(function () {
             var a = WeixinJSBridge.invoke(
