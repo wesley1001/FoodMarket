@@ -8,6 +8,7 @@ var fs = require('fs');
 
 var wechatConfig = require('./../../instances/config.js').wechat;
 var log = require('./../../instances/log.js');
+var debug = require('./../../instances/debug.js');
 var auth = require('./../../helpers/auth.js');
 var util = require('util');
 var utilx = require('./../../lib/util.js');
