@@ -28,10 +28,10 @@
             console.log(payInfo);
 
             //公众号支付
-            $('a#getBrandWCPayRequest').click(function(e) {
+            $('#pay').click(function(e) {
                 WeixinJSBridge.invoke('getBrandWCPayRequest', payInfo, function(res) {
                     console.log(res);
-                    alert(res);
+                    alert(JSON.stringify(res));
                     if (res.err_msg == "get_brand_wcpay_request:ok") {
 
                     }
