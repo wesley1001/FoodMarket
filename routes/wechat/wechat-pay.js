@@ -104,7 +104,7 @@ module.exports = (router) => {
                     spbill_create_ip: '182.92.203.172',
                     attach: order.id,
                     notify_url: `${wechatConfig.domain}/wechat/paid`,
-                    nonceStr: wechatJsConfig.nonceStr
+                    //nonceStr: wechatJsConfig.nonceStr
                 }, function(err, result){
                     if (err) {
                         console.log(err);
