@@ -84,7 +84,7 @@ module.exports = (router) => {
                     body: '小地主订单支付' + order.id,
                     out_trade_no: outerTradeId,
                     total_fee: 1, //todo: for test 1分
-                    spbill_create_ip: ctx.ip,
+                    //spbill_create_ip: ctx.ip,
                     notify_url: 'http://139.129.18.214/wechat/paid',
                     trade_type: 'JSAPI',
                     openid: user.openid,
@@ -106,7 +106,7 @@ module.exports = (router) => {
         }
 
         payInfo = JSON.stringify(payInfo);
-        this.body = yield render('user/pay', {
+        this.body = yield render('phone/pay', {
             title: '微信支付',
             payInfo
         });
