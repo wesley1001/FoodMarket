@@ -34,8 +34,7 @@ module.exports = (router) => {
 
     router.get('/user/pay/', function *() {
 
-
-
+        var ctx = this;
         var id = this.cookies.get(payCookieName);
 
         if (util.isNullOrUndefined(id)) {
@@ -83,7 +82,7 @@ module.exports = (router) => {
                     body: '小地主订单支付' + order.id,
                     out_trade_no: outerTradeId,
                     total_fee: 1, //todo: for test 1分
-                    spbill_create_ip: this.request.ip,
+                    spbill_create_ip: ctx.ip,
                     notify_url: 'http://139.129.18.214/wechat/paid',
                     trade_type: 'JSAPI',
                     openid: user.openid,
