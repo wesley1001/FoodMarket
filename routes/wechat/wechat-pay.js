@@ -43,11 +43,11 @@ module.exports = (router) => {
 
 
         // get js ticket
-        var wechatJsConfig = yield wechatApi.getJsConfig({
-            debug: true,
-            jsApiList: ['chooseWXPay'],
-            //url: wechatConfig.domain
-        });
+        //var wechatJsConfig = yield wechatApi.getJsConfig({
+        //    debug: true,
+        //    jsApiList: ['chooseWXPay'],
+        //    url: this.href
+        //});
 
 
         var ctx = this;
@@ -104,6 +104,7 @@ module.exports = (router) => {
                     spbill_create_ip: '182.92.203.172',
                     attach: order.id,
                     notify_url: `${wechatConfig.domain}/wechat/paid`,
+                    nonceStr: wechatJsConfig.nonceStr
                 }, function(err, result){
                     if (err) {
                         console.log(err);
@@ -142,7 +143,7 @@ module.exports = (router) => {
         this.body = yield render('phone/pay', {
             title: '微信支付',
             payInfo,
-            wechatJsConfig
+            //wechatJsConfig
         });
     });
 
