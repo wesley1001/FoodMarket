@@ -80,16 +80,15 @@ module.exports = (router) => {
         } else {
             console.log('pay');
             var p = new Promise(function (resolve, reject) {
-                wxpay.createUnifiedOrder({
+
+                wxpay.getBrandWCPayRequestParams({
+                    openid: user.openid,
                     body: '小地主订单支付' + order.id,
+                    detail: '公众号支付测试',
                     out_trade_no: outerTradeId,
                     total_fee: 1, //todo: for test 1分
-                    //spbill_create_ip: ctx.ip,
-                    notify_url: 'http://139.129.18.214/wechat/paid',
-                    trade_type: 'JSAPI',
-                    openid: user.openid,
-                    attach: order.id
-                    //product_id: '1234567890'
+                    spbill_create_ip: '182.92.203.172',
+                    notify_url: `${wechatConfig.domain}/wechat/paid`,
                 }, function(err, result){
                     if (err) {
                         debug(err);
@@ -97,6 +96,24 @@ module.exports = (router) => {
                     }
                     resolve(result);
                 });
+
+                //wxpay.createUnifiedOrder({
+                //    body: '小地主订单支付' + order.id,
+                //    out_trade_no: outerTradeId,
+                //    total_fee: 1, //todo: for test 1分
+                //    //spbill_create_ip: ctx.ip,
+                //    notify_url: 'http://139.129.18.214/wechat/paid',
+                //    trade_type: 'JSAPI',
+                //    openid: user.openid,
+                //    attach: order.id
+                //    //product_id: '1234567890'
+                //}, function(err, result){
+                //    if (err) {
+                //        debug(err);
+                //        reject(err);
+                //    }
+                //    resolve(result);
+                //});
             });
 
             payInfo = yield p;
@@ -131,6 +148,9 @@ module.exports = (router) => {
 
     router.get('/wechat/paid', function *() {
         debug('paid');
+        console.log('paid');
+        console.log(JSON.stringify(this.query));
+        console.log(JSON.stringify(this.request.body));
     });
 
 
