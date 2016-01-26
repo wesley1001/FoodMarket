@@ -12,6 +12,7 @@ $(function () {
         $('#pay').click(function () {
             WeixinJSBridge.invoke(
                 "getBrandWCPayRequest", payInfo , function(res){
+                    alert(JSON.stringify(arguments));
                     if(res.err_msg == "get_brand_wcpay_request:ok" ) {
                         console.log('paid');
                     }
