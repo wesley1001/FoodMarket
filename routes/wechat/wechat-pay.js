@@ -91,6 +91,7 @@ module.exports = (router) => {
                     notify_url: `${wechatConfig.domain}/wechat/paid`,
                 }, function(err, result){
                     if (err) {
+                        console.log(err);
                         debug(err);
                         reject(err);
                     }
