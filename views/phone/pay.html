@@ -12,6 +12,37 @@
     <%- @payInfo %>
 </script>
 
+<script>
+    try {
+        document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+
+            var payInfo = JSON.parse($('#pay-info').html());
+
+        console.log(payInfo);
+
+            //公众号支付
+            $('a#getBrandWCPayRequest').click(function(e) {
+                WeixinJSBridge.invoke('getBrandWCPayRequest', payInfo, function(res) {
+                    console.log(res);
+                    alert(res);
+                    if (res.err_msg == "get_brand_wcpay_request:ok") {
+
+                    }
+                    // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
+                    //因此微信团队建议，当收到ok返回时，向商户后台询问是否收到交易成功的通知，若收到通知，前端展示交易成功的界面；若此时未收到通知，商户后台主动调用查询订单接口，查询订单的当前状态，并反馈给前端展示相应的界面。
+                });
+
+            });
+
+//                WeixinJSBridge.log('yo~ ready.');
+
+        }, false);
+    } catch (ex) {
+        alert(JSON.stringify(ex));
+    }
+
+</script>
+
 <% block 'scripts': %>
 <script src="/dist/phone-pay.js"></script>
 <% end %>
