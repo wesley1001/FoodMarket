@@ -12,13 +12,20 @@
     <%- @payInfo %>
 </script>
 
+
+
+<% block 'scripts': %>
+<script src="/dist/phone-pay.js"></script>
+
 <script>
     try {
         document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
 
+            var $ = jQuery;
+
             var payInfo = JSON.parse($('#pay-info').html());
 
-        console.log(payInfo);
+            console.log(payInfo);
 
             //公众号支付
             $('a#getBrandWCPayRequest').click(function(e) {
@@ -42,7 +49,4 @@
     }
 
 </script>
-
-<% block 'scripts': %>
-<script src="/dist/phone-pay.js"></script>
 <% end %>
