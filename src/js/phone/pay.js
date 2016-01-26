@@ -10,13 +10,15 @@ $(function () {
         alert(JSON.stringify(payInfo));
 
         $('#pay').click(function () {
-            WeixinJSBridge.invoke(
+            var a = WeixinJSBridge.invoke(
                 "getBrandWCPayRequest", payInfo , function(res){
+                    console.log(res);
                     alert(JSON.stringify(arguments));
                     if(res.err_msg == "get_brand_wcpay_request:ok" ) {
                         console.log('paid');
                     }
                 });
+            console.log(a);
         });
     } catch(ex) {
         alert(JSON.stringify(ex));
