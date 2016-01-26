@@ -267,7 +267,8 @@ function *production() {
 
 co(function * () {
     //yield init();
-    yield production();
+    //yield production();
+    yield containerSeed();
     console.log('finished ...');
 }).catch(function () {
     console.log(arguments);

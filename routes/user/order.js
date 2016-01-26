@@ -208,7 +208,7 @@ module.exports = function (router) {
         });
 
         // todo: pay
-        this.redirect('/user/order/pay?id=' + order.id);
+        this.redirect('/user/prepay/' + order.id);
     });
 
     router.get('/user/order-list/:status/:page', function *() {

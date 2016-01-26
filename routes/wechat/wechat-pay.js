@@ -119,10 +119,11 @@ module.exports = (router) => {
         }
         var nextTwoHour = new Date();
         nextTwoHour.setHours(nextTwoHour.getHours() + 2);
-        ctx.cookies.set(payCookieName, this.params.id, {
+        this.cookies.set(payCookieName, this.params.id, {
             expires: nextTwoHour
         });
-        this.cookies.set()
+
+        this.redirect('/user/pay/');
 
     });
 
