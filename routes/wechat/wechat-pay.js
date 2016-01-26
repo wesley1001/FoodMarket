@@ -12,6 +12,7 @@ var debug = require('./../../instances/debug.js');
 var auth = require('./../../helpers/auth.js');
 var util = require('util');
 var utilx = require('./../../lib/util.js');
+var render = require('../../instances/render');
 
 var db = require('./../../models/index.js');
 
