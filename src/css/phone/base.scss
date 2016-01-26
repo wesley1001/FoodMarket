@@ -3,6 +3,8 @@ $navbar-height: 48px;
 
 body {
   padding-bottom: $navbar-height;
+  opacity: 0;
+  transition: opacify 0.3s ease;
 }
 #header {
   background-color: $main-color;
@@ -20,5 +22,9 @@ body {
   }
   .active * {
     color: $main-color !important;
+  }
+  .xiaodizhu-logo {
+    background-image: url(../../img/xiaodizhu.jpg);
+    background-size: 24px;
   }
 }

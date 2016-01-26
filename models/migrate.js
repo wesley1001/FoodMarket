@@ -258,9 +258,16 @@ function *addSuperAdminer() {
     });
 }
 
+function *production() {
+    yield db.sync({force: true});
+    yield addSuperAdminer();
+    //require('../scripts/goodstype-seed');
+    //require('../scripts/goods-seed');
+}
+
 co(function * () {
     //yield init();
-    yield addSuperAdminer();
+    yield production();
     console.log('finished ...');
 }).catch(function () {
     console.log(arguments);

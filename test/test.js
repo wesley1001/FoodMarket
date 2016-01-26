@@ -1,5 +1,6 @@
-var utilx = require('../lib/util.js');
+var fs = require('fs');
 
-var res = utilx.intToFixString(32, 32);
-console.log(res, res.length);
+var p12 = fs.readFileSync('../scripts/certs/apiclient_cert.p12');
+
+console.log(p12);
 
