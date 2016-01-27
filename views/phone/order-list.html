@@ -8,10 +8,38 @@
 
     <div class="am-tabs" data-am-tabs>
         <ul class="am-tabs-nav am-nav am-nav-tabs">
-            <li class="am-active"><a ng-click="status=0">待付款</a></li>
-            <li><a ng-click="status=1">待发货</a></li>
-            <li><a ng-click="status=2">待收货</a></li>
-            <li><a ng-click="status=3">已收货</a></li>
+            <li class="am-active">
+                <a ng-click="status=0">
+                    待付款
+                    <% if @nums[0] != 0: %>
+                        <span class="am-badge am-badge-sm am-badge-danger am-round"><%= @nums[0] %></span>
+                    <% end %>
+                </a>
+            </li>
+            <li>
+                <a ng-click="status=1">
+                    待发货
+                    <% if @nums[1] != 0: %>
+                        <span class="am-badge am-badge-sm am-badge-danger am-round"><%= @nums[1] %></span>
+                    <% end %>
+                </a>
+            </li>
+            <li>
+                <a ng-click="status=2">
+                    待收货
+                    <% if @nums[2] != 0: %>
+                        <span class="am-badge am-badge-sm am-badge-danger am-round"><%= @nums[2] %></span>
+                    <% end %>
+                </a>
+            </li>
+            <li>
+                <a ng-click="status=3">
+                    已收货
+                    <% if @nums[3] != 0: %>
+                        <span class="am-badge am-badge-sm am-badge-danger am-round"><%= @nums[3] %></span>
+                    <% end %>
+                </a>
+            </li>
         </ul>
 
         <div class="am-tabs-bd">
@@ -31,10 +59,10 @@
                 <div ng-repeat="orderItem in order.OrderItems">
                     <div class="shoppingcart-item" >
                         <div class="shoppingcart-item-main">
-                            <img ng-src="{{orderItem.goods.mainImg}}" >
+                            <img ng-src="{{orderItem.goods.Good.mainImg}}" >
                             <h3>{{orderItem.goods.title}}</h3>
                             <p class="am-text-sm am-cf">
-                                <span class="am-text-danger">￥ {{orderItem.goods.price}} </span>
+                                <span class="am-text-danger">￥ {{orderItem.goods.Good.price}} </span>
                                 <span class="am-fr am-margin-right-sm">x {{orderItem.num}}</span>
                             </p>
                         </div>
@@ -45,9 +73,11 @@
                     <p>
                         <span>共{{order.num}}件</span>
                         <span>运费:{{order.fare}}元</span>
+                        <span>共:{{order.price}}元</span>
                     </p>
+                    <p>下单时间: {{order.createdAt | date : 'yyyy/MM/dd hh:mm'}}</p>
                     <p class="am-paading-horizontal-sm">留言: {{order.message}}</p>
-                    <p class="am-paading-horizontal-sm" ng-show="">评价</p>
+                    <!--<p class="am-paading-horizontal-sm" ng-show="">评价</p>-->
                 </div>
 
             </div>

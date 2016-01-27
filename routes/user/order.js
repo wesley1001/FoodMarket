@@ -235,8 +235,38 @@ module.exports = function (router) {
     });
 
     router.get('/user/order-list', function *() {
+
+        var user = yield (auth.user(this));
+        var nums = yield [
+            Order.count({
+                where: {
+                    UserId: user.id,
+                    status: 0
+                }
+            }),
+            Order.count({
+                where: {
+                    UserId: user.id,
+                    status: 1
+                }
+            }),
+            Order.count({
+                where: {
+                    UserId: user.id,
+                    status: 2
+                }
+            }),
+            Order.count({
+                where: {
+                    UserId: user.id,
+                    status: 3
+                }
+            }),
+        ];
+
         this.body = yield render('phone/order-list', {
             title: '订单',
+            nums
         });
     });
 
