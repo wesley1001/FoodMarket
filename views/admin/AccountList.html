@@ -55,7 +55,10 @@
                         <td>
                             <a data="<%= user.id %>" href="#addmodal" data-toggle="modal"
                                class="btn blue btn-xs editbtn"><i class="fa fa-edit"></i>修改</a>
+                            <% if user.type !=100 : %>
                             <butten class="btn delbtn btn-warning btn-xs"><i class="fa fa-times"></i>删除</butten>
+                            <% end %>
+
                         </td>
                     </tr>
                     <% end %>
