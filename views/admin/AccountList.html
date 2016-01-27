@@ -37,21 +37,17 @@
                     <tbody>
 
                     <% for user in @admin : %>
-                    <tr datatr="<%= user.id %>" class="odd">
+                    <tr datatr="<%= user.id %>" class="odd gradeX">
                         <td><%= user.id %></td>
                         <td><%= user.nickname %></td>
                         <td><%= user.name %></td>
                         <td><%= user.phone %></td>
                         <% if user.type==1 : %>
-                        <td>商品管理员</td>
+                        <td>普通管理员</td>
                         <% else if user.type==2 : %>
-                        <td>会员管理员</td>
+                        <td>运营员</td>
                         <% else if user.type==3 : %>
-                        <td>交易管理员</td>
-                        <% else if user.type==4 : %>
-                        <td>分销管理员</td>
-                        <% else if user.type==99 : %>
-                        <td>管理员</td>
+                        <td>业务员</td>
                         <% else if user.type==100 : %>
                         <td>超级管理员</td>
                         <% end %>
@@ -59,10 +55,7 @@
                         <td>
                             <a data="<%= user.id %>" href="#addmodal" data-toggle="modal"
                                class="btn blue btn-xs editbtn"><i class="fa fa-edit"></i>修改</a>
-                            <% if user.type !=100 : %>
                             <butten class="btn delbtn btn-warning btn-xs"><i class="fa fa-times"></i>删除</butten>
-                            <% end %>
-
                         </td>
                     </tr>
                     <% end %>
@@ -114,11 +107,10 @@
                             <div class="col-md-12">
                                 <h4>权限</h4>
                                 <select name="type" id="type" class="form-control">
-                                    <option value="99">管理员</option>
-                                    <option value="1">商品管理员</option>
-                                    <option value="2">会员管理员</option>
-                                    <option value="3">交易管理员</option>
-                                    <option value="4">分销管理员</option>
+                                    <option>请选择</option>
+                                    <option value="1">普通管理员</option>
+                                    <option value="2">运营员</option>
+                                    <option value="3">业务员</option>
                                     <option value="100" disabled id="super-option">超级管理员</option>
                                 </select>
                             </div>
