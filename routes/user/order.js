@@ -208,7 +208,7 @@ module.exports = function (router) {
         });
 
         // todo: pay
-        this.redirect('/user/pay/' + order.id);
+        this.redirect('/user/wechat-pay/' + order.id);
     });
 
     router.get('/user/order-list/:status/:page', function *() {

@@ -38,7 +38,7 @@ module.exports = (router) => {
     var payCookieName = 'xiaodizhupaycookies';
 
 
-    router.get('/user/pay/:id', function *() {
+    router.get('/user/wechat-pay/:id', function *() {
 
         console.log('start to pay');
         var ctx = this;
@@ -137,22 +137,22 @@ module.exports = (router) => {
         });
     });
 
-    router.get('/user/prepay/:id', function *() {
-
-        this.checkParams('id').notEmpty().isInt().toInt();
-        if (this.errors) {
-            this.body = this.errors;
-            return;
-        }
-        var nextTwoHour = new Date();
-        nextTwoHour.setHours(nextTwoHour.getHours() + 2);
-        this.cookies.set(payCookieName, this.params.id, {
-            expires: nextTwoHour
-        });
-
-        this.redirect('/user/pay/');
-
-    });
+    //router.get('/user/prepay/:id', function *() {
+    //
+    //    this.checkParams('id').notEmpty().isInt().toInt();
+    //    if (this.errors) {
+    //        this.body = this.errors;
+    //        return;
+    //    }
+    //    var nextTwoHour = new Date();
+    //    nextTwoHour.setHours(nextTwoHour.getHours() + 2);
+    //    this.cookies.set(payCookieName, this.params.id, {
+    //        expires: nextTwoHour
+    //    });
+    //
+    //    this.redirect('/user/pay/');
+    //
+    //});
 
     router.get('/wechat/paid', function *() {
         debug('paid');
