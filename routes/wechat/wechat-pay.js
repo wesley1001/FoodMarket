@@ -156,7 +156,7 @@ module.exports = (router) => {
     //
     //});
 
-    router.get('/wechat/paid', function *() {
+    router.all('/wechat/paid', function *() {
         debug('paid');
         console.log('paid');
         console.log(JSON.stringify(this.query));
