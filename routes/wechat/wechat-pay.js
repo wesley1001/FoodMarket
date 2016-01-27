@@ -125,7 +125,7 @@ module.exports = (router) => {
 
             payInfo = yield payPromise;
 
-            order.prepayId  = payInfo.package.split('&')[1];
+            order.prepayId  = payInfo.package.split('=')[1];
 
             yield order.save();
 

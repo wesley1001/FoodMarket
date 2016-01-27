@@ -25,6 +25,7 @@
 <script src="/dist/phone-pay.js"></script>
 <script>
     try {
+        var $ = jQuery;
         document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
 
             var payInfo = JSON.parse($('#pay-info').html());
