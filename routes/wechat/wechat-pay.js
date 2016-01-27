@@ -15,6 +15,7 @@ var utilx = require('./../../lib/util.js');
 var render = require('../../instances/render');
 
 var db = require('./../../models/index.js');
+var Order = db.models.Order;
 
 var WXPay = require('weixin-pay');
 var WechatAPI = require('co-wechat-api');
