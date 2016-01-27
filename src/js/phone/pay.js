@@ -9,6 +9,9 @@ try {
         var payInfo = JSON.parse($('#pay-info').html());
 
         console.log(payInfo);
+        alert('start to pay');
+
+        alert(JSON.stringify(payInfo));
 
         //公众号支付
         WeixinJSBridge.invoke('getBrandWCPayRequest', payInfo, function(res) {
