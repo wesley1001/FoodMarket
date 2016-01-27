@@ -1,28 +1,25 @@
 require('./base.js');
+require('../../css/phone/pay.scss');
 
 var $ = jQuery;
 
-//$(function () {
-//
-//    try {
-//        var payInfo = JSON.parse($('#pay-info').html());
-//
-//        console.log(payInfo);
-//
-//        $('#pay').click(function () {
-//            var a = WeixinJSBridge.invoke(
-//                "getBrandWCPayRequest", payInfo , function(res){
-//                    console.log(res);
-//                    alert(JSON.stringify(arguments));
-//                    if(res.err_msg == "get_brand_wcpay_request:ok" ) {
-//                        console.log('paid');
-//                    }
-//                });
-//            console.log(a);
-//        });
-//    } catch(ex) {
-//        alert(JSON.stringify(ex));
-//    }
-//
-//
-//});
+try {
+    document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+
+        var payInfo = JSON.parse($('#pay-info').html());
+
+        console.log(payInfo);
+
+        //公众号支付
+        WeixinJSBridge.invoke('getBrandWCPayRequest', payInfo, function(res) {
+            console.log(res);
+            alert(JSON.stringify(res));
+            if (res.err_msg == "get_brand_wcpay_request:ok") {
+                alert('支付完成');
+            }
+        });
+    }, false);
+} catch (ex) {
+    // todo: 删除alert
+    alert(JSON.stringify(ex));
+}

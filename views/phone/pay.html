@@ -5,8 +5,11 @@
 <link rel="stylesheet" href="/dist/phone-pay.css">
 <% end %>
 
+<div class="am-padding am-text-center">
+    <div class="am-btn am-btn-success am-radiu">正在支付...</div>
+</div>
 
-<div class="am-btn am-btn-success" id="pay">支付</div>
+
 
 <script type="text/plain" id="pay-info">
     <%- @payInfo %>
@@ -20,70 +23,5 @@
 
 <% block 'scripts': %>
 <script src="/dist/phone-pay.js"></script>
-<script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
-<script>
-
-//    var $ = jQuery;
-//    $(function() {
-//        var  wechatJsConfigStr = $('#wechatJsConfig').html();
-//        var wechatJsConfig = JSON.parse(wechatJsConfigStr);
-//
-//        console.log(wechatJsConfig);
-//
-//        wx.config(wechatJsConfig);
-//
-//        var payInfo = JSON.parse($('#pay-info').html());
-//
-//        console.log(payInfo);
-//
-//        wx.ready(function () {
-//            $('#pay').click(function(e) {
-//                wx.chooseWXPay({
-//                    timestamp: payInfo.timeStamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
-//                    nonceStr: payInfo.nonceStr, // 支付签名随机串，不长于 32 位
-//                    package: payInfo.package, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=***）
-//                    signType: payInfo.signType, // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
-//                    paySign: payInfo.paySign, // 支付签名
-//                    success: function (res) {
-//                        console.log(res);
-//                    }
-//                });
-//
-//            });
-//        });
-//
-//        wx.error(function () {
-//            console.log(arguments);
-//        })
-//    });
-
-    try {
-        document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
-
-            var $ = jQuery;
-
-            var payInfo = JSON.parse($('#pay-info').html());
-
-            console.log(payInfo);
-
-            //公众号支付
-            $('#pay').click(function(e) {
-                WeixinJSBridge.invoke('getBrandWCPayRequest', payInfo, function(res) {
-                    console.log(res);
-                    alert(JSON.stringify(res));
-                    if (res.err_msg == "get_brand_wcpay_request:ok") {
-
-                    }
-                });
-
-            });
-
-//                WeixinJSBridge.log('yo~ ready.');
-
-        }, false);
-    } catch (ex) {
-        alert(JSON.stringify(ex));
-    }
-
-</script>
+<!--<script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>-->
 <% end %>

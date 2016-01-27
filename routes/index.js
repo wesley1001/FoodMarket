@@ -26,7 +26,7 @@ router.use(function *(next) {
     var user = yield auth.user(this);
     if (/\/user\/.*/.test(req.url)) {
         if (!user) {
-            this.redirect('/wechat/login');
+            this.redirect('/wechat/redirect');
             return;
         } else if (user.status == -1) {
             this.redirect('/user-wait');

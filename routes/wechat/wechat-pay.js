@@ -38,23 +38,13 @@ module.exports = (router) => {
     var payCookieName = 'xiaodizhupaycookies';
 
 
-    router.get('/user/pay/', function *() {
-
-
-
-        // get js ticket
-        //var wechatJsConfig = yield wechatApi.getJsConfig({
-        //    debug: true,
-        //    jsApiList: ['chooseWXPay'],
-        //    url: this.href
-        //});
-
+    router.get('/user/pay/:id', function *() {
 
         var ctx = this;
-        var id = this.cookies.get(payCookieName);
+        var id = this.query.id;
 
         if (util.isNullOrUndefined(id)) {
-            this.body = 'invalid id';
+            this.body = '错误操作';
             return;
         }
 
@@ -71,9 +61,10 @@ module.exports = (router) => {
             return;
         }
         var user = yield auth.user(this);
-        var outerTradeId = "xiaodizhu" + utilx.intToFixString(order.id, 20) + utilx.randomNum(3);
+        var outerTradeId = utilx.intToFixString(order.id, 32);
 
         var payInfo;
+        var createOrder = false;
         if (!util.isNullOrUndefined(order.prepayId)) {
             // 已经支付过，检测prepayid是否有效
             console.log('has prepayId');
@@ -89,11 +80,27 @@ module.exports = (router) => {
             });
 
 
-            payInfo = yield queryPromise;
-            console.log('payInfo', payInfo);
+            var queryResult = yield queryPromise;
+
+            if (queryResult.trade_state == 'NOTPAY') {
+                payInfo = {
+                    appId: wechatConfig.appId,
+                    timeStamp: Math.floor(Date.now()/1000)+"",
+                    nonceStr: utilx.randomNum(32),
+                    package: "prepay_id="+ order.prepayId,
+                    signType: "MD5"
+                };
+
+                payInfo.paySign = wxpay.sign(payInfo);
+            } else {
+                createOrder = true;
+            }
         } else {
-            console.log('pay');
-            var p = new Promise(function (resolve, reject) {
+            createOrder = true;
+        }
+        if (createOrder){
+
+            var payPromise = new Promise(function (resolve, reject) {
 
                 wxpay.getBrandWCPayRequestParams({
                     openid: user.openid,
@@ -103,47 +110,29 @@ module.exports = (router) => {
                     total_fee: 1, //todo: for test 1分
                     spbill_create_ip: '182.92.203.172',
                     attach: order.id,
-                    notify_url: `${wechatConfig.domain}/wechat/paid`,
-                    //nonceStr: wechatJsConfig.nonceStr
+                    notify_url: `${wechatConfig.domain}/wechat/paid`
                 }, function(err, result){
                     if (err) {
                         console.log(err);
-                        debug(err);
                         reject(err);
                     }
                     resolve(result);
                 });
-
-                //wxpay.createUnifiedOrder({
-                //    body: '小地主订单支付' + order.id,
-                //    out_trade_no: outerTradeId,
-                //    total_fee: 1, //todo: for test 1分
-                //    //spbill_create_ip: ctx.ip,
-                //    notify_url: 'http://139.129.18.214/wechat/paid',
-                //    trade_type: 'JSAPI',
-                //    openid: user.openid,
-                //    attach: order.id
-                //    //product_id: '1234567890'
-                //}, function(err, result){
-                //    if (err) {
-                //        debug(err);
-                //        reject(err);
-                //    }
-                //    resolve(result);
-                //});
             });
 
-            payInfo = yield p;
+            payInfo = yield payPromise;
 
-            debug(payInfo);
+            order.prepayId  = payInfo.package.split('&')[1];
+
+            yield order.save();
+
             console.log('payInfo', payInfo);
         }
 
         payInfo = JSON.stringify(payInfo);
         this.body = yield render('phone/pay', {
             title: '微信支付',
-            payInfo,
-            //wechatJsConfig
+            payInfo
         });
     });
 
