@@ -40,7 +40,6 @@ module.exports = (router) => {
 
     router.get('/user/wechat-pay/:id', function *() {
 
-        console.log('start to pay');
         var ctx = this;
         var id = this.params.id;
 
@@ -82,6 +81,8 @@ module.exports = (router) => {
 
 
             var queryResult = yield queryPromise;
+
+            console.log(queryResult);
 
             if (queryResult.trade_state == 'NOTPAY') {
                 payInfo = {
@@ -128,8 +129,6 @@ module.exports = (router) => {
             order.prepayId  = payInfo.package.split('=')[1];
 
             yield order.save();
-
-            console.log('payInfo', payInfo);
         }
 
         payInfo = JSON.stringify(payInfo);
