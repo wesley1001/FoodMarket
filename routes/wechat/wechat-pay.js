@@ -167,7 +167,7 @@ module.exports = (router) => {
                 res.success();
                 resolve();
             });
-            parseFn(this.req, this.res, {});
+            parseFn(ctx.req, ctx.res, {});
         });
 
         yield p;
