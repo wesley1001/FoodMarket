@@ -6,7 +6,7 @@
 <% end %>
 
 <div class="am-padding am-text-center">
-    <div class="am-btn am-btn-success am-radiu">正在支付...</div>
+    <div id="pay" class="am-btn am-btn-success am-radius">支付</div>
 </div>
 
 
@@ -24,8 +24,6 @@
 <% block 'scripts': %>
 <script src="/dist/phone-pay.js"></script>
 <script>
-    var $ = jQuery;
-
     try {
         document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
 
@@ -36,14 +34,23 @@
 
             alert(JSON.stringify(payInfo));
 
+            var paied = false;
             //公众号支付
-            WeixinJSBridge.invoke('getBrandWCPayRequest', payInfo, function(res) {
-                console.log(res);
-                alert(JSON.stringify(res));
-                if (res.err_msg == "get_brand_wcpay_request:ok") {
-                    alert('支付完成');
+            $('#pay').click(function () {
+                if (paied) {
+                    return;
                 }
-            });
+                paied = true;
+                WeixinJSBridge.invoke('getBrandWCPayRequest', payInfo, function(res) {
+                    console.log(res);
+                    alert(JSON.stringify(res));
+                    if (res.err_msg == "get_brand_wcpay_request:ok") {
+                        alert('支付成功，正在条状');
+                        window.location = '/user/order-list';
+                    }
+                    paied = false;
+                });
+            }).trigger('click');
         }, false);
     } catch (ex) {
         // todo: 删除alert

@@ -164,6 +164,7 @@ module.exports = (router) => {
             var parseFn = wxpay.useWXCallback(function(msg, req, res, next){
                 // 处理商户业务逻辑
                 orderId = msg.attach;
+                console.log('paid info', msg);
                 resolve();
             });
             parseFn(ctx.req, ctx.res, {});
