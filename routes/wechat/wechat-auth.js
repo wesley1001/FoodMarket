@@ -84,6 +84,7 @@ module.exports = (router) => {
                 openid: user.openid
             }
         });
+
         if (util.isNullOrUndefined(dbUser)) {
             dbUser = yield User.create({
                 name: '用户',

@@ -17,7 +17,7 @@ var adminEnties = {
     'admin-orders':['./src/js/admin/orders.js'],
     'admin-fare':['./src/js/admin/fare.js'],
     //'admin-form' : ['./src/js/admin/admin.js'],
-    'admin-account':['./src/js/admin/account.js'],
+    'admin-account':['./src/js/admin/admin.js'],
     'admin-area':['./src/js/admin/Area.js'],
     'admin-gooddetail':['./src/js/goods/detail.js'],
     'admin-user-list': ['./src/js/admin/user.js']

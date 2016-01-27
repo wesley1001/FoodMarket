@@ -33,7 +33,7 @@ function * userSeed(){
 function * goodsSeed() {
     var goodsTypes = yield db.models.GoodsType.findAll({
         where: {
-            type: 2,
+            type: 3,
             //status: 0
         }
     });
@@ -268,7 +268,13 @@ function *production() {
 co(function * () {
     //yield init();
     //yield production();
-    yield containerSeed();
+    yield db.models.Adminer.create({
+        name: '用户y',
+        password: '123456',
+        phone: '12345678901',
+        nickname: '用户l',
+        type: 3
+    })
     console.log('finished ...');
 }).catch(function () {
     console.log(arguments);

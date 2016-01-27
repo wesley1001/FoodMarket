@@ -184,7 +184,7 @@ $('#sample_2').click(function (event) {
         $t.parents('tr').addClass('editing');
         $("#id").val(id);
         $.ajax({
-            url: '/adminer-super/adminer-get?id=' + id,
+            url: '/adminer-super/getaccount?id=' + id,
             dataType: 'json',
             type: "get",
             success: function (data) {
@@ -207,7 +207,7 @@ $('#sample_2').click(function (event) {
     } else if ($t.is('.delbtn')) {
         var id = $t.parents('tr').data('id');
         $.ajax({
-            url: '/adminer-super/adminer-del?id=' + id,
+            url: '/adminer-super/delaccount?id=' + id,
             type: "get",
             success: function (data) {
                 if (data == 1) {

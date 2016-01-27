@@ -62,6 +62,8 @@ module.exports = (router) => {
             return;
         }
         var user = yield auth.user(this);
+        user = yield User.findById(user.id);
+
         var outerTradeId = utilx.intToFixString(order.id, 32);
 
         var payInfo;
