@@ -41,7 +41,7 @@ module.exports = (router) => {
     router.get('/user/pay/:id', function *() {
 
         var ctx = this;
-        var id = this.query.id;
+        var id = this.params.id;
 
         if (util.isNullOrUndefined(id)) {
             this.body = '错误操作';
