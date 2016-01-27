@@ -121,6 +121,8 @@ module.exports = (router) => {
                 });
             });
 
+            console.log( `${wechatConfig.domain}/wechat/paid`);
+
             payInfo = yield payPromise;
 
             order.prepayId  = payInfo.package.split('&')[1];
