@@ -40,6 +40,7 @@ module.exports = (router) => {
 
     router.get('/user/pay/:id', function *() {
 
+        console.log('start to pay');
         var ctx = this;
         var id = this.params.id;
 
