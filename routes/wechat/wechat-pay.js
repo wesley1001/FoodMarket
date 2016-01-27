@@ -82,9 +82,9 @@ module.exports = (router) => {
 
             var queryResult = yield queryPromise;
 
-            console.log(queryResult);
 
             if (queryResult.trade_state == 'NOTPAY') {
+                console.log('from prepay');
                 payInfo = {
                     appId: wechatConfig.appId,
                     timeStamp: Math.floor(Date.now()/1000)+"",
