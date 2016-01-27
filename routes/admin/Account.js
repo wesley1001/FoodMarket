@@ -24,7 +24,7 @@ module.exports = (router) => {
         });
     });
 
-    router.post('/adminer/accountadd', function *() {
+    router.post('/adminer-super/accountadd', function *() {
         var body = this.request.body;
         debug(body);
 
@@ -87,7 +87,7 @@ module.exports = (router) => {
     });
 
 
-    router.get('/adminer/getaccount', function *() {
+    router.get('/adminer-super/getaccount', function *() {
 
         var id = this.query.id;
         var is = yield Admins.findOne({
@@ -98,7 +98,7 @@ module.exports = (router) => {
         this.body = JSON.stringify(is);
     });
 
-    router.get('/adminer/delaccount', function *() {
+    router.get('/adminer-super/delaccount', function *() {
 
         var id = this.query.id;
         var is = yield Admins.findOne({
