@@ -15,7 +15,6 @@ var utilx = require('./../../lib/util.js');
 var render = require('../../instances/render');
 
 var db = require('./../../models/index.js');
-var Order = db.models.Order;
 
 var WXPay = require('weixin-pay');
 var WechatAPI = require('co-wechat-api');
@@ -160,16 +159,11 @@ module.exports = (router) => {
     router.all('/wechat/paid', function *() {
 
         var ctx = this;
+        var orderId;
         var p = new Promise(function (resolve) {
             var parseFn = wxpay.useWXCallback(function(msg, req, res, next){
                 // 处理商户业务逻辑
-                var orderId = msg.attach;
-
-                var order = yield Order.findById(orderId);
-                order.status = 1;
-                order.payTime = new Date();
-                yield order.save();
-                res.success();
+                orderId = msg.attach;
                 resolve();
             });
             parseFn(ctx.req, ctx.res, {});
@@ -177,6 +171,12 @@ module.exports = (router) => {
 
         yield p;
 
+        var order = yield Order.findById(orderId);
+        order.status = 1;
+        order.payTime = new Date();
+        yield order.save();
+
+        this.req.success();
     });
 
 };
