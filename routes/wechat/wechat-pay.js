@@ -67,7 +67,6 @@ module.exports = (router) => {
         var createOrder = false;
         if (!util.isNullOrUndefined(order.prepayId)) {
             // 已经支付过，检测prepayid是否有效
-            console.log('has prepayId');
             var queryPromise = new Promise(function (resolve, reject) {
                 wxpay.queryOrder({ out_trade_no: outerTradeId }, function(err, order){
                     if (err) {
@@ -79,12 +78,9 @@ module.exports = (router) => {
                 });
             });
 
-
             var queryResult = yield queryPromise;
 
-
             if (queryResult.trade_state == 'NOTPAY') {
-                console.log('from prepay');
                 payInfo = {
                     appId: wechatConfig.appId,
                     timeStamp: Math.floor(Date.now()/1000)+"",
@@ -121,8 +117,6 @@ module.exports = (router) => {
                     resolve(result);
                 });
             });
-
-            console.log( `${wechatConfig.domain}/wechat/paid`);
 
             payInfo = yield payPromise;
 
