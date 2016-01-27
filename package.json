@@ -47,7 +47,8 @@
     "superagent": "^1.6.1",
     "wechat": "^2.0.3",
     "wechat-oauth": "git+https://github.com/node-webot/wechat-oauth.git",
-    "weixin-pay": "^1.1.6"
+    "weixin-pay": "^1.1.6",
+    "xml2js": "^0.4.16"
   },
   "devDependencies": {
     "css-loader": "^0.23.0",

@@ -15,6 +15,7 @@ var utilx = require('./../../lib/util.js');
 var render = require('../../instances/render');
 
 var db = require('./../../models/index.js');
+var xml2js = require('xml2js');
 
 var WXPay = require('weixin-pay');
 var WechatAPI = require('co-wechat-api');
@@ -170,7 +171,8 @@ module.exports = (router) => {
         order.payTime = new Date();
         yield order.save();
 
-        this.res.success();
+        var builder = new xml2js.Builder();
+        this.body =  builder.buildObject({xml:{ return_code:'SUCCESS' } });
     });
 
 };
