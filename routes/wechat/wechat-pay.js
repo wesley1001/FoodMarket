@@ -177,7 +177,7 @@ module.exports = (router) => {
         order.payTime = new Date();
         yield order.save();
 
-        this.req.success();
+        this.res.success();
     });
 
 };
