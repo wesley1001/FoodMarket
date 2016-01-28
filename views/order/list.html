@@ -160,7 +160,7 @@
                             操作 <i class="fa fa-angle-down"></i>
                         </button>
                         <ul class="dropdown-menu" role="menu">
-                            <li ng-click="action(2, order.id)"><a href="#">发货</a></li>
+                            <li ng-click="action(2, order.id)"><a href="">发货</a></li>
                         </ul>
                     </div>
                 </td>
@@ -183,8 +183,8 @@
                         <tr ng-repeat="item in order.orderItems">
                             <td>{{item.goods.id}}</td>
                             <td><img ng-src="{{item.goods.mainImg}}" ></td>
-                            <td>{{item.goods.price}}</td>
                             <td>{{item.num}}</td>
+                            <td>{{item.goods.price}}</td>
                             <td>{{item.price}}</td>
                             <td>{{item.goods.perNum}} {{item.goods.perStr}}</td>
                         </tr>

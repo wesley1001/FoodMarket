@@ -2,6 +2,7 @@ require('./base.js').bottomBar(1);
 require('../../css/phone/shoppingCart.scss');
 
 require('angular');
+var Decimal = require('decimal.js');
 
 var $ = jQuery;
 
@@ -28,14 +29,15 @@ app.controller('AppCtrl', ['$scope', '$http', function (scope, $http) {
     });
 
     function cal() {
-        var fee = 0;
+        var fee = new Decimal(0);
         for(var i in scope.shoppingCart) {
             var goods = scope.shoppingCart[i];
             if (goods.selected) {
-                fee += goods.Good.price * goods.num * goods.Good.perNum;
+                //fee += goods.Good.price  * 1000* goods.num * goods.Good.perNum / 1000;
+                fee = new Decimal(fee).plus(goods.Good.price  * goods.num * goods.Good.perNum);
             }
         }
-        return fee;
+        return fee.toNumber();
     }
 
     var submit = false;

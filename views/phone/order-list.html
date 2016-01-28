@@ -59,10 +59,10 @@
                 <div ng-repeat="orderItem in order.OrderItems">
                     <div class="shoppingcart-item" >
                         <div class="shoppingcart-item-main">
-                            <img ng-src="{{orderItem.goods.Good.mainImg}}" >
+                            <img ng-src="{{orderItem.goods.mainImg}}" >
                             <h3>{{orderItem.goods.title}}</h3>
                             <p class="am-text-sm am-cf">
-                                <span class="am-text-danger">￥ {{orderItem.goods.Good.price}} </span>
+                                <span class="am-text-danger">￥ {{orderItem.goods.price}} </span>
                                 <span class="am-fr am-margin-right-sm">x {{orderItem.num}}</span>
                             </p>
                         </div>

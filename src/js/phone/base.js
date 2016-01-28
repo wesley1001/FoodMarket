@@ -6,6 +6,7 @@ var $ = jQuery;
 
 $(function () {
     $('body').css('opacity', 1);
+    $('#loadding-layer').hide();
 });
 
 module.exports = {

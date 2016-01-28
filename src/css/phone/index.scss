@@ -25,6 +25,22 @@ body{
   padding-bottom: $navbar-height;
 }
 
+#phone-header{
+  padding-left: 40px;
+}
+
+.logo {
+  position: absolute;
+  left: 8px;
+  top: 0;
+  img {
+    display: block;
+    margin-top: 4px;
+    width: 36px;
+    height: 36px;
+  }
+}
+
 .full-modal {
   width: 100% !important;
   left: 0 !important;

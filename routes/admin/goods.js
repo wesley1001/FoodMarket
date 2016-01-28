@@ -94,7 +94,7 @@ module.exports = (router) => {
             });
         }
 
-        this.redirect('/adminer/goods');
+        this.redirect(`/adminer/goods/save/${body.id}`);
     }
 
     router.get('/adminer/goods',function *(){

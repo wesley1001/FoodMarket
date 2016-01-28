@@ -9,8 +9,9 @@ var render = require('../../instances/render.js');
 var debug = require('../../instances/debug.js');
 var co = require('co');
 
-var sequelizex = require('../../lib/sequelizex.js');
+var Decimal = require('decimal.js');
 
+var sequelizex = require('../../lib/sequelizex.js');
 
 var Container = db.models.Container;
 var Area = db.models.Area;
@@ -111,9 +112,11 @@ module.exports = function (router) {
 
             return co(function *() {
                 var orderItems = [];
-                for(var i in orderInfo) {
+                var price = new Decimal(0);
+                for(var i = 0; i < orderInfo.length; i ++) {
                     var buyItem = orderInfo[i];
-                    var price = 0;
+
+                    console.log(' price start',price);
                     var shoppingCartItem = shoppingCart.filter(function (item) {
                         return item.id === buyItem.id
                     })[0];
@@ -142,10 +145,11 @@ module.exports = function (router) {
                     } else {
                         throw "invalid num";
                     }
-                    price += buyItem.num * shoppingCartItem.Good.price;
+                    price =  price.plus(buyItem.num  * shoppingCartItem.Good.price );
+                    //console.log('price add',buyItem.num  * (shoppingCartItem.Good.price * 1000) / 1000, price);
 
                     orderItems.push(OrderItem.build({
-                        goods: JSON.stringify(shoppingCartItem),
+                        goods: JSON.stringify(shoppingCartItem.Good),
                         price: buyItem.num * shoppingCartItem.Good.price,
                         num: buyItem.num,
                         GoodId: shoppingCartItem.Good.id
@@ -154,12 +158,12 @@ module.exports = function (router) {
                     shoppingCartItem.Good.soldNum ++;
                     yield shoppingCartItem.Good.save({transaction: t});
                 };
-
                 var orderFare = 0;
                 if (price < parseFloat(fare.freeLine)) {
-                    orderFare = fare.basicFare;
-                    price += orderFare;
+                    orderFare = parseFloat(fare.basicFare);
+                    price = price.plus(orderFare);
                 }
+                price = price.toFixed(3)
                 order = yield Order.create({
                     recieverName: address.recieverName,
                     phone: address.phone,
@@ -176,8 +180,8 @@ module.exports = function (router) {
                     AreaId: address.AreaId
                 }, {transaction: t});
 
-                for(var i in orderItems) {
-                    var orderItem = orderItems[i];
+                for(var j = 0; j < orderItems.length; j ++) {
+                    var orderItem = orderItems[j];
                     orderItem.OrderId = order.id;
                     yield orderItem.save({transaction: t});
                 }

@@ -4,6 +4,8 @@ require('../../css/phone/order-comfirm.scss');
 
 require('angular');
 
+var Decimal = require('decimal.js');
+
 var $ = jQuery;
 
 var app = angular.module('app', []);
@@ -19,7 +21,6 @@ app.controller('AppCtrl', ['$scope', '$http', function (scope, $http) {
 
     var totalPrice = cal();
 
-
     scope.fareData = JSON.parse(angular.element('#fare').html());
 
     if (totalPrice >  parseFloat(scope.fareData.freeLine)) {
@@ -27,16 +28,17 @@ app.controller('AppCtrl', ['$scope', '$http', function (scope, $http) {
         scope.totalPrice = totalPrice;
     } else {
         scope.fare = scope.fareData.basicFare;
-        scope.totalPrice = totalPrice + scope.fare;
+        scope.totalPrice = new Decimal(totalPrice).plus(parseFloat(scope.fare));
     }
+    //scope.totalPrice =  scope.totalPrice.toFixed(3);
 
     function cal() {
-        var fee = 0;
+        var fee = new Decimal(0);
         for(var i in scope.shoppingCart) {
             var goods = scope.shoppingCart[i];
-            fee += goods.Good.price * goods.num * goods.Good.perNum;
+            fee = new Decimal(fee).plus(goods.Good.price  * goods.num * goods.Good.perNum);
         }
-        return fee;
+        return fee.toNumber();
     }
 
     scope.address = JSON.parse(angular.element('#addresses').html());
@@ -71,7 +73,6 @@ app.controller('AppCtrl', ['$scope', '$http', function (scope, $http) {
         form.submit();
     };
 
-    //window.s = scope;
 
     scope.changeAddress = function () {
         scope.$broadcast('address-modal');

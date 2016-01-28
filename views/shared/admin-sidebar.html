@@ -13,12 +13,14 @@
                 <span class="selected"></span>
             </a>
         </li>
+        <% if @currentUser.type == 100 : %>
         <li>
             <a href="/adminer-super/accountlist">
                 <i class="fa fa-users"></i>
                 <span class="title">后台人员管理</span>
             </a>
         </li>
+        <% end %>
         <li class="">
             <a href="javascript:;">
                 <i class="fa fa-wechat"></i>

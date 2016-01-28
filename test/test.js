@@ -1,6 +1,5 @@
-var fs = require('fs');
+var Decimal = require('decimal.js');
 
-var p12 = fs.readFileSync('./scripts/certs/apiclient_cert.p12');
+var a = new Decimal(8.8);
 
-console.log(p12);
-
+console.log(new Decimal(a.plus(1/3)));
