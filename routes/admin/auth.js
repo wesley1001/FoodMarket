@@ -18,6 +18,11 @@ module.exports = (router) => {
         this.body = yield render('admin/login.html');
     });
 
+    router.get('/admin-logout', function *() {
+        auth.login(this, null);
+        this.body = yield render('admin/login');
+    });
+
     // todo: redirect
     router.post('/admin-login', function *() {
         var ctx = this;
