@@ -13,31 +13,5 @@ var CoWechat = require('co-wechat');
 
 module.exports = (router) => {
 
-    //router.use(CoWechat({
-    //    appid: wechatConfig.appId,
-    //    token: wechatConfig.token,
-    //    //encodingAESKey: wechatConfig.encodingAESKey
-    //}).middleware(function *() {
-    //    var message = this.weixin;
-    //
-    //    console.log('what message', message);
-    //
-    //    var develping = [
-    //        'RedPacket',
-    //        'Coupon',
-    //        'Advice',
-    //        'ReceiveMsg',
-    //        'ServiceRule',
-    //        'MerchantMsg',
-    //        'CustomerService'
-    //    ];
-    //
-    //    if (develping.indexOf(message)) {
-    //        this.body = '正在开发中';
-    //    } else {
-    //        this.body = '你好';
-    //    }
-    //
-    //}));
 
 };

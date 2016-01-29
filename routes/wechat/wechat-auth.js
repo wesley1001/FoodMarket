@@ -37,15 +37,44 @@ module.exports = (router) => {
         }
     };
 
-    router.get('/wechat-gate', function *() {
-        console.log('wechat gate');
-        if (wechatRobot.checkSignature(this.request.query, wechatConfig.token)) {
-            console.log(this.request.query.echostr);
-            this.body = this.request.query.echostr;
-        }else {
-            this.body = "fail";
+    //router.get('/wechat-gate', function *() {
+    //    //console.log('wechat gate');
+    //    //if (wechatRobot.checkSignature(this.request.query, wechatConfig.token)) {
+    //    //    console.log(this.request.query.echostr);
+    //    //    this.body = this.request.query.echostr;
+    //    //}else {
+    //    //    this.body = "fail";
+    //    //}
+    //
+    //
+    //});
+
+    router.get('/wechat-gate', CoWechat({
+        appid: wechatConfig.appId,
+        token: wechatConfig.token,
+        //encodingAESKey: wechatConfig.encodingAESKey
+    }).middleware(function *() {
+        var message = this.weixin;
+
+        console.log('what message', message);
+
+        var develping = [
+            'RedPacket',
+            'Coupon',
+            'Advice',
+            'ReceiveMsg',
+            'ServiceRule',
+            'MerchantMsg',
+            'CustomerService'
+        ];
+
+        if (develping.indexOf(message)) {
+            this.body = '正在开发中';
+        } else {
+            this.body = '你好';
         }
-    });
+
+    }));
 
     router.get('/wechat/redirect', function *() {
         var client = WechatAuthClient();
