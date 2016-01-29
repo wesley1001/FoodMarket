@@ -14,9 +14,9 @@ var CoWechat = require('co-wechat');
 module.exports = (router) => {
 
     router.use(CoWechat({
-        appId: wechatConfig.appId,
+        appid: wechatConfig.appId,
         token: wechatConfig.token,
-        encodingAESKey: wechatConfig.encodingAESKey
+        //encodingAESKey: wechatConfig.encodingAESKey
     }).middleware(function *() {
         var message = this.weixin;
 
