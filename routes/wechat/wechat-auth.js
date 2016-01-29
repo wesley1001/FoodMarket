@@ -50,7 +50,7 @@ module.exports = (router) => {
     //
     //});
 
-    router.get('/wechat-gate', CoWechat({
+    router.all('/wechat-gate', CoWechat({
         appid: wechatConfig.appId,
         token: wechatConfig.token,
         //encodingAESKey: wechatConfig.encodingAESKey
