@@ -36,7 +36,7 @@ app.controller('AppCtrl', ['$scope', '$http', function (scope, $http) {
         var fee = new Decimal(0);
         for(var i in scope.shoppingCart) {
             var goods = scope.shoppingCart[i];
-            fee = new Decimal(fee).plus(goods.Good.price  * goods.num * goods.Good.perNum);
+            fee = new Decimal(fee).plus(new Decimal(goods.Good.price).mul(goods.num).mul(goods.Good.perNum));
         }
         return fee.toNumber();
     }

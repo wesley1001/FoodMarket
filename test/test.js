@@ -2,4 +2,4 @@ var Decimal = require('decimal.js');
 
 var a = new Decimal(0);
 
-console.log(new Decimal(0).plus(4.3  * 3).toNumber());
+console.log(new Decimal(4.3).mul(3).toNumber());

@@ -34,7 +34,7 @@ app.controller('AppCtrl', ['$scope', '$http', function (scope, $http) {
             var goods = scope.shoppingCart[i];
             if (goods.selected) {
                 //fee += goods.Good.price  * 1000* goods.num * goods.Good.perNum / 1000;
-                fee = new Decimal(fee).plus(goods.Good.price  * goods.num * goods.Good.perNum);
+                fee = new Decimal(fee).plus(new Decimal(goods.Good.price).mul(goods.num).mul(goods.Good.perNum));
             }
         }
         return fee.toNumber();
