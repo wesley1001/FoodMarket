@@ -28,7 +28,7 @@ app.controller('AppCtrl', ['$scope', '$http', function (scope, $http) {
         scope.totalPrice = totalPrice;
     } else {
         scope.fare = scope.fareData.basicFare;
-        scope.totalPrice = new Decimal(totalPrice).plus(parseFloat(scope.fare));
+        scope.totalPrice = new Decimal(totalPrice).plus(parseFloat(scope.fare)).toNumber();
     }
     //scope.totalPrice =  scope.totalPrice.toFixed(3);
 

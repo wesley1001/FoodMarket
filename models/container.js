@@ -14,7 +14,7 @@ module.exports = function (sequelize, DataTypes) {
         instanceMethods: {
         },
         classMethods: {
-            fare: function *(value) {
+            fare: function *(value, returnObj) {
                 var fare;
                 if(util.isNullOrUndefined(value)) {
                     fare =  yield this.findOne({
@@ -22,9 +22,9 @@ module.exports = function (sequelize, DataTypes) {
                             key: 'fare'
                         }
                     });
-                    return util.isNullOrUndefined(fare) ? null : JSON.parse(fare.value);
+                    return returnObj ? fare : util.isNullOrUndefined(fare) ? null : JSON.parse(fare.value);
                 } else {
-                    fare = yield this.fare();
+                    fare = yield this.fare(undefined, true);
                     if (util.isNullOrUndefined(fare)) {
                         return yield this.create({
                             key: 'fare',

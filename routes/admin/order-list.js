@@ -137,10 +137,11 @@ module.exports = (router) => {
         var totalRow = 20;
         var totalCol = 30;
         orders.forEach(function (item) {
-            totalRow += item.num;
+            totalRow += item.num + 1;
         });
 
         var workbook = excelbuilder.createWorkbook('./', 'orders.xlsx');
+
 
         var sheet = workbook.createSheet('sheet1', totalCol, totalRow);
         // set title

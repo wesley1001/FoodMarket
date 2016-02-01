@@ -213,7 +213,7 @@ app.controller('GoodsItemCtrl', ['$scope', '$http', function (scope, $http)  {
         timer = setInterval(function () {
             clearInterval(timer);
             $http.get('/user/shoppingcart/' + scope.goods.id + '/' + scope.goods.num);
-        },  1000);
+        },  400);
 
     })
 }]);

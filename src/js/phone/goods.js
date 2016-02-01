@@ -34,7 +34,7 @@ $(function () {
             timer = setInterval(function () {
                 clearInterval(timer);
                 $.get('/user/shoppingcart/' + goodsId + '/' + goodsNum);
-            },  1000);
+            },  400);
         }
     }
 
