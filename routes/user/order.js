@@ -116,7 +116,6 @@ module.exports = function (router) {
                 for(var i = 0; i < orderInfo.length; i ++) {
                     var buyItem = orderInfo[i];
 
-                    console.log(' price start',price);
                     var shoppingCartItem = shoppingCart.filter(function (item) {
                         return item.id === buyItem.id
                     })[0];
@@ -145,12 +144,13 @@ module.exports = function (router) {
                     } else {
                         throw "invalid num";
                     }
-                    price =  price.plus(buyItem.num  * shoppingCartItem.Good.price );
+                    var itemPrice = new Decimal(buyItem.num).mul(shoppingCartItem.Good.price).toNumber();
+                    price =  price.plus(itemPrice);
                     //console.log('price add',buyItem.num  * (shoppingCartItem.Good.price * 1000) / 1000, price);
 
                     orderItems.push(OrderItem.build({
                         goods: JSON.stringify(shoppingCartItem.Good),
-                        price: buyItem.num * shoppingCartItem.Good.price,
+                        price: itemPrice,
                         num: buyItem.num,
                         GoodId: shoppingCartItem.Good.id
                     }));

@@ -1,5 +1,5 @@
 var Decimal = require('decimal.js');
 
-var a = new Decimal(8.8);
+var a = new Decimal(0);
 
-console.log(new Decimal(a.plus(1/3)));
+console.log(new Decimal(0).plus(4.3  * 3).toNumber());
