@@ -23,6 +23,8 @@ app.filter('statusStr', function () {
                 return '已发货';
             case 3:
                 return '已签收';
+            case 5:
+                return '已签收';
         }
     };
 });

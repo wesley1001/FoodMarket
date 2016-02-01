@@ -60,9 +60,17 @@
                                 <tbody>
                                 </tbody>
                             </table>
-                            <div class="clearfix">
-                                <span class="pull-left">共<span sdt-total-label></span> 第<span
+                            <div class="clearfix text-center">
+                                <span class="pull-left">共<span sdt-total-label></span> 第<span sdt-page></span>/<span
                                         sdt-total-page></span>页</span>
+                                <div style="width: 160px; display: inline-block;">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" sdt-page-input >
+                                        <span class="input-group-addon">/<span sdt-total-page></span></span>
+                                        <span class="input-group-addon" sdt-page-btn><i class="fa fa-angle-right"></i></span>
+                                    </div>
+                                </div>
+
                                 <div class="btn-group pull-right" role="group" aria-label="...">
                                     <button type="button" class="btn btn-sm btn-default" sdt-prev-btn>上一页</button>
                                     <button type="button" class="btn btn-sm btn-default" sdt-next-btn>下一页</button>

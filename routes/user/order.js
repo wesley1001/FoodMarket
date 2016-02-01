@@ -263,9 +263,11 @@ module.exports = function (router) {
             Order.count({
                 where: {
                     UserId: user.id,
-                    status: 3
+                    status: {
+                        $gt: 2
+                    }
                 }
-            }),
+            })
         ];
 
         this.body = yield render('phone/order-list', {
