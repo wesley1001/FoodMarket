@@ -22,11 +22,11 @@ router.use(function *(next) {
 
     context.set(this);
     var req = this.request;
-    auth.login(this, yield db.models.User.findOne({
-        where: {
-            id: 7
-        }
-    }));
+    //auth.login(this, yield db.models.User.findOne({
+    //    where: {
+    //        id: 7
+    //    }
+    //}));
     //auth.login(this, yield db.models.Adminer.findOne());
     var user = yield auth.user(this);
     if (/\/user\/.*/.test(req.url)) {
