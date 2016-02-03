@@ -52,6 +52,7 @@ app.filter('statusStr', function () {
             case 2:
                 return '已发货';
             case 3:
+            case 5:
                 return '已签收';
         }
     };

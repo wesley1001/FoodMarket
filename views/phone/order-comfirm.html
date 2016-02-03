@@ -29,7 +29,7 @@
                         <img ng-src="{{goods.Good.mainImg}}" >
                         <h3>{{goods.Good.title}}</h3>
                         <p class="am-text-sm am-cf">
-                            <span class="am-text-danger">￥ {{goods.Good.price * goods.Good.perNum}} <span class="am-text-sm">/{{goods.Good.perStr}}</span> </span>
+                            <span class="am-text-danger">￥ {{goods.Good.price * goods.Good.perNum}} <span class="am-text-sm">/{{goods.Good.perNum}}{{goods.Good.perStr}}</span> </span>
                             <span class="am-fr am-margin-right-sm">x {{goods.num}}</span>
                         </p>
                     </div>

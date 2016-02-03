@@ -221,13 +221,17 @@ module.exports = (router) => {
                 return obj.goods.price;
             },
             'price',
-            'num'
+            (obj) => {
+                return (obj.num * obj.goods.perNum)  + '' + obj.goods.perStr;
+            },
         ] : [
             'GoodId',
             (obj) => {
                 return obj.goods.title;
             },
-            'num'
+            (obj) => {
+                return (obj.num * obj.goods.perNum)  + '' + obj.goods.perStr;
+            },
         ];
 
         var rowCounter = 2;
@@ -332,7 +336,9 @@ module.exports = (router) => {
 
         var conditions = {
             where: {
-                status: body.status ? body.status : {
+                status: body.status ? (body.status == 3 ? {
+                    $gte: 3
+                }: body.status) : {
                     in: [1, 2, 3]
                 }
             },
@@ -408,6 +414,8 @@ module.exports = (router) => {
             model: Area,
             as: 'TopArea'
         }];
+
+        conditions.order = [['payTime', 'DESC']];
 
 
         if (withItem) {

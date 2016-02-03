@@ -18,15 +18,15 @@
                         <i class="am-icon am-icon-check-circle" ng-show="goods.selected" ></i>
                     </div>
                     <div class="shoppingcart-item-main">
-                        <a href="/user/goods-page/{{goods.id}}">
+                        <a href="/user/goods-page/{{goods.Good.id}}">
                             <img ng-src="{{goods.Good.mainImg}}" >
                         </a>
-                        <a href="/user/goods-page/{{goods.id}}">
+                        <a href="/user/goods-page/{{goods.Good.id}}">
                             <h3>{{goods.Good.title}}</h3>
                             <small>{{goods.Good.brief}}</small>
                         </a>
 
-                        <p class="am-text-sm">￥ {{goods.Good.price * goods.Good.perNum}}/{{goods.Good.perStr}} <del>{{goods.Good.oldPrice * goods.Good.perNum}}</del></p>
+                        <p class="am-text-sm">￥ {{goods.Good.price * goods.Good.perNum}}/{{goods.Good.perNum}}{{goods.Good.perStr}} <del>{{goods.Good.oldPrice * goods.Good.perNum}}</del></p>
                         <div class="am-cf">
                             <div class="goods-counter am-fl">
                                 <div class="btn minus am-text-warning" ng-click="goods.num = goods.num - 1">

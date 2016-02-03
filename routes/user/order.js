@@ -144,7 +144,7 @@ module.exports = function (router) {
                     } else {
                         throw "invalid num";
                     }
-                    var itemPrice = new Decimal(buyItem.num).mul(shoppingCartItem.Good.price).toNumber();
+                    var itemPrice = new Decimal(buyItem.num).mul(shoppingCartItem.Good.price).mul(shoppingCartItem.Good.perNum).toNumber();
                     price =  price.plus(itemPrice);
                     //console.log('price add',buyItem.num  * (shoppingCartItem.Good.price * 1000) / 1000, price);
 
@@ -154,8 +154,8 @@ module.exports = function (router) {
                         num: buyItem.num,
                         GoodId: shoppingCartItem.Good.id
                     }));
-                    shoppingCartItem.Good.capacity --;
-                    shoppingCartItem.Good.soldNum ++;
+                    shoppingCartItem.Good.capacity -= buyItem.num;
+                    shoppingCartItem.Good.soldNum += buyItem.num;
                     yield shoppingCartItem.Good.save({transaction: t});
                 };
                 var orderFare = 0;
@@ -163,7 +163,7 @@ module.exports = function (router) {
                     orderFare = parseFloat(fare.basicFare);
                     price = price.plus(orderFare);
                 }
-                price = price.toFixed(3)
+                price = price.toNumber();
                 order = yield Order.create({
                     recieverName: address.recieverName,
                     phone: address.phone,
