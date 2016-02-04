@@ -65,7 +65,7 @@ module.exports = (router) => {
             phone: body.phone,
             UserId: user.id
         });
-        auth.login(this, user);
+        auth.login(this, user, 1);
         this.redirect('/user-wait');
     });
 

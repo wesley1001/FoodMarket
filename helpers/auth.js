@@ -12,6 +12,7 @@ module.exports = {
      * 登录
      * @param ctx
      * @param user
+     * @param type
      */
     login: (ctx, user, type) => {
         ctx.current = ctx.current || {};
