@@ -26,13 +26,10 @@ module.exports = (router) => {
 
         var status = body.status;
         if (status == 1) {
-            yield User.update({
-                status: 1
-            }, {
-                where: {
-                    id: body.id
-                }
-            });
+            var user = yield User.findById(body.id);
+            user.status = 1;
+            yield user.save();
+            cache.jsetex(`/${1}/${body.id}`, 60 * 60 * 24, user);
         } else if (status == -3) {
             yield DeliverAddress.destroy({
                 where: {

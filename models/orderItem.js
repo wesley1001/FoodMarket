@@ -7,7 +7,7 @@ module.exports = function (sequelize, DataTypes) {
         /**
          * goods 对象json
          */
-        goods: shortDataTypes.String(),
+        goods: shortDataTypes.Text(),
         price: shortDataTypes.Double(),
         num: shortDataTypes.Int()
     }, {

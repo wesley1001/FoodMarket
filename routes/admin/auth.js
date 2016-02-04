@@ -19,8 +19,8 @@ module.exports = (router) => {
     });
 
     router.get('/admin-logout', function *() {
-        auth.login(this, null);
-        this.body = yield render('admin/login');
+        yield auth.logout(this);
+        this.redirect('admin-login');
     });
 
     // todo: redirect
@@ -44,7 +44,7 @@ module.exports = (router) => {
 
             if (c != null && c.status == 0) {
                 ///登陆
-                auth.login(this, c);
+                auth.login(this, c, 0);
                 this.redirect('/adminer/index');
             } else {
                 this.redirect('/admin-login');

@@ -129,7 +129,7 @@ module.exports = (router) => {
             dbUser.sex = User.sex;
             dbUser.openid = User.openid;
         }
-        auth.login(this, dbUser);
+        auth.login(this, dbUser, 1);
         if (dbUser.status === 1) {
             this.redirect('/user/index');
         } else if (dbUser.status === -2){

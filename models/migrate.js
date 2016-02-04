@@ -268,13 +268,7 @@ function *production() {
 co(function * () {
     //yield init();
     //yield production();
-    yield db.models.Adminer.create({
-        name: '用户y',
-        password: '123456',
-        phone: '12345678901',
-        nickname: '用户l',
-        type: 3
-    })
+    yield db.models.OrderItem.sync({force: true});
     console.log('finished ...');
 }).catch(function () {
     console.log(arguments);
