@@ -3,6 +3,7 @@ var util = require('util');
 var auth = require('../../helpers/auth.js');
 var db = require('../../models/index.js');
 var render = require('../../instances/render.js');
+var cache = require('../../instances/cache.js');
 
 module.exports = (router) => {
 
