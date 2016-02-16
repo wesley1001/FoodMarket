@@ -339,7 +339,7 @@ module.exports = (router) => {
                 status: body.status ? (body.status == 3 ? {
                     $gte: 3
                 }: body.status) : {
-                    in: [1, 2, 3]
+                    in: [1, 2, 3, 5]
                 }
             },
             include: [{

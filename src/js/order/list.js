@@ -46,7 +46,7 @@ app.filter('statusStr', function () {
     return function (val){
         switch (val) {
             case 0:
-                return '';
+                return '待付款';
             case 1:
                 return '待发货';
             case 2:
