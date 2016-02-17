@@ -128,20 +128,29 @@ module.exports = (router) => {
             }
         });
 
-        var tasks = [];
-
-        for (var i = 0; i < users.length; i++) {
-            let user = users[i];
-            if (user.status === -1) {
-                user.status = 0;
+        this.body = yield User.update({
+            status: 0,
+            AdminerId: body.adminerId
+        },{
+            where: {
+                id: {
+                    $in: body.ids
+                },
+                status: -1
             }
-            user.AdminerId = body.adminerId;
-            cache.jsetex(`/${1}/${user.id}`, 60 * 60 * 24, user);
-            tasks.push(user.save());
-        }
-
-        yield tasks;
-
+        });
+        yield User.update({
+            AdminerId: body.adminerId
+        },{
+            where: {
+                id: {
+                    in: body.ids
+                },
+                status: {
+                    $ne: -1
+                }
+            }
+        });
         this.body = yield Adminer.findById(body.adminerId);
     });
 
