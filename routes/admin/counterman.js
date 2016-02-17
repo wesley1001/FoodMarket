@@ -1,3 +1,4 @@
+'use strict';
 var util = require('util');
 
 var auth = require('../../helpers/auth.js');
@@ -119,29 +120,28 @@ module.exports = (router) => {
 
         var body = this.request.body;
 
-        this.body = yield User.update({
-            status: 0,
-            AdminerId: body.adminerId
-        },{
+        var users = yield User.findAll({
             where: {
                 id: {
-                    in: body.ids
-                },
-                status: -1
-            }
-        });
-        yield User.update({
-            AdminerId: body.adminerId
-        },{
-            where: {
-                id: {
-                    in: body.ids
-                },
-                status: {
-                    $ne: -1
+                    $in: body.ids
                 }
             }
         });
+
+        var tasks = [];
+
+        for (var i = 0; i < users.length; i++) {
+            let user = users[i];
+            if (user.status === -1) {
+                user.status = 0;
+            }
+            user.AdminerId = body.adminerId;
+            cache.jsetex(`/${1}/${user.id}`, 60 * 60 * 24, user);
+            tasks.push(user.save());
+        }
+
+        yield tasks;
+
         this.body = yield Adminer.findById(body.adminerId);
     });
 
