@@ -48,7 +48,7 @@ module.exports = (router) => {
         var conditions = {
             where: {
                 status: body.status ? body.status : {
-                    in: [-1, 0, 1, 2, 3]
+                    $in: [-1, 0, 1, 2, 3]
                 }
             },
             include: [{
