@@ -68,7 +68,7 @@ module.exports = (router) => {
             'MerchantMsg'
         ];
 
-        if (develping.indexOf(message.EventKey)) {
+        if (develping.indexOf(message.EventKey) != -1) {
             this.body = '正在开发中';
         } else if (message.EventKey == "CustomerService") {
             this.body = '客服电话：400-115-8889';
