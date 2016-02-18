@@ -65,12 +65,13 @@ module.exports = (router) => {
             'Advice',
             'ReceiveMsg',
             'ServiceRule',
-            'MerchantMsg',
-            'CustomerService'
+            'MerchantMsg'
         ];
 
-        if (develping.indexOf(message)) {
+        if (develping.indexOf(message.EventKey)) {
             this.body = '正在开发中';
+        } else if (message.EventKey == "CustomerService") {
+            this.body = '客服电话：400-115-8889';
         } else {
             this.body = '你好';
         }

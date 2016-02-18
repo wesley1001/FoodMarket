@@ -5,6 +5,7 @@ var wechatRobot = require('wechat');
 var OAuth = require('wechat-oauth');
 var Promise = require('bluebird');
 var fs = require('fs');
+var Decimal = require('decimal.js');
 
 var wechatConfig = require('./../../instances/config.js').wechat;
 var log = require('./../../instances/log.js');
@@ -106,9 +107,9 @@ module.exports = (router) => {
                 wxpay.getBrandWCPayRequestParams({
                     openid: user.openid,
                     body: '小地主订单支付' + order.id,
-                    detail: '公众号支付测试',
+                    detail: '小地主订单支付',
                     out_trade_no: outerTradeId,
-                    total_fee: 1, //todo: for test 1分
+                    total_fee: new Decimal(order.price).mul(100).toNumber(), //todo: for test 1分
                     spbill_create_ip: '182.92.203.172',
                     attach: order.id,
                     notify_url: `${wechatConfig.domain}/wechat/paid`

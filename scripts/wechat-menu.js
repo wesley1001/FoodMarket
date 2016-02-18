@@ -6,20 +6,22 @@ var wechatConfig = require('../instances/config.js').wechat;
 var wechatApi = new WechatApi(wechatConfig.appId, wechatConfig.secret);
 
 co(function *(){
-    var result = yield* wechatApi.createMenu({
+    var result = yield* wechatApi.removeMenu();
+    console.log(result);
+    result = yield* wechatApi.createMenu({
         button: [
             {
                 name: '优惠',
                 sub_button: [
                     {
-                        type: 'click',
+                        type: 'view',
                         name: '红包',
-                        key: 'RedPacket'
+                        url: 'http://www.tc2004.com/user/index'
                     },
                     {
-                        type: 'click',
+                        type: 'view',
                         name: '优惠券',
-                        key: 'Coupon'
+                        url: 'http://www.tc2004.com/user/index'
                     }
                 ]
             },
@@ -32,24 +34,24 @@ co(function *(){
                 name: '售后',
                 sub_button: [
                     {
-                        type: 'click',
+                        type: 'view',
                         name: '我希望有',
-                        key: 'Advice'
+                        url: 'http://www.tc2004.com/user/index'
                     },
                     {
-                        type: 'click',
+                        type: 'view',
                         name: '收货信息',
-                        key: 'ReceiveMsg'
+                        url: 'http://www.tc2004.com/user/index'
                     },
                     {
-                        type: 'click',
+                        type: 'view',
                         name: '售后规则',
-                        key: 'ServiceRule'
+                        url: 'http://www.tc2004.com/user/index'
                     },
                     {
-                        type: 'click',
+                        type: 'view',
                         name: '商户信息',
-                        key: 'MerchantMsg'
+                        url: 'http://www.tc2004.com/user/index'
                     },
                     {
                         type: 'click',
