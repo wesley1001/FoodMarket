@@ -62,15 +62,16 @@ module.exports = (router) => {
                         model: Area,
                         as: 'TopArea'
                     }]
-                }]
+                }],
+                required: false
             }],
-            offset: (body.page - 1) * body.limit,
-            limit: body.limit
+            offset: (body.page - 1) * body.limit ,
+            limit: body.limit + 1,
+            order: [['id', 'DESC']]
         };
 
 
         if (body.startDate) {
-
             conditions.where.joinTime = {
                 between: [new Date(Date.parse(body.startDate)), body.endDate ? new Date(Date.parse(body.endDate)) : new Date(Date.now())]
             };
@@ -97,10 +98,10 @@ module.exports = (router) => {
             num= yield User.count(conditions);
         }
 
-
         conditions.include.push(Adminer);
 
         var users = yield User.findAll(conditions);
+
 
         this.body = {
             num,

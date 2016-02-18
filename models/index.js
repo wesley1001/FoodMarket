@@ -30,4 +30,3 @@ Object.keys(sequelize.models).forEach(function (modelName) {
 });
 
 module.exports = sequelize;
-
