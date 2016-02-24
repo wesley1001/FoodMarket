@@ -72,12 +72,14 @@ module.exports = (router) => {
                 goods.GoodsTypeId = body.GoodsTypeId;
                 goods.brief = body.brief;
                 goods.content = body.content;
+
                 yield goods.save();
                 isCreate = false;
             }
         }
 
         if (isCreate) {
+
             yield Goods.create({
                 title: body.title,
                 mainImg: body.mainImg,

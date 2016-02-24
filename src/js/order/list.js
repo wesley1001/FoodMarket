@@ -114,7 +114,7 @@ app.controller('OrderListCtrl', ['$scope', '$http', function (scope, $http) {
                 }
                 for(var i in data) {
                     data[i].opened = false;
-                    data[i].payTime = moment(data[i].payTime).format("YY/MM/DD hh:mm:ss");
+                    data[i].payTime = moment(data[i].payTime).format("YY/MM/DD HH:mm:ss");
                 }
                 scope.data = scope.data.concat(data);
                 scope.list = scope.data.slice(start, scope.data.length);
@@ -273,5 +273,3 @@ app.controller('OrderCtrl', ['$scope', '$http', function (scope, $http) {
 }]);
 
 angular.bootstrap(document.documentElement, ['app']);
-
-
