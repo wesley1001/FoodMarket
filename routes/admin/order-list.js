@@ -12,12 +12,15 @@ var excelbuilder = require('msexcel-builder');
 
 module.exports = (router) => {
 
-    var Goods=db.models.Goods;
+    var Goods = db.models.Goods;
+    var GoodsType = db.models.GoodsType;
     var Order = db.models.Order;
     var OrderItem = db.models.OrderItem;
     var Area = db.models.Area;
+    var User = db.models.User;
+    var Adminer = db.models.Adminer;
 
-    router.get('/adminer/order-list',  function *() {
+    router.get('/adminer/order-list', function*() {
 
         var goods = yield Goods.findAll({
             where: {
@@ -39,7 +42,7 @@ module.exports = (router) => {
 
     });
 
-    router.post('/adminer/get-order', function *() {
+    router.post('/adminer/get-order', function*() {
 
         //this.checkBody('status').notEmpty().isInt().toInt();
 
@@ -47,19 +50,19 @@ module.exports = (router) => {
         this.body = yield getOrders(body);
     });
 
-    router.get('/adminer/get-orderitem/:id', function *() {
+    router.get('/adminer/get-orderitem/:id', function*() {
 
         this.body = (yield OrderItem.findAll({
             where: {
                 OrderId: this.params.id
             }
-        })).map(function (item) {
+        })).map(function(item) {
             item.goods = JSON.parse(item.goods);
             return item;
         });
     });
 
-    router.post('/adminer/order/status', function *() {
+    router.post('/adminer/order/status', function*() {
 
         this.checkBody('ids').notEmpty();
         this.checkBody('status').notEmpty();
@@ -76,17 +79,16 @@ module.exports = (router) => {
         this.body = yield Order.update({
             status: 2,
             sendTime: Date.now()
-        },{
+        }, {
             where: {
-                id: {
-                    in: body.ids
+                id: { in : body.ids
                 },
                 status: 1
             }
         });
     });
 
-    router.post('/adminer/order/export', function *() {
+    router.post('/adminer/order/export', function*() {
 
         var body = this.request.body;
         this.checkBody('ids').notEmpty();
@@ -103,27 +105,43 @@ module.exports = (router) => {
 
             orders = yield Order.findAll({
                 where: {
-                    id: {
-                        in: body.ids
+                    id: { in : body.ids
                     }
                 },
-                include: [
-                    {
-                        model: OrderItem
-                    },
-                    {
+                include: [{
+                    model: OrderItem,
+                    include: [{
+                        model: Goods,
+                        attributes: ['id'],
+                        include: [{
+                            model: GoodsType,
+                            attributes: ['title']
+                        }]
+                    }, {
+                        model: Order,
+                    }]
+                }, {
+                    model: User,
+                    // arributes: ['id'],
+                    include: [{
+                        model: Adminer,
+                        attributes: ['name']
+                    }]
+                }, {
+                    model: Area,
+                    include: [{
                         model: Area,
-                        include: [
-                            {
-                                model: Area,
-                                as: 'TopArea'
-                            }
-                        ]
-                    }
-                ]
+                        as: 'TopArea'
+                    }]
+                }]
             });
         } else {
-            orders = (yield getOrders(body.ids, true)).orders;
+            orders = (yield getOrders(body.ids, {
+                withItem: true,
+                withItemGoods: body.type == 'all',
+                withItemGoodsType: body.type == 'all',
+                // withUserAdminer: body.type == 'all'
+            })).orders;
         }
 
         this.response.type = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
@@ -136,7 +154,7 @@ module.exports = (router) => {
 
         var totalRow = 20;
         var totalCol = 30;
-        orders.forEach(function (item) {
+        orders.forEach(function(item) {
             totalRow += item.num + 1;
         });
 
@@ -158,11 +176,14 @@ module.exports = (router) => {
             '支付时间',
             '订单状态',
             '备注',
+            '业务员',
             '商品id',
             '标题',
             '单价',
             '总价',
-            '数量'
+            '数量',
+            '数量单位',
+            '商品类型'
         ] : [
             '订单号',
             '数量',
@@ -170,10 +191,12 @@ module.exports = (router) => {
             '备注',
             '商品id',
             '标题',
-            '数量'
+            '数量',
+            '数量单位',
+            '商品类型'
         ];
 
-        titles.forEach(function (str, index) {
+        titles.forEach(function(str, index) {
             sheet.set(index + 1, 1, str);
         });
         //body.type == 'all' ?
@@ -204,12 +227,18 @@ module.exports = (router) => {
                         return '已签收';
                 }
             },
-            'message'
+            'message',
+            (obj) => {
+                return obj.User.Adminer.name;
+            },
         ] : [
             'id',
             'num',
             'price',
-            'message'
+            'message',
+            (obj) => {
+                return obj.User.Adminer.name;
+            },
         ];
 
         var itemAttrs = type == 'all' ? [
@@ -222,7 +251,13 @@ module.exports = (router) => {
             },
             'price',
             (obj) => {
-                return (obj.num * obj.goods.perNum)  + '' + obj.goods.perStr;
+                return (obj.num * obj.goods.perNum);
+            },
+            (obj) => {
+                return obj.goods.perStr;
+            },
+            (obj) => {
+                return obj.Good.GoodsType.title;
             },
         ] : [
             'GoodId',
@@ -230,7 +265,13 @@ module.exports = (router) => {
                 return obj.goods.title;
             },
             (obj) => {
-                return (obj.num * obj.goods.perNum)  + '' + obj.goods.perStr;
+                return (obj.num * obj.goods.perNum);
+            },
+            (obj) => {
+                return obj.goods.perStr;
+            },
+            (obj) => {
+                return obj.Good.GoodsType.title;
             },
         ];
 
@@ -241,7 +282,7 @@ module.exports = (router) => {
         var topAreas = [];
         var goods = [];
 
-        orders.forEach(function (order) {
+        orders.forEach(function(order) {
             var colCounter = 1;
             attrs.forEach((item) => {
                 var val;
@@ -250,17 +291,20 @@ module.exports = (router) => {
                 } else {
                     val = order[item];
                 }
-                sheet.set(colCounter ++, rowCounter, val);
+                sheet.set(colCounter++, rowCounter, val);
             });
 
-            for(var i = 1; i < colCounter; i ++) {
-                sheet.merge(
-                    {col: i,row: rowCounter},
-                    {col: i,row: rowCounter + order.num}
-                );
+            for (var i = 1; i < colCounter; i++) {
+                sheet.merge({
+                    col: i,
+                    row: rowCounter
+                }, {
+                    col: i,
+                    row: rowCounter + order.num
+                });
             }
             var tmpCol = colCounter;
-            order.OrderItems.forEach((orderItem)=> {
+            order.OrderItems.forEach((orderItem) => {
                 colCounter = tmpCol;
                 orderItem.goods = JSON.parse(orderItem.goods);
                 itemAttrs.forEach((item) => {
@@ -270,9 +314,9 @@ module.exports = (router) => {
                     } else {
                         val = orderItem[item];
                     }
-                    sheet.set(colCounter ++, rowCounter, val);
+                    sheet.set(colCounter++, rowCounter, val);
                 });
-                rowCounter ++;
+                rowCounter++;
             });
 
             rowCounter += 1;
@@ -305,7 +349,7 @@ module.exports = (router) => {
         sheet = workbook.createSheet('sheet2', 10, 10 + areas.length + topAreas.length);
 
         titles = ['区域id', '区域名', '订单数'];
-        titles.forEach(function (str, index) {
+        titles.forEach(function(str, index) {
             sheet.set(index + 1, 1, str);
         });
 
@@ -314,20 +358,26 @@ module.exports = (router) => {
             sheet.set(1, rowCounter, area.id);
             sheet.set(2, rowCounter, area.title);
             sheet.set(3, rowCounter, area.orderCount);
-            rowCounter ++;
+            rowCounter++;
         });
 
         //this.body = 'ok';
 
         var ctx = this;
-        var jszip = workbook.generate(function (err, jszip) {
+        var jszip = workbook.generate(function(err, jszip) {
             return jszip;
         });
-        var buffer = jszip.generate({type: "nodebuffer"});
+        var buffer = jszip.generate({
+            type: "nodebuffer"
+        });
         return buffer;
     }
 
-    function * getOrders(body, withItem) {
+    function* getOrders(body, options) {
+
+        options = options || {};
+
+
         if (!body.page || body.page < 0) {
             body.page = 1;
         }
@@ -338,25 +388,32 @@ module.exports = (router) => {
             where: {
                 status: body.status ? (body.status == 3 ? {
                     $gte: 3
-                }: body.status) : {
-                    in: [1, 2, 3, 5]
+                } : body.status) : { in : [1, 2, 3, 5]
                 }
             },
             include: [{
-                model: Area
-                //as: 'SArea',
-            }]
-            //offset: (body.page - 1) * body.limit,
-            //limit: body.limit
+                    model: Area
+                        //as: 'SArea',
+                }]
+                //offset: (body.page - 1) * body.limit,
+                //limit: body.limit
         };
 
+        if (options.withUserAdminer) {
+            conditions.include.push({
+                model: User,
+                include: [{
+                    model: Adminer,
+                    attributes: ['name']
+                }]
+            });
+        }
+
         if (body.goodsIds && body.goodsIds.length !== 0) {
-            conditions.where.id = {
-                in: (yield OrderItem.findAll({
+            conditions.where.id = { in : (yield OrderItem.findAll({
                     attributes: ['OrderId'],
                     where: {
-                        GoodId: {
-                            in: body.goodsIds
+                        GoodId: { in : body.goodsIds
                         }
                     }
                 })).map((item) => item.OrderId)
@@ -400,8 +457,7 @@ module.exports = (router) => {
 
         if (body.areas && body.areas.length !== 0) {
             conditions.include[0].where = {
-                TopAreaId: {
-                    in: body.areas
+                TopAreaId: { in : body.areas
                 }
             };
         }
@@ -415,13 +471,30 @@ module.exports = (router) => {
             as: 'TopArea'
         }];
 
-        conditions.order = [['payTime', 'DESC']];
+        conditions.order = [
+            ['payTime', 'DESC']
+        ];
 
 
-        if (withItem) {
-            conditions.include.push({
-                model: OrderItem,
-            });
+        if (options.withItem) {
+            var itemForeignLink = {
+                model: OrderItem
+            };
+
+            if (options.withItemGoods) {
+                var itemGoodsForeignLink = {
+                    model: Goods,
+                    attributes: ['id']
+                };
+                if (options.withItemGoodsType) {
+                    itemGoodsForeignLink.include = [{
+                        model: GoodsType,
+                        attributes: ['title']
+                    }];
+                }
+                itemForeignLink.include = [itemGoodsForeignLink];
+            }
+            conditions.include.push(itemForeignLink);
         }
         var orders = yield Order.findAll(conditions);
 
