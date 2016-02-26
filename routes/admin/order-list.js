@@ -140,7 +140,7 @@ module.exports = (router) => {
                 withItem: true,
                 withItemGoods: body.type == 'all',
                 withItemGoodsType: body.type == 'all',
-                // withUserAdminer: body.type == 'all'
+                withUserAdminer: body.type == 'all'
             })).orders;
         }
 
@@ -236,9 +236,9 @@ module.exports = (router) => {
             'num',
             'price',
             'message',
-            (obj) => {
-                return obj.User.Adminer.name;
-            },
+            // (obj) => {
+            //     return obj.User.Adminer.name;
+            // },
         ];
 
         var itemAttrs = type == 'all' ? [
@@ -270,9 +270,9 @@ module.exports = (router) => {
             (obj) => {
                 return obj.goods.perStr;
             },
-            (obj) => {
-                return obj.Good.GoodsType.title;
-            },
+            // (obj) => {
+            //     return obj.Good.GoodsType.title;
+            // },
         ];
 
         var rowCounter = 2;
