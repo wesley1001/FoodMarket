@@ -1,8 +1,10 @@
-### todo
+# FoodMarket
+------
+一个微信公众平台疏商项目
 
-测试下架商品和删除商品
+[系列介绍博客](http://lext-7.github.io/categories/webshop-dev/)
 
-打印区域订单
-打印区域统计
-
-收货地址修改
+ [项目结构](http://lext-7.github.io/2016/03/03/项目结构/)
+ [手机商城的实现](http://lext-7.github.io/2016/03/03/手机商城的实现/)
+ [登录过滤](http://lext-7.github.io/2016/03/03/登录过滤/)
+ [redis work with json](http://lext-7.github.io/2016/03/03/redis-work-with-json/)
